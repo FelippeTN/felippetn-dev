@@ -44,21 +44,21 @@ export default function Navbar() {
 
   return (
     <header
-      className={`fixed left-1/2 z-[100] flex -translate-x-1/2 items-center overflow-hidden border transition-[top,width,height,border-radius,background-color,border-color,box-shadow,backdrop-filter] duration-500 ease-out-expo ${
+      className={`fixed left-1/2 z-[100] flex -translate-x-1/2 items-center overflow-hidden border transition-[top,width,height,border-radius,background-color,border-color,box-shadow,backdrop-filter] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] ${
         scrolled
           ? 'top-4 h-[60px] w-[min(1120px,calc(100%-32px))] rounded-full border-line-strong bg-bg/80 shadow-[0_24px_80px_rgba(0,0,0,0.38)] backdrop-blur-[18px]'
           : 'top-0 h-[76px] w-full rounded-none border-transparent bg-transparent shadow-none backdrop-blur-0'
       }`}
     >
       <span
-        className={`pointer-events-none absolute bottom-0 left-0 h-px w-full origin-left bg-accent transition-opacity duration-300 ${
+        className={`pointer-events-none absolute bottom-0 left-0 h-px w-full origin-left bg-accent transition-opacity duration-500 ${
           scrolled ? 'opacity-80' : 'opacity-0'
         }`}
         style={{ transform: `scaleX(${progress})` }}
       />
 
       <div
-        className={`mx-auto flex w-full items-center justify-between gap-6 px-[clamp(20px,3vw,56px)] transition-[padding] duration-500 ease-out-expo ${
+        className={`mx-auto flex w-full items-center justify-between gap-6 px-[clamp(20px,3vw,56px)] transition-[padding] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] ${
           scrolled ? 'max-w-[1120px] py-2' : 'max-w-[1760px] py-4'
         }`}
       >
@@ -68,13 +68,20 @@ export default function Navbar() {
           aria-label="Voltar ao topo"
         >
           <span
-            className={`grid place-items-center rounded-full border font-extrabold tracking-[0.02em] transition-all duration-500 ease-out-expo [font-stretch:115%] ${
+            className={`grid place-items-center rounded-full border transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] ${
               scrolled
-                ? 'h-10 w-10 border-line bg-surface/80 text-sm'
-                : 'h-11 w-11 border-line-strong bg-ink text-sm text-bg'
+                ? 'h-10 w-10 border-line bg-transparent p-2'
+                : 'h-11 w-11 border-line-strong bg-transparent p-2.5'
             }`}
           >
-            FT
+            <img
+              src="/code.svg"
+              alt=""
+              className={`h-full w-full object-contain transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                scrolled ? 'scale-95 invert' : 'scale-100 invert'
+              }`}
+              draggable={false}
+            />
           </span>
           <span className="hidden leading-none min-[520px]:block">
             <span className="block text-[13px] font-bold tracking-[0.08em]">Felippe TN</span>
