@@ -32,7 +32,7 @@ export default function Starfield() {
     const parallax = { x: 0, y: 0 }
 
     const spawn = () => {
-      const count = Math.min(120, Math.floor((w * h) / 14000))
+      const count = Math.min(70, Math.floor((w * h) / 24000))
       particles = Array.from({ length: count }, () => ({
         x: Math.random() * w,
         y: Math.random() * h,
@@ -75,7 +75,7 @@ export default function Starfield() {
 
         const twinkle = 0.55 + 0.45 * Math.sin(time * 1.3 + p.phase * 3)
         const alpha = (0.12 + 0.6 * d) * twinkle
-        const size = 0.6 + d * 2.3
+        const size = 0.4 + d * 1.5
 
         if (p.ember) {
           // halo quente atrás da brasa

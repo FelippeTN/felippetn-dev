@@ -21,7 +21,7 @@ const ArrowIcon = (
 
 /* Labels verticais nas bordas laterais do hero */
 const sideLabelClass =
-  'absolute bottom-8 flex animate-rise flex-col items-center gap-3 font-mono text-[10px] uppercase tracking-[0.3em] text-muted [writing-mode:vertical-rl] [animation-delay:1.4s] max-[860px]:hidden'
+  'absolute bottom-8 z-30 flex animate-rise flex-col items-center gap-3 font-mono text-[10px] uppercase tracking-[0.3em] text-muted [writing-mode:vertical-rl] [animation-delay:1.4s] max-[980px]:hidden'
 
 export default function Hero() {
   return (
@@ -29,20 +29,14 @@ export default function Hero() {
       <Starfield />
 
       <span
-        className="absolute left-1/2 top-1/2 -z-[2] -translate-x-1/2 -translate-y-[58%] animate-watermark-in select-none whitespace-nowrap text-[clamp(120px,21vw,400px)] font-extrabold tracking-[0.01em] text-transparent [-webkit-text-stroke:1px_rgba(255,255,255,0.07)] [font-stretch:120%]"
+        className="absolute left-1/2 top-1/2 z-0 -translate-x-1/2 -translate-y-[58%] animate-watermark-in select-none whitespace-nowrap text-[clamp(120px,21vw,400px)] font-extrabold tracking-[0.01em] text-transparent [-webkit-text-stroke:1px_rgba(255,255,255,0.07)] [font-stretch:120%]"
         aria-hidden="true"
       >
         FELIPPE
       </span>
 
-      {/* Luz quente de recorte (rim light) atrás da foto */}
       <div
-        className="absolute -right-[10%] top-[20%] -z-[2] h-[70vh] w-[55vw] bg-[radial-gradient(ellipse_at_70%_50%,rgba(255,90,31,0.08)_0%,rgba(255,60,20,0.03)_45%,transparent_70%)]"
-        aria-hidden="true"
-      />
-
-      <div
-        className="pointer-events-none absolute bottom-0 right-0 z-50 h-[min(88vh,88svh)] w-[min(60vw,1100px)] max-[860px]:w-screen max-[860px]:opacity-45"
+        className="pointer-events-none absolute bottom-0 right-0 z-30 h-[min(88vh,88svh)] w-[min(60vw,1100px)] max-[860px]:w-screen max-[860px]:opacity-45"
         aria-hidden="true"
       >
         <img
@@ -53,7 +47,7 @@ export default function Hero() {
         />
       </div>
 
-      <div className="w-full px-[clamp(20px,3vw,56px)]">
+      <div className="relative z-20 w-full px-[clamp(20px,3vw,56px)] min-[981px]:pl-[clamp(88px,8vw,140px)]">
         <div className="relative pb-[clamp(80px,12vh,140px)]">
           <p className="label-mono mb-5 flex animate-rise items-center gap-4 text-muted [animation-delay:0.5s] before:h-px before:w-12 before:bg-accent before:content-['']">
             Felippe Toscano Nalim
@@ -76,10 +70,10 @@ export default function Hero() {
           <div className="mt-10 flex animate-rise flex-wrap items-center gap-7 [animation-delay:1.1s]">
             <a
               href="#projetos"
-              className="group inline-flex items-center gap-3 rounded-full bg-ink px-7 py-4 text-sm font-bold tracking-[0.02em] text-bg transition-all duration-300 ease-out-expo hover:-translate-y-0.5 hover:bg-accent hover:shadow-[0_12px_40px_rgba(255,90,31,0.35)]"
+              className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full bg-ink px-7 py-4 text-sm font-bold tracking-[0.02em] text-bg transition-all duration-300 ease-out-expo before:absolute before:inset-0 before:-translate-x-full before:bg-accent before:transition-transform before:duration-400 before:ease-out-expo hover:-translate-y-0.5 hover:shadow-[0_12px_40px_rgba(255,90,31,0.35)] hover:before:translate-x-0"
             >
-              Ver projetos
-              <span className="transition-transform duration-300 ease-out-expo group-hover:-translate-y-0.5 group-hover:translate-x-0.5">
+              <span className="relative">Ver projetos</span>
+              <span className="relative transition-transform duration-300 ease-out-expo group-hover:-translate-y-0.5 group-hover:translate-x-0.5">
                 {ArrowIcon}
               </span>
             </a>

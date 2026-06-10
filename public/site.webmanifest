@@ -1,0 +1,16 @@
+{
+  "name": "Felippe Toscano Nalim | Portfolio",
+  "short_name": "FelippeTN",
+  "description": "Portfolio de Felippe Toscano Nalim com foco em backend, IA aplicada e arquitetura de software.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f8f8f8",
+  "theme_color": "#111111",
+  "icons": [
+    {
+      "src": "/code.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
