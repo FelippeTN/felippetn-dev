@@ -1,5 +1,6 @@
-import felippeImg from '../assets/felippetn-computador.png'
 import Starfield from './Starfield'
+
+const felippeImg = '/felippetn-computador.png'
 
 const GitHubIcon = (
   <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">

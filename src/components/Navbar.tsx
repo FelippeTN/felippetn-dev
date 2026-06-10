@@ -18,15 +18,15 @@ export default function Navbar() {
       const max = document.documentElement.scrollHeight - window.innerHeight
       setProgress(max > 0 ? window.scrollY / max : 0)
     }
+
     onScroll()
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  // Scroll-spy: destaca o link da seção visível
   useEffect(() => {
-    const sections = LINKS.map((l) => document.getElementById(l.id)).filter(
-      (s): s is HTMLElement => s !== null,
+    const sections = LINKS.map((link) => document.getElementById(link.id)).filter(
+      (section): section is HTMLElement => section !== null,
     )
 
     const observer = new IntersectionObserver(
@@ -38,56 +38,93 @@ export default function Navbar() {
       { rootMargin: '-40% 0px -55% 0px' },
     )
 
-    sections.forEach((s) => observer.observe(s))
+    sections.forEach((section) => observer.observe(section))
     return () => observer.disconnect()
   }, [])
 
   return (
-    <>
-      <div
-        className="fixed left-0 top-0 z-[101] h-0.5 w-full origin-left bg-accent"
+    <header
+      className={`fixed left-1/2 z-[100] flex -translate-x-1/2 items-center overflow-hidden border transition-[top,width,height,border-radius,background-color,border-color,box-shadow,backdrop-filter] duration-500 ease-out-expo ${
+        scrolled
+          ? 'top-4 h-[60px] w-[min(1120px,calc(100%-32px))] rounded-full border-line-strong bg-bg/80 shadow-[0_24px_80px_rgba(0,0,0,0.38)] backdrop-blur-[18px]'
+          : 'top-0 h-[76px] w-full rounded-none border-transparent bg-transparent shadow-none backdrop-blur-0'
+      }`}
+    >
+      <span
+        className={`pointer-events-none absolute bottom-0 left-0 h-px w-full origin-left bg-accent transition-opacity duration-300 ${
+          scrolled ? 'opacity-80' : 'opacity-0'
+        }`}
         style={{ transform: `scaleX(${progress})` }}
       />
-      <header
-        className={`fixed inset-x-0 top-0 z-[100] flex h-[72px] items-center border-b transition-colors duration-[400ms] ${
-          scrolled
-            ? 'border-line bg-bg/70 backdrop-blur-[16px]'
-            : 'border-transparent'
+
+      <div
+        className={`mx-auto flex w-full items-center justify-between gap-6 px-[clamp(20px,3vw,56px)] transition-[padding] duration-500 ease-out-expo ${
+          scrolled ? 'max-w-[1120px] py-2' : 'max-w-[1760px] py-4'
         }`}
       >
-        <div className="wrap flex items-center justify-between gap-6">
-          <a href="#top" className="text-lg font-extrabold tracking-[0.02em] [font-stretch:115%]">
-            FTN<sup className="ml-0.5 text-[10px] text-accent">©</sup>
-          </a>
+        <a
+          href="#top"
+          className="group flex items-center gap-3 text-ink"
+          aria-label="Voltar ao topo"
+        >
+          <span
+            className={`grid place-items-center rounded-full border font-extrabold tracking-[0.02em] transition-all duration-500 ease-out-expo [font-stretch:115%] ${
+              scrolled
+                ? 'h-10 w-10 border-line bg-surface/80 text-sm'
+                : 'h-11 w-11 border-line-strong bg-ink text-sm text-bg'
+            }`}
+          >
+            FT
+          </span>
+          <span className="hidden leading-none min-[520px]:block">
+            <span className="block text-[13px] font-bold tracking-[0.08em]">Felippe TN</span>
+            <span className="mt-1 block font-mono text-[10px] uppercase tracking-[0.22em] text-muted">
+              Software Engineer
+            </span>
+          </span>
+        </a>
 
-          <nav aria-label="Navegação principal">
-            <ul className="flex list-none gap-1 max-[860px]:hidden">
-              {LINKS.map((link) => (
+        <nav aria-label="Navegacao principal">
+          <ul
+            className={`flex list-none items-center gap-1 rounded-full border transition-all duration-500 ease-out-expo max-[860px]:hidden ${
+              scrolled
+                ? 'border-line bg-surface/55 p-1'
+                : 'border-transparent bg-ink/[0.03] p-1.5'
+            }`}
+          >
+            {LINKS.map((link) => {
+              const isActive = active === link.id
+
+              return (
                 <li key={link.id}>
                   <a
                     href={`#${link.id}`}
-                    className={`relative block px-3.5 py-2 font-mono text-xs uppercase tracking-[0.12em] transition-colors duration-[250ms] after:absolute after:bottom-0.5 after:left-3.5 after:right-3.5 after:h-px after:origin-left after:bg-accent after:transition-transform after:duration-[350ms] after:ease-out-expo after:content-[''] hover:text-ink ${
-                      active === link.id
-                        ? 'text-ink after:scale-x-100'
-                        : 'text-muted after:scale-x-0'
+                    className={`relative block rounded-full px-4 py-2 font-mono text-[11px] uppercase tracking-[0.14em] transition-all duration-[300ms] ease-out-expo ${
+                      isActive
+                        ? 'bg-ink text-bg shadow-[0_10px_30px_rgba(242,240,237,0.12)]'
+                        : 'text-muted hover:bg-ink/[0.06] hover:text-ink'
                     }`}
                   >
                     {link.label}
                   </a>
                 </li>
-              ))}
-            </ul>
-          </nav>
+              )
+            })}
+          </ul>
+        </nav>
 
-          <a
-            href="#contato"
-            className="flex items-center gap-2.5 rounded-full border border-line px-4 py-2 font-mono text-[11px] tracking-[0.08em] text-muted transition-colors duration-300 hover:border-line-strong hover:text-ink"
-          >
-            <span className="h-[7px] w-[7px] animate-pulse-dot rounded-full bg-[#3ddc84] shadow-[0_0_10px_rgba(61,220,132,0.8)]" />
-            <span className="max-[560px]:hidden">Disponível para projetos</span>
-          </a>
-        </div>
-      </header>
-    </>
+        <a
+          href="#contato"
+          className={`hidden items-center gap-2 rounded-full border px-4 py-2 font-mono text-[11px] uppercase tracking-[0.14em] transition-all duration-300 ease-out-expo min-[700px]:inline-flex ${
+            scrolled
+              ? 'border-accent/40 bg-accent-soft text-ink hover:border-accent hover:bg-accent hover:text-bg'
+              : 'border-line text-muted hover:border-accent hover:text-ink'
+          }`}
+        >
+          <span className="h-1.5 w-1.5 rounded-full bg-accent" aria-hidden="true" />
+          Vamos conversar
+        </a>
+      </div>
+    </header>
   )
 }
