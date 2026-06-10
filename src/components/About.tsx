@@ -12,15 +12,21 @@ export default function About() {
   const stats = useReveal<HTMLDivElement>()
 
   return (
-    <section className="section" id="sobre">
-      <div className="container">
-        <div className="section__head reveal" ref={head}>
-          <h2 className="section__title display">Sobre</h2>
-          <span className="section__index">/ 01</span>
+    <section className="relative py-[clamp(96px,14vh,160px)]" id="sobre">
+      <div className="wrap">
+        <div
+          className="reveal mb-[clamp(48px,8vh,80px)] flex items-baseline justify-between gap-6"
+          ref={head}
+        >
+          <h2 className="display-type -ml-[0.03em] text-[clamp(40px,6vw,88px)]">Sobre</h2>
+          <span className="font-mono text-[13px] tracking-[0.2em] text-accent">/ 01</span>
         </div>
 
-        <div className="about__grid">
-          <div className="about__text reveal" ref={text}>
+        <div className="grid grid-cols-[1.4fr_1fr] items-start gap-[clamp(40px,6vw,96px)] max-[860px]:grid-cols-1">
+          <div
+            className="reveal text-[clamp(20px,2.4vw,28px)] font-medium leading-[1.45] tracking-[-0.01em] text-muted [&_em]:not-italic [&_em]:text-accent [&_strong]:font-semibold [&_strong]:text-ink [&_p+p]:mt-[1.2em]"
+            ref={text}
+          >
             <p>
               Sou engenheiro de software focado em construir <strong>produtos digitais
               de alta performance</strong> — do backend à interface, com atenção
@@ -34,17 +40,21 @@ export default function About() {
           </div>
 
           <div
-            className="about__stats reveal"
+            className="reveal grid gap-px border border-line bg-line [--reveal-delay:0.15s]"
             ref={stats}
-            style={{ '--reveal-delay': '0.15s' } as React.CSSProperties}
           >
             {STATS.map((stat) => (
-              <div className="stat" key={stat.label}>
-                <div className="stat__value">
+              <div
+                className="bg-bg px-8 py-7 transition-colors duration-300 hover:bg-surface"
+                key={stat.label}
+              >
+                <div className="text-[clamp(36px,4vw,56px)] font-extrabold leading-none text-ink [font-stretch:115%]">
                   {stat.value}
-                  <span>{stat.suffix}</span>
+                  <span className="text-accent">{stat.suffix}</span>
                 </div>
-                <div className="stat__label">{stat.label}</div>
+                <div className="mt-2 font-mono text-[11px] uppercase tracking-[0.2em] text-muted">
+                  {stat.label}
+                </div>
               </div>
             ))}
           </div>

@@ -1,5 +1,5 @@
-import { useMemo } from 'react'
 import felippeImg from '../assets/felippetn-computador.png'
+import Starfield from './Starfield'
 
 const GitHubIcon = (
   <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -19,62 +19,71 @@ const ArrowIcon = (
   </svg>
 )
 
+/* Labels verticais nas bordas laterais do hero */
+const sideLabelClass =
+  'absolute bottom-8 flex animate-rise flex-col items-center gap-3 font-mono text-[10px] uppercase tracking-[0.3em] text-muted [writing-mode:vertical-rl] [animation-delay:1.4s] max-[860px]:hidden'
+
 export default function Hero() {
-  // Posições fixas por render — partículas sutis no fundo
-  const stars = useMemo(
-    () =>
-      Array.from({ length: 24 }, (_, i) => ({
-        id: i,
-        top: `${Math.random() * 70}%`,
-        left: `${Math.random() * 100}%`,
-        delay: `${(Math.random() * 4).toFixed(2)}s`,
-      })),
-    [],
-  )
-
   return (
-    <section className="hero" id="top">
-      <div className="hero__stars" aria-hidden="true">
-        {stars.map((s) => (
-          <span
-            key={s.id}
-            className="hero__star"
-            style={{ top: s.top, left: s.left, '--d': s.delay } as React.CSSProperties}
-          />
-        ))}
-      </div>
+    <section className="relative isolate flex min-h-svh items-end overflow-hidden" id="top">
+      <Starfield />
 
-      <span className="hero__watermark" aria-hidden="true">
+      <span
+        className="absolute left-1/2 top-1/2 -z-[2] -translate-x-1/2 -translate-y-[58%] animate-watermark-in select-none whitespace-nowrap text-[clamp(120px,21vw,400px)] font-extrabold tracking-[0.01em] text-transparent [-webkit-text-stroke:1px_rgba(255,255,255,0.07)] [font-stretch:120%]"
+        aria-hidden="true"
+      >
         FELIPPE
       </span>
 
-      <div className="hero__glow" aria-hidden="true" />
+      {/* Luz quente de recorte (rim light) atrás da foto */}
+      <div
+        className="absolute -right-[10%] top-[20%] -z-[2] h-[70vh] w-[55vw] bg-[radial-gradient(ellipse_at_70%_50%,rgba(255,90,31,0.08)_0%,rgba(255,60,20,0.03)_45%,transparent_70%)]"
+        aria-hidden="true"
+      />
 
-      <div className="hero__photo" aria-hidden="true">
-        <img src={felippeImg} alt="" draggable={false} />
+      <div
+        className="pointer-events-none absolute bottom-0 right-0 z-50 h-[min(88vh,88svh)] w-[min(60vw,1100px)] max-[860px]:w-screen max-[860px]:opacity-45"
+        aria-hidden="true"
+      >
+        <img
+          src={felippeImg}
+          alt=""
+          draggable={false}
+          className="h-full w-full animate-photo-in object-contain object-right-bottom [filter:contrast(1.06)_saturate(0.95)]"
+        />
       </div>
 
-      <div className="hero__inner">
-        <div className="hero__content">
-          <p className="hero__name label">Felippe Toscano Nalim</p>
+      <div className="w-full px-[clamp(20px,3vw,56px)]">
+        <div className="relative pb-[clamp(80px,12vh,140px)]">
+          <p className="label-mono mb-5 flex animate-rise items-center gap-4 text-muted [animation-delay:0.5s] before:h-px before:w-12 before:bg-accent before:content-['']">
+            Felippe Toscano Nalim
+          </p>
 
-          <h1 className="hero__title display">
-            <span className="line">
-              <span style={{ '--d': '0.6s' } as React.CSSProperties}>Engenheiro</span>
+          <h1 className="display-type group -ml-[0.045em] whitespace-nowrap text-[clamp(44px,10.6vw,215px)]">
+            <span className="block overflow-hidden">
+              <span className="block animate-line-up [animation-delay:0.6s]">Engenheiro</span>
             </span>
-            <span className="line">
-              <span style={{ '--d': '0.72s' } as React.CSSProperties}>de</span>
+            <span className="block overflow-hidden">
+              <span className="block animate-line-up [animation-delay:0.72s]">de</span>
             </span>
-            <span className="line line--accent">
-              <span style={{ '--d': '0.84s' } as React.CSSProperties}>Software</span>
+            <span className="block overflow-hidden">
+              <span className="block animate-line-up text-transparent transition-colors duration-500 [-webkit-text-stroke:1.5px_var(--color-ink)] [animation-delay:0.84s] group-hover:text-accent group-hover:[-webkit-text-stroke:1.5px_var(--color-accent)]">
+                Software
+              </span>
             </span>
           </h1>
 
-          <div className="hero__meta">
-            <a href="#projetos" className="hero__cta">
-              Ver projetos {ArrowIcon}
+          <div className="mt-10 flex animate-rise flex-wrap items-center gap-7 [animation-delay:1.1s]">
+            <a
+              href="#projetos"
+              className="group inline-flex items-center gap-3 rounded-full bg-ink px-7 py-4 text-sm font-bold tracking-[0.02em] text-bg transition-all duration-300 ease-out-expo hover:-translate-y-0.5 hover:bg-accent hover:shadow-[0_12px_40px_rgba(255,90,31,0.35)]"
+            >
+              Ver projetos
+              <span className="transition-transform duration-300 ease-out-expo group-hover:-translate-y-0.5 group-hover:translate-x-0.5">
+                {ArrowIcon}
+              </span>
             </a>
-            <div className="hero__socials">
+            <div className="flex gap-2">
               <a
                 href="https://github.com/FelippeTN"
                 target="_blank"
@@ -98,8 +107,14 @@ export default function Hero() {
         </div>
       </div>
 
-      <span className="hero__coords">Brasil — UTC-3</span>
-      <span className="hero__scroll">Scroll</span>
+      <span className={`${sideLabelClass} left-[clamp(20px,3vw,56px)] rotate-180`}>
+        Brasil — UTC-3
+      </span>
+      <span
+        className={`${sideLabelClass} right-[clamp(20px,3vw,56px)] after:h-14 after:w-px after:animate-scroll-hint after:bg-linear-to-b after:from-muted after:to-transparent after:content-['']`}
+      >
+        Scroll
+      </span>
     </section>
   )
 }

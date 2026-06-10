@@ -6,23 +6,28 @@ export default function Contact() {
   const content = useReveal<HTMLDivElement>()
 
   return (
-    <section className="section contact" id="contato">
-      <div className="container reveal" ref={content}>
-        <span className="label label--accent">/ 04 — Contato</span>
-        <h2 className="contact__title display">
+    <section className="relative overflow-hidden py-[clamp(96px,14vh,160px)] text-center" id="contato">
+      <div className="wrap reveal" ref={content}>
+        <span className="label-mono mb-6 block text-accent">/ 04 — Contato</span>
+        <h2 className="display-type mb-12 text-[clamp(48px,9vw,140px)]">
           Vamos construir
           <br />
-          <span className="outline">algo juntos</span>
+          <span className="text-transparent [-webkit-text-stroke:1.5px_var(--color-ink)]">
+            algo juntos
+          </span>
         </h2>
 
-        <a href={`mailto:${EMAIL}`} className="contact__email">
+        <a
+          href={`mailto:${EMAIL}`}
+          className="inline-flex items-center gap-4 rounded-full border border-line-strong px-10 py-5 font-mono text-[clamp(14px,2vw,18px)] tracking-[0.02em] transition-all duration-[350ms] ease-out-expo hover:-translate-y-[3px] hover:border-accent hover:bg-accent hover:text-bg hover:shadow-[0_16px_60px_rgba(255,90,31,0.35)]"
+        >
           {EMAIL}
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
             <path d="M7 17 17 7M9 7h8v8" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </a>
 
-        <div className="contact__socials">
+        <div className="mt-10 flex justify-center gap-3">
           <a
             href="https://github.com/FelippeTN"
             target="_blank"
