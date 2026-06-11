@@ -42,14 +42,17 @@ export default function Projects() {
     <section className="relative py-[clamp(96px,14vh,160px)]" id="projetos">
       <div className="wrap">
         <div
-          className="reveal mb-[clamp(48px,8vh,80px)] flex items-baseline justify-between gap-6"
+          className="reveal-head mb-[clamp(48px,8vh,80px)] flex items-baseline justify-between gap-6"
           ref={head}
         >
           <h2 className="display-type -ml-[0.03em] text-[clamp(40px,6vw,88px)]">Projetos</h2>
           <span className="font-mono text-[13px] tracking-[0.2em] text-accent">/ 03</span>
         </div>
 
-        <div className="reveal flex flex-col border-t border-line" ref={list}>
+        <div
+          className="reveal-stagger reveal-stagger-alt flex flex-col border-t border-line"
+          ref={list}
+        >
           {PROJECTS.map((project, i) => (
             <a
               className="group relative grid grid-cols-[80px_1fr_auto_auto] items-center gap-[clamp(16px,3vw,48px)] overflow-hidden border-b border-line px-2 py-[clamp(28px,4vh,44px)] transition-all duration-[400ms] ease-out-expo hover:bg-bg-soft hover:px-6 max-[720px]:grid-cols-[1fr_auto]"

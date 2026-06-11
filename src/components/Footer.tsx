@@ -1,7 +1,14 @@
+import { useReveal } from '../hooks/useReveal'
+
 export default function Footer() {
+  const content = useReveal<HTMLDivElement>()
+
   return (
     <footer className="border-t border-line py-8">
-      <div className="wrap flex flex-wrap items-center justify-between gap-4 font-mono text-xs tracking-[0.06em] text-muted">
+      <div
+        className="wrap reveal flex flex-wrap items-center justify-between gap-4 font-mono text-xs tracking-[0.06em] text-muted"
+        ref={content}
+      >
         <span>© {new Date().getFullYear()} Felippe Toscano Nalim</span>
         <span>Feito com React + TypeScript + Vite</span>
         <a href="#top" className="inline-flex items-center gap-2 transition-colors duration-300 hover:text-accent">

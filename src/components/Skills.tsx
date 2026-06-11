@@ -56,7 +56,7 @@ export default function Skills() {
     <section className="relative py-[clamp(96px,14vh,160px)]" id="skills">
       <div className="wrap">
         <div
-          className="reveal mb-[clamp(48px,8vh,80px)] flex items-baseline justify-between gap-6"
+          className="reveal-head mb-[clamp(48px,8vh,80px)] flex items-baseline justify-between gap-6"
           ref={head}
         >
           <h2 className="display-type -ml-[0.03em] text-[clamp(40px,6vw,88px)]">O que eu faço</h2>
@@ -64,7 +64,7 @@ export default function Skills() {
         </div>
 
         <div
-          className="reveal grid grid-cols-[repeat(auto-fit,minmax(260px,1fr))] gap-4"
+          className="reveal-stagger grid grid-cols-[repeat(auto-fit,minmax(260px,1fr))] gap-4"
           ref={grid}
         >
           {SKILLS.map((skill) => (

@@ -1,4 +1,5 @@
 import Starfield from './Starfield'
+import { useParallax } from '../hooks/useParallax'
 
 const felippeImg = '/felippetn-computador.png'
 
@@ -25,6 +26,9 @@ const sideLabelClass =
   'absolute bottom-8 z-30 flex animate-rise flex-col items-center gap-3 font-mono text-[10px] uppercase tracking-[0.3em] text-muted [writing-mode:vertical-rl] [animation-delay:1.4s] max-[980px]:hidden'
 
 export default function Hero() {
+  // O watermark deriva pro lado e pra cima conforme o scroll (parallax)
+  const watermark = useParallax<HTMLSpanElement>(0.06, 0.18)
+
   return (
     <section className="relative isolate flex min-h-svh items-end overflow-hidden" id="top">
       <Starfield />
@@ -33,7 +37,9 @@ export default function Hero() {
         className="absolute left-1/2 top-1/2 z-0 -translate-x-1/2 -translate-y-[58%] animate-watermark-in select-none whitespace-nowrap text-[clamp(120px,21vw,400px)] font-extrabold tracking-[0.01em] text-transparent [-webkit-text-stroke:1px_rgba(255,255,255,0.07)] [font-stretch:120%]"
         aria-hidden="true"
       >
-        FELIPPE
+        <span className="block will-change-transform" ref={watermark}>
+          FELIPPE
+        </span>
       </span>
 
       <div

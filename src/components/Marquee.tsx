@@ -1,3 +1,5 @@
+import { useReveal } from '../hooks/useReveal'
+
 const TECHS = [
   'React',
   'TypeScript',
@@ -12,6 +14,8 @@ const TECHS = [
 ]
 
 export default function Marquee() {
+  const strip = useReveal<HTMLDivElement>()
+
   // Duas trilhas idênticas = loop infinito sem emenda visível
   const track = (key: string, hidden: boolean) => (
     <div
@@ -31,7 +35,10 @@ export default function Marquee() {
   )
 
   return (
-    <div className="group flex select-none overflow-hidden border-y border-line bg-bg-soft py-[22px]">
+    <div
+      className="reveal group flex select-none overflow-hidden border-y border-line bg-bg-soft py-[22px]"
+      ref={strip}
+    >
       {track('a', false)}
       {track('b', true)}
     </div>

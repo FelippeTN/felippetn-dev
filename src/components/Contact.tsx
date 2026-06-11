@@ -1,18 +1,27 @@
 import { useReveal } from '../hooks/useReveal'
+import { useParallax } from '../hooks/useParallax'
 
 const EMAIL = 'felippenalim2004@gmail.com'
 
 export default function Contact() {
   const content = useReveal<HTMLDivElement>()
+  // As duas linhas do título deslizam em direções opostas durante o scroll
+  const lineA = useParallax<HTMLSpanElement>(-0.07)
+  const lineB = useParallax<HTMLSpanElement>(0.07)
 
   return (
     <section className="relative overflow-hidden py-[clamp(96px,14vh,160px)] text-center" id="contato">
-      <div className="wrap reveal" ref={content}>
+      <div className="wrap reveal reveal-zoom" ref={content}>
         <span className="label-mono mb-6 block text-accent">/ 04 — Contato</span>
         <h2 className="display-type mb-12 text-[clamp(48px,9vw,140px)]">
-          Vamos construir
+          <span className="inline-block will-change-transform" ref={lineA}>
+            Vamos construir
+          </span>
           <br />
-          <span className="text-transparent [-webkit-text-stroke:1.5px_var(--color-ink)]">
+          <span
+            className="inline-block text-transparent will-change-transform [-webkit-text-stroke:1.5px_var(--color-ink)]"
+            ref={lineB}
+          >
             algo juntos
           </span>
         </h2>
