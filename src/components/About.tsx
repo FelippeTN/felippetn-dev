@@ -1,5 +1,6 @@
 import { useReveal } from '../hooks/useReveal'
-import { pt as content } from './siteContent'
+import { pt as content } from '../content/siteContent'
+import fastapiPhoto from '../assets/fastapi.jpeg'
 
 const { about } = content
 
@@ -24,11 +25,30 @@ export default function About() {
             {about.description}
           </p>
 
-          <div className="mt-8 flex flex-col gap-3 rounded-2xl border border-line bg-bg-soft px-6 py-5 sm:flex-row sm:items-start sm:gap-5">
-            <span className="shrink-0 font-mono text-[11px] uppercase tracking-[0.2em] text-accent">
-              {about.funFactLabel}
-            </span>
-            <p className="text-sm leading-[1.6] text-muted">{about.funFact}</p>
+          <div className="mt-8 flex flex-col gap-5 overflow-hidden rounded-2xl border border-line bg-bg-soft p-5 sm:flex-row sm:items-center sm:gap-6 sm:p-6">
+            <a
+              href={fastapiPhoto}
+              target="_blank"
+              rel="noreferrer"
+              className="group relative block shrink-0 overflow-hidden rounded-xl border border-line max-sm:w-full"
+            >
+              <img
+                src={fastapiPhoto}
+                alt="Felippe ao lado de Sebastián Ramírez (Tiangolo), criador do FastAPI"
+                loading="lazy"
+                draggable={false}
+                className="h-full max-h-[220px] w-full object-cover transition-transform duration-500 ease-out-expo group-hover:scale-[1.04] sm:h-[160px] sm:w-[220px]"
+              />
+              <span className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/60 to-transparent px-3 py-2 font-mono text-[10px] uppercase tracking-[0.16em] text-ink/90">
+                eu &amp; Tiangolo · FastAPI
+              </span>
+            </a>
+            <div>
+              <span className="mb-2 block font-mono text-[11px] uppercase tracking-[0.2em] text-accent">
+                {about.funFactLabel}
+              </span>
+              <p className="text-sm leading-[1.6] text-muted">{about.funFact}</p>
+            </div>
           </div>
         </div>
 

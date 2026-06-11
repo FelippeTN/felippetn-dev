@@ -1,5 +1,5 @@
 import { useReveal } from '../hooks/useReveal'
-import { pt as content } from './siteContent'
+import { pt as content } from '../content/siteContent'
 
 const { experience } = content
 

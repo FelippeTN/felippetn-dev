@@ -1,6 +1,6 @@
 import { useReveal } from '../hooks/useReveal'
 import { useParallax } from '../hooks/useParallax'
-import { pt as siteContent } from './siteContent'
+import { pt as siteContent } from '../content/siteContent'
 
 const EMAIL = 'felippenalim2004@gmail.com'
 const { contact } = siteContent
