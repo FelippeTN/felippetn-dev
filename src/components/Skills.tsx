@@ -1,4 +1,6 @@
 import { useReveal } from '../hooks/useReveal'
+import { useHorizontalScroll } from '../hooks/useHorizontalScroll'
+import { useReducedMotion } from '../hooks/useReducedMotion'
 import { pt as content } from '../content/siteContent'
 
 const { skills } = content
@@ -19,17 +21,56 @@ const ICONS = [
   'M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75', // Soft Skills
 ]
 
-export default function Skills() {
+// O glow do card segue a posição do mouse via CSS vars
+const onMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+  const card = e.currentTarget
+  const rect = card.getBoundingClientRect()
+  card.style.setProperty('--mx', `${e.clientX - rect.left}px`)
+  card.style.setProperty('--my', `${e.clientY - rect.top}px`)
+}
+
+type Category = (typeof skills.categories)[number]
+
+function SkillCard({
+  category,
+  index,
+  className = '',
+}: {
+  category: Category
+  index: number
+  className?: string
+}) {
+  return (
+    <div
+      className={`group relative flex flex-col overflow-hidden rounded-2xl border border-line bg-bg-soft px-7 py-8 transition-[border-color,transform] duration-300 ease-out-expo before:pointer-events-none before:absolute before:inset-0 before:bg-[radial-gradient(420px_circle_at_var(--mx,50%)_var(--my,50%),rgba(255,90,31,0.09),transparent_60%)] before:opacity-0 before:transition-opacity before:duration-[400ms] before:content-[''] hover:-translate-y-[3px] hover:border-line-strong hover:before:opacity-100 ${className}`}
+      onMouseMove={onMouseMove}
+    >
+      <div className="relative mb-5 flex items-center gap-3">
+        <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl border border-line bg-surface text-accent">
+          {icon(ICONS[index % ICONS.length])}
+        </span>
+        <h3 className="text-[17px] font-bold uppercase tracking-[0.04em] [font-stretch:110%]">
+          {category.title}
+        </h3>
+        <span className="ml-auto font-mono text-[12px] text-muted/70">
+          {String(index + 1).padStart(2, '0')}
+        </span>
+      </div>
+      <div className="relative flex flex-wrap content-start gap-1.5">
+        {category.skills.map((skill) => (
+          <span className="tag group-hover:border-line-strong group-hover:text-ink" key={skill}>
+            {skill}
+          </span>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+/* ---- Fallback estático (prefers-reduced-motion): grade tradicional ---- */
+function SkillsGrid() {
   const head = useReveal<HTMLDivElement>()
   const grid = useReveal<HTMLDivElement>()
-
-  // O glow do card segue a posição do mouse via CSS vars
-  const onMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const card = e.currentTarget
-    const rect = card.getBoundingClientRect()
-    card.style.setProperty('--mx', `${e.clientX - rect.left}px`)
-    card.style.setProperty('--my', `${e.clientY - rect.top}px`)
-  }
 
   return (
     <section className="relative py-[clamp(96px,14vh,160px)]" id="skills">
@@ -51,33 +92,75 @@ export default function Skills() {
           ref={grid}
         >
           {skills.categories.map((category, i) => (
-            <div
-              className="group relative overflow-hidden rounded-2xl border border-line bg-bg-soft px-7 py-8 transition-[border-color,transform] duration-300 ease-out-expo before:pointer-events-none before:absolute before:inset-0 before:bg-[radial-gradient(420px_circle_at_var(--mx,50%)_var(--my,50%),rgba(255,90,31,0.09),transparent_60%)] before:opacity-0 before:transition-opacity before:duration-[400ms] before:content-[''] hover:-translate-y-[3px] hover:border-line-strong hover:before:opacity-100"
-              key={category.title}
-              onMouseMove={onMouseMove}
-            >
-              <div className="relative mb-5 flex items-center gap-3">
-                <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl border border-line bg-surface text-accent">
-                  {icon(ICONS[i % ICONS.length])}
-                </span>
-                <h3 className="text-[17px] font-bold uppercase tracking-[0.04em] [font-stretch:110%]">
-                  {category.title}
-                </h3>
-              </div>
-              <div className="relative flex flex-wrap gap-1.5">
-                {category.skills.map((skill) => (
-                  <span
-                    className="tag group-hover:border-line-strong group-hover:text-ink"
-                    key={skill}
-                  >
-                    {skill}
-                  </span>
-                ))}
-              </div>
-            </div>
+            <SkillCard category={category} index={i} key={category.title} />
           ))}
         </div>
       </div>
     </section>
   )
+}
+
+/* ---- Experiência horizontal: o scroll vertical empurra o conteúdo para o lado ---- */
+function SkillsHorizontal() {
+  const { sectionRef, trackRef } = useHorizontalScroll<HTMLElement, HTMLDivElement>()
+  const total = skills.categories.length
+
+  return (
+    <section className="relative" id="skills" ref={sectionRef}>
+      <div className="sticky top-0 flex h-screen flex-col justify-center overflow-hidden">
+        {/* Rótulo fixo do topo, permanece enquanto os painéis deslizam */}
+        <div className="wrap pointer-events-none absolute inset-x-0 top-[max(88px,12vh)] flex items-baseline justify-between">
+          <span className="font-mono text-[12px] uppercase tracking-[0.22em] text-muted">
+            Habilidades
+          </span>
+          <span className="font-mono text-[13px] tracking-[0.2em] text-accent">/ 02</span>
+        </div>
+
+        {/* Trilha horizontal — translada via JS conforme o scroll */}
+        <div
+          className="h-scroll-track flex items-center gap-5 px-[clamp(40px,4.5vw,88px)] [@media(prefers-reduced-motion:no-preference)]:will-change-transform"
+          ref={trackRef}
+        >
+          {/* Painel de introdução */}
+          <div className="flex h-[clamp(360px,62vh,560px)] w-[clamp(300px,46vw,620px)] shrink-0 flex-col justify-center pr-4">
+            <h2 className="display-type text-[clamp(40px,5.4vw,80px)]">{skills.title}</h2>
+            <p className="mt-6 max-w-[460px] text-[clamp(16px,1.8vw,20px)] leading-[1.55] text-muted">
+              {skills.description}
+            </p>
+            <div className="mt-10 flex items-center gap-3 font-mono text-[12px] uppercase tracking-[0.18em] text-muted">
+              <span className="animate-nudge-x text-accent">→</span>
+              Role para o lado
+              <span className="text-ink/40">·</span>
+              <span>{total} categorias</span>
+            </div>
+          </div>
+
+          {/* Painéis de categoria */}
+          {skills.categories.map((category, i) => (
+            <SkillCard
+              category={category}
+              index={i}
+              key={category.title}
+              className="h-[clamp(360px,62vh,560px)] w-[clamp(280px,34vw,420px)] shrink-0"
+            />
+          ))}
+        </div>
+
+        {/* Barra de progresso horizontal */}
+        <div className="wrap absolute inset-x-0 bottom-[max(40px,7vh)]">
+          <div className="h-px w-full overflow-hidden bg-line">
+            <span
+              className="block h-full origin-left bg-accent"
+              style={{ transform: 'scaleX(var(--hp,0))' }}
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+export default function Skills() {
+  const reduced = useReducedMotion()
+  return reduced ? <SkillsGrid /> : <SkillsHorizontal />
 }

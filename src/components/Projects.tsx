@@ -29,7 +29,7 @@ export default function Projects() {
         </p>
 
         <div
-          className="reveal-stagger reveal-stagger-alt flex flex-col border-t border-line"
+          className="reveal-stagger flex flex-col border-t border-line"
           ref={list}
         >
           {projects.items.map((project, i) => (
