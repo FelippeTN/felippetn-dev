@@ -1,7 +1,9 @@
 import { useReveal } from '../hooks/useReveal'
 import { useParallax } from '../hooks/useParallax'
+import { pt as siteContent } from './siteContent'
 
 const EMAIL = 'felippenalim2004@gmail.com'
+const { contact } = siteContent
 
 export default function Contact() {
   const content = useReveal<HTMLDivElement>()
@@ -12,19 +14,23 @@ export default function Contact() {
   return (
     <section className="relative overflow-hidden py-[clamp(96px,14vh,160px)] text-center" id="contato">
       <div className="wrap reveal reveal-zoom" ref={content}>
-        <span className="label-mono mb-6 block text-accent">/ 04 — Contato</span>
-        <h2 className="display-type mb-12 text-[clamp(48px,9vw,140px)]">
+        <span className="label-mono mb-6 block text-accent">/ 06 — Contato</span>
+        <h2 className="display-type mb-8 text-[clamp(48px,9vw,140px)]">
           <span className="inline-block will-change-transform" ref={lineA}>
-            Vamos construir
+            Vamos
           </span>
           <br />
           <span
             className="inline-block text-transparent will-change-transform [-webkit-text-stroke:1.5px_var(--color-ink)]"
             ref={lineB}
           >
-            algo juntos
+            conversar?
           </span>
         </h2>
+
+        <p className="mx-auto mb-12 max-w-[620px] text-[clamp(15px,1.8vw,19px)] leading-[1.6] text-muted">
+          {contact.description}
+        </p>
 
         <a
           href={`mailto:${EMAIL}`}

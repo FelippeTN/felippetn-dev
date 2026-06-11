@@ -2,7 +2,9 @@ import { useEffect, useState } from 'react'
 
 const LINKS = [
   { id: 'sobre', label: 'Sobre' },
-  { id: 'skills', label: 'Skills' },
+  { id: 'skills', label: 'Habilidades' },
+  { id: 'experiencia', label: 'Experiência' },
+  { id: 'formacao', label: 'Formação' },
   { id: 'projetos', label: 'Projetos' },
   { id: 'contato', label: 'Contato' },
 ]
