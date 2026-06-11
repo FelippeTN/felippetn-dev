@@ -1,5 +1,6 @@
 import Starfield from './Starfield'
 import { useParallax } from '../hooks/useParallax'
+import { useMagnetic } from '../hooks/useMagnetic'
 
 const felippeImg = '/felippetn-computador.png'
 
@@ -28,6 +29,7 @@ const sideLabelClass =
 export default function Hero() {
   // O watermark deriva pro lado e pra cima conforme o scroll (parallax)
   const watermark = useParallax<HTMLSpanElement>(0.06, 0.18)
+  const cta = useMagnetic<HTMLAnchorElement>(0.4)
 
   return (
     <section className="relative isolate flex min-h-svh items-end overflow-hidden" id="top">
@@ -76,8 +78,9 @@ export default function Hero() {
 
           <div className="mt-10 flex animate-rise flex-wrap items-center gap-7 [animation-delay:1.1s]">
             <a
+              ref={cta}
               href="#projetos"
-              className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full bg-ink px-7 py-4 text-sm font-bold tracking-[0.02em] text-bg transition-all duration-300 ease-out-expo before:absolute before:inset-0 before:-translate-x-full before:bg-accent before:transition-transform before:duration-400 before:ease-out-expo hover:-translate-y-0.5 hover:shadow-[0_12px_40px_rgba(255,90,31,0.35)] hover:before:translate-x-0"
+              className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full bg-ink px-7 py-4 text-sm font-bold tracking-[0.02em] text-bg transition-[box-shadow,background-color] duration-300 ease-out-expo will-change-transform before:absolute before:inset-0 before:-translate-x-full before:bg-accent before:transition-transform before:duration-400 before:ease-out-expo hover:shadow-[0_12px_40px_rgba(255,90,31,0.35)] hover:before:translate-x-0"
             >
               <span className="relative">Ver projetos</span>
               <span className="relative transition-transform duration-300 ease-out-expo group-hover:-translate-y-0.5 group-hover:translate-x-0.5">

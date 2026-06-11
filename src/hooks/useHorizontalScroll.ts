@@ -17,15 +17,34 @@ import { useEffect, useRef } from 'react'
 export function useHorizontalScroll<
   S extends HTMLElement = HTMLElement,
   T extends HTMLElement = HTMLDivElement,
->() {
+>(opts?: { tilt3d?: boolean }) {
   const sectionRef = useRef<S>(null)
   const trackRef = useRef<T>(null)
+  const tilt3d = opts?.tilt3d ?? false
 
   useEffect(() => {
     const section = sectionRef.current
     const track = trackRef.current
     if (!section || !track) return
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+
+    // Coverflow 3D: cada painel marcado com [data-tilt] gira em profundidade
+    // conforme se afasta do centro da viewport.
+    const applyPanels = () => {
+      if (!tilt3d) return
+      const half = window.innerWidth / 2
+      const children = track.children
+      for (let i = 0; i < children.length; i++) {
+        const child = children[i] as HTMLElement
+        if (!child.hasAttribute('data-tilt')) continue
+        const r = child.getBoundingClientRect()
+        const d = Math.max(-1, Math.min(1, (r.left + r.width / 2 - half) / half))
+        const ry = (-d * 16).toFixed(2)
+        const tz = (-Math.abs(d) * 140).toFixed(1)
+        child.style.transform = `perspective(1400px) translateZ(${tz}px) rotateY(${ry}deg)`
+        child.style.opacity = (1 - Math.abs(d) * 0.45).toFixed(3)
+      }
+    }
 
     let raf = 0
     let running = false
@@ -48,6 +67,7 @@ export function useHorizontalScroll<
     const render = (distance: number) => {
       track.style.transform = `translate3d(${-current.toFixed(2)}px, 0, 0)`
       section.style.setProperty('--hp', distance > 0 ? (current / distance).toFixed(4) : '0')
+      applyPanels()
     }
 
     const frame = () => {
@@ -105,8 +125,14 @@ export function useHorizontalScroll<
       if (raf) cancelAnimationFrame(raf)
       section.style.height = ''
       track.style.transform = ''
+      const children = track.children
+      for (let i = 0; i < children.length; i++) {
+        const child = children[i] as HTMLElement
+        child.style.transform = ''
+        child.style.opacity = ''
+      }
     }
-  }, [])
+  }, [tilt3d])
 
   return { sectionRef, trackRef }
 }

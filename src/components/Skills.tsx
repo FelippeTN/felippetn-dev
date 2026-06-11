@@ -12,13 +12,18 @@ function SkillPanel({
   category,
   index,
   className = '',
+  tilt = false,
 }: {
   category: Category
   index: number
   className?: string
+  tilt?: boolean
 }) {
   return (
-    <div className={`group relative flex flex-col justify-center ${className}`}>
+    <div
+      className={`group relative flex flex-col justify-center ${className}`}
+      {...(tilt ? { 'data-tilt': '' } : {})}
+    >
       <span
         aria-hidden="true"
         className="pointer-events-none select-none font-mono text-[clamp(80px,10vw,140px)] font-bold leading-[0.85] text-ink/[0.05] transition-colors duration-700 group-hover:text-accent/[0.08]"
@@ -79,7 +84,9 @@ function SkillsGrid() {
 
 /* ---- Experiência horizontal: o scroll vertical empurra o conteúdo para o lado ---- */
 function SkillsHorizontal() {
-  const { sectionRef, trackRef } = useHorizontalScroll<HTMLElement, HTMLDivElement>()
+  const { sectionRef, trackRef } = useHorizontalScroll<HTMLElement, HTMLDivElement>({
+    tilt3d: true,
+  })
   const total = skills.categories.length
 
   return (
@@ -118,7 +125,8 @@ function SkillsHorizontal() {
               category={category}
               index={i}
               key={category.title}
-              className={`h-[clamp(360px,62vh,560px)] shrink-0 ${panelWidth(category)}`}
+              tilt
+              className={`h-[clamp(360px,62vh,560px)] shrink-0 [backface-visibility:hidden] ${panelWidth(category)}`}
             />
           ))}
         </div>

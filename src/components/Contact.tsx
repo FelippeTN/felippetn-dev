@@ -1,5 +1,6 @@
 import { useReveal } from '../hooks/useReveal'
 import { useParallax } from '../hooks/useParallax'
+import { useMagnetic } from '../hooks/useMagnetic'
 import { pt as siteContent } from '../content/siteContent'
 
 const EMAIL = 'felippenalim2004@gmail.com'
@@ -10,6 +11,7 @@ export default function Contact() {
   // As duas linhas do título deslizam em direções opostas durante o scroll
   const lineA = useParallax<HTMLSpanElement>(-0.07)
   const lineB = useParallax<HTMLSpanElement>(0.07)
+  const mailBtn = useMagnetic<HTMLAnchorElement>(0.45)
 
   return (
     <section className="relative overflow-hidden py-[clamp(96px,14vh,160px)] text-center" id="contato">
@@ -33,8 +35,9 @@ export default function Contact() {
         </p>
 
         <a
+          ref={mailBtn}
           href={`mailto:${EMAIL}`}
-          className="inline-flex items-center gap-4 rounded-full border border-line-strong px-10 py-5 font-mono text-[clamp(14px,2vw,18px)] tracking-[0.02em] transition-all duration-[350ms] ease-out-expo hover:-translate-y-[3px] hover:border-accent hover:bg-accent hover:text-bg hover:shadow-[0_16px_60px_rgba(255,90,31,0.35)]"
+          className="inline-flex items-center gap-4 rounded-full border border-line-strong px-10 py-5 font-mono text-[clamp(14px,2vw,18px)] tracking-[0.02em] transition-[border-color,background-color,color,box-shadow] duration-[350ms] ease-out-expo will-change-transform hover:border-accent hover:bg-accent hover:text-bg hover:shadow-[0_16px_60px_rgba(255,90,31,0.35)]"
         >
           {EMAIL}
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">

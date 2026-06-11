@@ -1,8 +1,11 @@
 import { useReveal } from '../hooks/useReveal'
+import { useTilt } from '../hooks/useTilt'
 import { pt as content } from '../content/siteContent'
 import fastapiPhoto from '../assets/fastapi.jpeg'
 
 const { about } = content
+
+type Feature = (typeof about.features)[number]
 
 /* Larguras do bento grid (12 colunas): pares 7/5, 5/7, 8/4 criam ritmo assimétrico */
 const BENTO_SPANS = [
@@ -13,6 +16,38 @@ const BENTO_SPANS = [
   'lg:col-span-8',
   'lg:col-span-4',
 ]
+
+/* Card do bento com tilt 3D (segue o cursor) + reflexo que acompanha o ponteiro */
+function BentoCard({ feature, index }: { feature: Feature; index: number }) {
+  const tilt = useTilt<HTMLDivElement>({ max: 6, scale: 1.015 })
+  const n = String(index + 1).padStart(2, '0')
+
+  return (
+    <div
+      ref={tilt}
+      className={`group relative overflow-hidden rounded-2xl border border-line bg-bg-soft p-8 transition-[border-color,background-color] duration-500 ease-out-expo will-change-transform hover:border-line-strong hover:bg-surface ${BENTO_SPANS[index % BENTO_SPANS.length]}`}
+    >
+      {/* Reflexo que segue o cursor (glare) */}
+      <span
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100 bg-[radial-gradient(360px_circle_at_var(--gx,50%)_var(--gy,50%),rgba(255,255,255,0.06),transparent_55%)]"
+      />
+      <span
+        aria-hidden="true"
+        className="pointer-events-none absolute -right-3 -top-7 select-none font-mono text-[110px] font-bold leading-none text-ink/[0.035] transition-colors duration-500 group-hover:text-accent/[0.06]"
+      >
+        {n}
+      </span>
+      <span className="relative font-mono text-[12px] tracking-[0.14em] text-accent">{n}</span>
+      <h3 className="relative mb-2.5 mt-5 text-[16px] font-bold uppercase tracking-[0.03em] [font-stretch:110%]">
+        {feature.title}
+      </h3>
+      <p className="relative max-w-[480px] text-sm leading-[1.65] text-muted">
+        {feature.description}
+      </p>
+    </div>
+  )
+}
 
 export default function About() {
   const head = useReveal<HTMLDivElement>()
@@ -65,26 +100,7 @@ export default function About() {
         {/* Bento grid assimétrico: tamanhos variados quebram a monotonia */}
         <div className="reveal-stagger grid grid-cols-1 gap-4 lg:grid-cols-12" ref={grid}>
           {about.features.map((feature, i) => (
-            <div
-              className={`group relative overflow-hidden rounded-2xl border border-line bg-bg-soft p-8 transition-all duration-500 ease-out-expo hover:border-line-strong hover:bg-surface ${BENTO_SPANS[i % BENTO_SPANS.length]}`}
-              key={feature.title}
-            >
-              <span
-                aria-hidden="true"
-                className="pointer-events-none absolute -right-3 -top-7 select-none font-mono text-[110px] font-bold leading-none text-ink/[0.035] transition-colors duration-500 group-hover:text-accent/[0.06]"
-              >
-                {String(i + 1).padStart(2, '0')}
-              </span>
-              <span className="font-mono text-[12px] tracking-[0.14em] text-accent">
-                {String(i + 1).padStart(2, '0')}
-              </span>
-              <h3 className="mb-2.5 mt-5 text-[16px] font-bold uppercase tracking-[0.03em] [font-stretch:110%]">
-                {feature.title}
-              </h3>
-              <p className="max-w-[480px] text-sm leading-[1.65] text-muted">
-                {feature.description}
-              </p>
-            </div>
+            <BentoCard feature={feature} index={i} key={feature.title} />
           ))}
         </div>
       </div>

@@ -1,4 +1,5 @@
 import { useReveal } from '../hooks/useReveal'
+import { useScrollSkew } from '../hooks/useScrollSkew'
 import { pt as content } from '../content/siteContent'
 
 const { projects } = content
@@ -12,6 +13,7 @@ const ArrowIcon = (
 export default function Projects() {
   const head = useReveal<HTMLDivElement>()
   const list = useReveal<HTMLDivElement>()
+  const skew = useScrollSkew<HTMLDivElement>()
 
   return (
     <section className="relative py-[clamp(96px,14vh,160px)]" id="projetos">
@@ -28,6 +30,7 @@ export default function Projects() {
           {projects.description}
         </p>
 
+        <div ref={skew} className="will-change-transform">
         <div className="reveal-stagger flex flex-col border-t border-line" ref={list}>
           {projects.items.map((project, i) => (
             <a
@@ -71,6 +74,7 @@ export default function Projects() {
               </span>
             </a>
           ))}
+        </div>
         </div>
       </div>
     </section>
