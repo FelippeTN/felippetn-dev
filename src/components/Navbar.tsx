@@ -120,17 +120,6 @@ export default function Navbar() {
           </ul>
         </nav>
 
-        <a
-          href="#contato"
-          className={`hidden items-center gap-2 rounded-full border px-4 py-2 font-mono text-[11px] uppercase tracking-[0.14em] transition-all duration-300 ease-out-expo min-[700px]:inline-flex ${
-            scrolled
-              ? 'border-accent/40 bg-accent-soft text-ink hover:border-accent hover:bg-accent hover:text-bg'
-              : 'border-line text-muted hover:border-accent hover:text-ink'
-          }`}
-        >
-          <span className="h-1.5 w-1.5 rounded-full bg-accent" aria-hidden="true" />
-          Vamos conversar
-        </a>
       </div>
     </header>
   )
