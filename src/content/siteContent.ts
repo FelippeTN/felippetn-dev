@@ -407,57 +407,28 @@ export const pt = {
 
   projects: {
     title: 'Projetos em Destaque',
-    description: 'Projetos reais de código aberto que desenvolvi',
-    codeLabel: 'Código',
-    demoLabel: 'Demo',
+    description: 'Produtos reais em produção que desenvolvo e mantenho',
     items: [
       {
-        title: 'Luna-Chat',
+        title: 'Romaneio Rápido',
+        url: 'romaneiorapido.com.br',
         description:
-          'Chatbot criado em memória de Luna, minha melhor amiga. Construído com Python, demonstrando técnicas de NLP e integração com modelos de IA conversacional.',
-        tags: ['Python', 'IA', 'NLP', 'Chatbot'],
-        github: 'https://github.com/FelippeTN/Luna-Chat',
-        demo: '',
+          'Plataforma para emissão e gestão de romaneios de forma rápida e descomplicada, voltada a operações de logística e expedição que precisam de agilidade no dia a dia.',
+        tags: ['SaaS', 'Logística', 'Web App'],
       },
       {
-        title: 'LogicAI Solutions Website',
+        title: 'Vitrine Rápida',
+        url: 'vitrinerapida.com.br',
         description:
-          'Site institucional da LogicAI Solutions. Desenvolvido com TypeScript e React, design moderno e responsivo.',
-        tags: ['TypeScript', 'React', 'Tailwind CSS', 'Vite'],
-        github: 'https://github.com/FelippeTN/LogicAI-Solutions-Website',
-        demo: 'https://github.com/FelippeTN/LogicAI-Solutions-Website',
+          'Ferramenta para criar vitrines e catálogos digitais em minutos, permitindo que negócios exponham seus produtos online e compartilhem com clientes sem complicação.',
+        tags: ['E-commerce', 'Catálogo Digital', 'Web App'],
       },
       {
-        title: 'TeacherApp',
+        title: 'LogicAI Solutions',
+        url: 'logicaisolutions.com.br',
         description:
-          'Plataforma completa de gerenciamento de estudantes para educadores. Controle de turmas, notas, frequência e comunicação.',
-        tags: ['TypeScript', 'React', 'Node.js', 'PostgreSQL'],
-        github: 'https://github.com/FelippeTN/TeacherApp',
-        demo: '',
-      },
-      {
-        title: 'Aggregare School',
-        description:
-          'Sistema de gestão escolar completo com módulos para administração de alunos, professores, disciplinas e relatórios.',
-        tags: ['TypeScript', 'React', 'REST API', 'PostgreSQL'],
-        github: 'https://github.com/FelippeTN/Aggregare-school',
-        demo: '',
-      },
-      {
-        title: 'Dev Portfolio 3D',
-        description:
-          'Este portfólio — construído com React, Three.js e Framer Motion. Campo estelar 3D interativo e animações fluidas.',
-        tags: ['React', 'Three.js', 'Framer Motion', 'TypeScript'],
-        github: 'https://github.com/FelippeTN/FelippeTN-Dev-Portfolio',
-        demo: '',
-      },
-      {
-        title: 'myteacher',
-        description:
-          'Plataforma educacional para a LogicAI Solutions, com gestão de alunos, conteúdos e acompanhamento de progresso.',
-        tags: ['TypeScript', 'React', 'Node.js', 'API REST'],
-        github: 'https://github.com/LogicAI-Solutions/myteacher',
-        demo: '',
+          'Software house focada em soluções inteligentes de TI — do desenvolvimento de produtos sob medida à aplicação de Inteligência Artificial em processos de negócio.',
+        tags: ['Software House', 'IA', 'Consultoria'],
       },
     ],
   },
@@ -876,57 +847,28 @@ export const en: SiteContent = {
 
   projects: {
     title: 'Featured Projects',
-    description: 'Real open-source projects I have built',
-    codeLabel: 'Code',
-    demoLabel: 'Demo',
+    description: 'Real products in production that I build and maintain',
     items: [
       {
-        title: 'Luna-Chat',
+        title: 'Romaneio Rápido',
+        url: 'romaneiorapido.com.br',
         description:
-          'Chatbot created in memory of Luna, my best friend. Built with Python, showcasing NLP techniques and integration with conversational AI models.',
-        tags: ['Python', 'AI', 'NLP', 'Chatbot'],
-        github: 'https://github.com/FelippeTN/Luna-Chat',
-        demo: '',
+          'A platform to issue and manage packing lists (romaneios) quickly and effortlessly, built for logistics and shipping operations that need agility in their daily routine.',
+        tags: ['SaaS', 'Logistics', 'Web App'],
       },
       {
-        title: 'LogicAI Solutions Website',
+        title: 'Vitrine Rápida',
+        url: 'vitrinerapida.com.br',
         description:
-          'Institutional website for LogicAI Solutions. Developed with TypeScript and React, modern and responsive design.',
-        tags: ['TypeScript', 'React', 'Tailwind CSS', 'Vite'],
-        github: 'https://github.com/FelippeTN/LogicAI-Solutions-Website',
-        demo: 'https://github.com/FelippeTN/LogicAI-Solutions-Website',
+          'A tool to create digital storefronts and catalogs in minutes, letting businesses showcase their products online and share them with customers hassle-free.',
+        tags: ['E-commerce', 'Digital Catalog', 'Web App'],
       },
       {
-        title: 'TeacherApp',
+        title: 'LogicAI Solutions',
+        url: 'logicaisolutions.com.br',
         description:
-          'Complete student management platform for educators. Class, grade, attendance and communication management.',
-        tags: ['TypeScript', 'React', 'Node.js', 'PostgreSQL'],
-        github: 'https://github.com/FelippeTN/TeacherApp',
-        demo: '',
-      },
-      {
-        title: 'Aggregare School',
-        description:
-          'Full school management system with modules for student, teacher, subject, and report administration.',
-        tags: ['TypeScript', 'React', 'REST API', 'PostgreSQL'],
-        github: 'https://github.com/FelippeTN/Aggregare-school',
-        demo: '',
-      },
-      {
-        title: 'Dev Portfolio 3D',
-        description:
-          'This portfolio — built with React, Three.js and Framer Motion. Interactive 3D star field and fluid animations.',
-        tags: ['React', 'Three.js', 'Framer Motion', 'TypeScript'],
-        github: 'https://github.com/FelippeTN/FelippeTN-Dev-Portfolio',
-        demo: '',
-      },
-      {
-        title: 'myteacher',
-        description:
-          'Educational platform for LogicAI Solutions, with student management, content and progress tracking.',
-        tags: ['TypeScript', 'React', 'Node.js', 'REST API'],
-        github: 'https://github.com/LogicAI-Solutions/myteacher',
-        demo: '',
+          'Software house focused on intelligent IT solutions — from custom product development to applying Artificial Intelligence across business processes.',
+        tags: ['Software House', 'AI', 'Consulting'],
       },
     ],
   },

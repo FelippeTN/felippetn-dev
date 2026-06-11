@@ -34,31 +34,29 @@ export default function Education() {
           {education.description}
         </p>
 
-        <div
-          className="reveal-stagger grid grid-cols-[repeat(auto-fit,minmax(360px,1fr))] gap-4"
-          ref={grid}
-        >
+        {/* Timeline vertical: trilho com pontos, ritmo distinto das linhas da Experiência */}
+        <div className="reveal-stagger relative ml-1 flex flex-col gap-[clamp(48px,7vh,72px)] border-l border-line pl-12" ref={grid}>
           {education.items.map((item) => (
-            <article
-              className="flex flex-col rounded-2xl border border-line bg-bg-soft px-7 py-7 transition-[border-color,transform] duration-300 ease-out-expo hover:-translate-y-[3px] hover:border-line-strong"
-              key={item.degree}
-            >
+            <article className="group relative max-w-[820px]" key={item.degree}>
+              <span className="absolute -left-[53px] top-[5px] h-[10px] w-[10px] rounded-full border-2 border-accent bg-bg transition-colors duration-300 group-hover:bg-accent" />
               <span className="font-mono text-[12px] uppercase tracking-[0.14em] text-accent">
                 {item.period}
               </span>
-              <h3 className="mt-3 text-[19px] font-bold leading-[1.2] tracking-[-0.01em] text-ink">
+              <h3 className="mt-3 text-[clamp(18px,2.2vw,26px)] font-bold leading-[1.2] tracking-[-0.01em] text-ink">
                 {item.degree}
               </h3>
               <p className="mt-1.5 text-sm font-medium text-ink/70">{item.institution}</p>
-              <p className="mt-4 text-sm leading-[1.6] text-muted">{item.description}</p>
-
-              <div className="mt-5 flex flex-wrap gap-1.5">
-                {item.highlights.map((highlight) => (
-                  <span className="tag" key={highlight}>
+              <p className="mt-4 text-sm leading-[1.65] text-muted">{item.description}</p>
+              <p className="mt-4 font-mono text-[12px] leading-[2] text-muted/80">
+                {item.highlights.map((highlight, j) => (
+                  <span key={highlight}>
                     {highlight}
+                    {j < item.highlights.length - 1 && (
+                      <span className="mx-2.5 text-ink/15">·</span>
+                    )}
                   </span>
                 ))}
-              </div>
+              </p>
             </article>
           ))}
         </div>
@@ -68,37 +66,25 @@ export default function Education() {
           {education.certificationsLabel}
         </h3>
 
+        {/* Certificações: grade compacta de 3 colunas, leve e escaneável */}
         <div
-          className="reveal-stagger grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-4"
+          className="reveal-stagger grid grid-cols-1 gap-x-10 gap-y-9 sm:grid-cols-2 lg:grid-cols-3"
           ref={certs}
         >
           {certifications.map((cert) => (
             <article
-              className="rounded-xl border border-line bg-bg-soft px-6 py-6 transition-[border-color] duration-300 hover:border-line-strong"
+              className="group border-t border-line pt-5 transition-colors duration-500 hover:border-line-strong"
               key={cert.title}
             >
-              <div className="mb-3 flex items-start justify-between gap-3">
-                <h4 className="text-[15px] font-bold leading-[1.25] text-ink">{cert.title}</h4>
-                <span className="shrink-0 font-mono text-[11px] tracking-[0.1em] text-accent">
-                  {cert.year}
-                </span>
-              </div>
-              <p className="text-sm font-medium text-ink/70">{cert.institution}</p>
-
+              <span className="font-mono text-[11px] tracking-[0.12em] text-accent">
+                {cert.year}
+              </span>
+              <h4 className="mt-3 text-[15px] font-bold leading-[1.3] text-ink">{cert.title}</h4>
+              <p className="mt-1 text-sm text-muted">{cert.institution}</p>
               {cert.credentialId && (
-                <p className="mt-3 font-mono text-[11px] uppercase tracking-[0.08em] text-muted">
+                <p className="mt-3 font-mono text-[10px] uppercase tracking-[0.08em] text-muted/60">
                   {education.credentialIdLabel}: {cert.credentialId}
                 </p>
-              )}
-
-              {cert.skills && (
-                <div className="mt-3 flex flex-wrap gap-1.5">
-                  {cert.skills.map((skill) => (
-                    <span className="tag" key={skill}>
-                      {skill}
-                    </span>
-                  ))}
-                </div>
               )}
             </article>
           ))}

@@ -4,6 +4,16 @@ import fastapiPhoto from '../assets/fastapi.jpeg'
 
 const { about } = content
 
+/* Larguras do bento grid (12 colunas): pares 7/5, 5/7, 8/4 criam ritmo assimétrico */
+const BENTO_SPANS = [
+  'lg:col-span-7',
+  'lg:col-span-5',
+  'lg:col-span-5',
+  'lg:col-span-7',
+  'lg:col-span-8',
+  'lg:col-span-4',
+]
+
 export default function About() {
   const head = useReveal<HTMLDivElement>()
   const intro = useReveal<HTMLDivElement>()
@@ -25,12 +35,12 @@ export default function About() {
             {about.description}
           </p>
 
-          <div className="mt-8 flex flex-col gap-5 overflow-hidden rounded-2xl border border-line bg-bg-soft p-5 sm:flex-row sm:items-center sm:gap-6 sm:p-6">
+          <div className="mt-12 flex flex-col gap-6 border-t border-line pt-8 sm:flex-row sm:items-center sm:gap-8">
             <a
               href={fastapiPhoto}
               target="_blank"
               rel="noreferrer"
-              className="group relative block shrink-0 overflow-hidden rounded-xl border border-line max-sm:w-full"
+              className="group relative block shrink-0 overflow-hidden rounded-lg max-sm:w-full"
             >
               <img
                 src={fastapiPhoto}
@@ -52,19 +62,28 @@ export default function About() {
           </div>
         </div>
 
-        <div
-          className="reveal-stagger grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] gap-4"
-          ref={grid}
-        >
-          {about.features.map((feature) => (
+        {/* Bento grid assimétrico: tamanhos variados quebram a monotonia */}
+        <div className="reveal-stagger grid grid-cols-1 gap-4 lg:grid-cols-12" ref={grid}>
+          {about.features.map((feature, i) => (
             <div
-              className="rounded-2xl border border-line bg-bg-soft px-7 py-7 transition-[border-color,transform] duration-300 ease-out-expo hover:-translate-y-[3px] hover:border-line-strong"
+              className={`group relative overflow-hidden rounded-2xl border border-line bg-bg-soft p-8 transition-all duration-500 ease-out-expo hover:border-line-strong hover:bg-surface ${BENTO_SPANS[i % BENTO_SPANS.length]}`}
               key={feature.title}
             >
-              <h3 className="mb-2.5 text-[16px] font-bold uppercase tracking-[0.03em] [font-stretch:110%]">
+              <span
+                aria-hidden="true"
+                className="pointer-events-none absolute -right-3 -top-7 select-none font-mono text-[110px] font-bold leading-none text-ink/[0.035] transition-colors duration-500 group-hover:text-accent/[0.06]"
+              >
+                {String(i + 1).padStart(2, '0')}
+              </span>
+              <span className="font-mono text-[12px] tracking-[0.14em] text-accent">
+                {String(i + 1).padStart(2, '0')}
+              </span>
+              <h3 className="mb-2.5 mt-5 text-[16px] font-bold uppercase tracking-[0.03em] [font-stretch:110%]">
                 {feature.title}
               </h3>
-              <p className="text-sm leading-[1.6] text-muted">{feature.description}</p>
+              <p className="max-w-[480px] text-sm leading-[1.65] text-muted">
+                {feature.description}
+              </p>
             </div>
           ))}
         </div>
