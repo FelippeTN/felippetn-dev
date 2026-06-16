@@ -19,7 +19,7 @@ export default function Contact() {
     <section className="relative overflow-hidden py-[clamp(96px,14vh,160px)] text-center" id="contato">
       <div className="wrap reveal reveal-zoom" ref={content}>
         <span className="label-mono mb-6 block text-accent">/ 06 — Contato</span>
-        <h2 className="display-type mb-8 text-[clamp(48px,9vw,140px)]">
+        <h2 className="display-type mb-8 text-[clamp(38px,9vw,140px)]">
           <span className="inline-block will-change-transform" ref={lineA}>
             Vamos
           </span>

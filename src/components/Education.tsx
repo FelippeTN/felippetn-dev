@@ -35,7 +35,7 @@ export default function Education() {
           className="reveal-head mb-[clamp(48px,8vh,80px)] flex items-baseline justify-between gap-6"
           ref={head}
         >
-          <h2 className="display-type -ml-[0.03em] text-[clamp(40px,6vw,88px)]">{education.title}</h2>
+          <h2 className="display-type -ml-[0.03em] text-[clamp(32px,6vw,88px)]">{education.title}</h2>
           <span className="font-mono text-[13px] tracking-[0.2em] text-accent">/ 04</span>
         </div>
 

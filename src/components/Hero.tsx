@@ -62,7 +62,7 @@ export default function Hero() {
             Felippe Toscano Nalim
           </p>
 
-          <h1 className="display-type group -ml-[0.045em] whitespace-nowrap text-[clamp(44px,10.6vw,215px)] max-[640px]:text-[clamp(40px,16.5vw,70px)]">
+          <h1 className="display-type group -ml-[0.045em] whitespace-nowrap text-[clamp(44px,10.6vw,215px)] max-[640px]:text-[clamp(32px,13vw,64px)]">
             <span className="block overflow-hidden">
               <span className="block animate-line-up [animation-delay:0.6s]">Engenheiro</span>
             </span>
