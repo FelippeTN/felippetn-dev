@@ -1,11 +1,12 @@
 {
-  "name": "Felippe Toscano Nalim | Portfolio",
+  "name": "Felippe Toscano Nalim | Engenheiro de Software",
   "short_name": "FelippeTN",
-  "description": "Portfolio de Felippe Toscano Nalim com foco em backend, IA aplicada e arquitetura de software.",
+  "description": "Portfolio oficial de Felippe Toscano Nalim, Engenheiro de Software especializado em backend, IA aplicada e arquitetura de software.",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
-  "background_color": "#f8f8f8",
-  "theme_color": "#111111",
+  "background_color": "#060606",
+  "theme_color": "#060606",
   "icons": [
     {
       "src": "/code.svg",

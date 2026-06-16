@@ -13,6 +13,7 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [progress, setProgress] = useState(0)
   const [active, setActive] = useState('')
+  const [menuOpen, setMenuOpen] = useState(false)
 
   useEffect(() => {
     const onScroll = () => {
@@ -44,20 +45,33 @@ export default function Navbar() {
     return () => observer.disconnect()
   }, [])
 
+  useEffect(() => {
+    if (!menuOpen) return
+
+    const close = () => setMenuOpen(false)
+    window.addEventListener('resize', close)
+    window.addEventListener('scroll', close, { passive: true })
+    return () => {
+      window.removeEventListener('resize', close)
+      window.removeEventListener('scroll', close)
+    }
+  }, [menuOpen])
+
   return (
-    <header
-      className={`fixed left-1/2 z-[100] flex -translate-x-1/2 items-center overflow-hidden border transition-[top,width,height,border-radius,background-color,border-color,box-shadow,backdrop-filter] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] ${
-        scrolled
-          ? 'top-4 h-[60px] w-[min(1120px,calc(100%-32px))] rounded-full border-line-strong bg-bg/80 shadow-[0_24px_80px_rgba(0,0,0,0.38)] backdrop-blur-[18px]'
-          : 'top-0 h-[76px] w-full rounded-none border-transparent bg-transparent shadow-none backdrop-blur-0'
-      }`}
-    >
-      <span
-        className={`pointer-events-none absolute bottom-0 left-0 h-px w-full origin-left bg-accent transition-opacity duration-500 ${
-          scrolled ? 'opacity-80' : 'opacity-0'
+    <>
+      <header
+        className={`fixed left-1/2 z-[100] flex -translate-x-1/2 items-center overflow-hidden border transition-[top,width,height,border-radius,background-color,border-color,box-shadow,backdrop-filter] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+          scrolled || menuOpen
+            ? 'top-4 h-[60px] w-[min(1120px,calc(100%-32px))] rounded-full border-line-strong bg-bg/80 shadow-[0_24px_80px_rgba(0,0,0,0.38)] backdrop-blur-[18px]'
+            : 'top-0 h-[76px] w-full rounded-none border-transparent bg-transparent shadow-none backdrop-blur-0'
         }`}
-        style={{ transform: `scaleX(${progress})` }}
-      />
+      >
+        <span
+          className={`pointer-events-none absolute bottom-0 left-0 h-px w-full origin-left bg-accent transition-opacity duration-500 ${
+            scrolled ? 'opacity-80' : 'opacity-0'
+          }`}
+          style={{ transform: `scaleX(${progress})` }}
+        />
 
       <div
         className={`mx-auto flex w-full items-center justify-between gap-6 px-[clamp(20px,3vw,56px)] transition-[padding] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] ${
@@ -122,7 +136,41 @@ export default function Navbar() {
           </ul>
         </nav>
 
+        <button
+          type="button"
+          className="rounded-full border border-line px-4 py-2 font-mono text-[11px] uppercase tracking-[0.16em] text-muted transition-colors duration-300 hover:border-line-strong hover:text-ink min-[861px]:hidden"
+          aria-expanded={menuOpen}
+          aria-controls="mobile-nav"
+          onClick={() => setMenuOpen((open) => !open)}
+        >
+          Menu
+        </button>
       </div>
-    </header>
+      </header>
+
+      <nav
+        id="mobile-nav"
+        aria-label="Navegacao mobile"
+        className={`fixed left-4 right-4 top-[88px] z-[99] rounded-2xl border border-line-strong bg-bg/95 p-3 shadow-[0_24px_80px_rgba(0,0,0,0.42)] backdrop-blur-[18px] transition-[opacity,transform] duration-300 min-[861px]:hidden ${
+          menuOpen ? 'translate-y-0 opacity-100' : 'pointer-events-none -translate-y-2 opacity-0'
+        }`}
+      >
+        <ul className="grid gap-1">
+          {LINKS.map((link) => (
+            <li key={link.id}>
+              <a
+                href={`#${link.id}`}
+                className={`block rounded-xl px-4 py-3 font-mono text-[12px] uppercase tracking-[0.14em] transition-colors duration-300 ${
+                  active === link.id ? 'bg-ink text-bg' : 'text-muted hover:bg-ink/[0.06] hover:text-ink'
+                }`}
+                onClick={() => setMenuOpen(false)}
+              >
+                {link.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    </>
   )
 }

@@ -4,6 +4,7 @@ import { useMagnetic } from '../hooks/useMagnetic'
 import { pt as siteContent } from '../content/siteContent'
 
 const EMAIL = 'felippenalim2004@gmail.com'
+const WHATSAPP = '5521979076630'
 const { contact } = siteContent
 
 export default function Contact() {
@@ -12,6 +13,7 @@ export default function Contact() {
   const lineA = useParallax<HTMLSpanElement>(-0.07)
   const lineB = useParallax<HTMLSpanElement>(0.07)
   const mailBtn = useMagnetic<HTMLAnchorElement>(0.45)
+  const whatsappBtn = useMagnetic<HTMLAnchorElement>(0.35)
 
   return (
     <section className="relative overflow-hidden py-[clamp(96px,14vh,160px)] text-center" id="contato">
@@ -34,16 +36,31 @@ export default function Contact() {
           {contact.description}
         </p>
 
-        <a
-          ref={mailBtn}
-          href={`mailto:${EMAIL}`}
-          className="inline-flex items-center gap-4 rounded-full border border-line-strong px-10 py-5 font-mono text-[clamp(14px,2vw,18px)] tracking-[0.02em] transition-[border-color,background-color,color,box-shadow] duration-[350ms] ease-out-expo will-change-transform hover:border-accent hover:bg-accent hover:text-bg hover:shadow-[0_16px_60px_rgba(255,90,31,0.35)]"
-        >
-          {EMAIL}
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-            <path d="M7 17 17 7M9 7h8v8" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-        </a>
+        <div className="flex flex-wrap justify-center gap-3 max-[560px]:grid max-[560px]:grid-cols-1">
+          <a
+            ref={mailBtn}
+            href={`mailto:${EMAIL}`}
+            className="inline-flex min-w-0 items-center justify-center gap-4 rounded-full border border-line-strong px-10 py-5 font-mono text-[clamp(14px,2vw,18px)] tracking-[0.02em] transition-[border-color,background-color,color,box-shadow] duration-[350ms] ease-out-expo will-change-transform hover:border-accent hover:bg-accent hover:text-bg hover:shadow-[0_16px_60px_rgba(255,90,31,0.35)] max-[560px]:w-full max-[560px]:px-5 max-[560px]:py-4"
+          >
+            <span className="min-w-0 break-all">{EMAIL}</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+              <path d="M7 17 17 7M9 7h8v8" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </a>
+
+          <a
+            ref={whatsappBtn}
+            href={`https://wa.me/${WHATSAPP}`}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center justify-center gap-4 rounded-full border border-line-strong px-10 py-5 font-mono text-[clamp(14px,2vw,18px)] tracking-[0.02em] text-muted transition-[border-color,background-color,color,box-shadow] duration-[350ms] ease-out-expo will-change-transform hover:border-accent hover:bg-accent hover:text-bg hover:shadow-[0_16px_60px_rgba(255,90,31,0.35)] max-[560px]:w-full max-[560px]:px-5 max-[560px]:py-4"
+          >
+            WhatsApp
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M12.04 2A9.94 9.94 0 0 0 2.1 11.94c0 1.75.46 3.45 1.34 4.96L2 22l5.24-1.38a9.9 9.9 0 0 0 4.8 1.22h.01A9.94 9.94 0 0 0 12.04 2Zm5.85 14.22c-.25.7-1.45 1.34-2.03 1.43-.52.08-1.18.12-1.91-.12-.44-.14-1-.33-1.72-.64-3.03-1.31-5-4.36-5.15-4.56-.15-.2-1.23-1.64-1.23-3.13s.78-2.22 1.06-2.52c.28-.3.61-.38.81-.38h.58c.18.01.44-.07.69.53.25.6.85 2.08.93 2.23.08.15.13.33.03.53-.1.2-.15.33-.3.51-.15.18-.32.4-.46.54-.15.15-.31.31-.13.61.18.3.79 1.31 1.7 2.12 1.17 1.04 2.16 1.36 2.46 1.51.3.15.48.13.66-.08.18-.2.76-.89.96-1.19.2-.3.41-.25.69-.15.28.1 1.78.84 2.09.99.31.15.51.23.59.36.08.13.08.76-.17 1.46Z" />
+            </svg>
+          </a>
+        </div>
 
         <div className="mt-10 flex justify-center gap-3">
           <a

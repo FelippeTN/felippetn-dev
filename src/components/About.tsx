@@ -1,7 +1,9 @@
 import { useReveal } from '../hooks/useReveal'
 import { useTilt } from '../hooks/useTilt'
+import { useScrollProgress } from '../hooks/useScrollProgress'
 import { pt as content } from '../content/siteContent'
 import fastapiPhoto from '../assets/fastapi.jpeg'
+import felippePhoto from '../assets/Felippe.jpg'
 
 const { about } = content
 
@@ -50,12 +52,24 @@ function BentoCard({ feature, index }: { feature: Feature; index: number }) {
 }
 
 export default function About() {
+  const section = useScrollProgress<HTMLElement>()
   const head = useReveal<HTMLDivElement>()
   const intro = useReveal<HTMLDivElement>()
   const grid = useReveal<HTMLDivElement>()
 
   return (
-    <section className="relative overflow-hidden py-[clamp(96px,14vh,160px)]" id="sobre">
+    <section className="relative overflow-hidden py-[clamp(96px,14vh,160px)]" id="sobre" ref={section}>
+      <span
+        aria-hidden="true"
+        className="pointer-events-none absolute left-0 top-[18%] h-px w-full origin-left bg-linear-to-r from-transparent via-accent/45 to-transparent [transform:scaleX(var(--scroll-reveal,0))]"
+      />
+      <span
+        aria-hidden="true"
+        className="pointer-events-none absolute right-[clamp(20px,5vw,96px)] top-[18%] select-none font-mono text-[clamp(80px,13vw,190px)] font-bold leading-none text-ink/[0.025] [transform:translate3d(0,var(--scroll-shift-md,0px),0)]"
+      >
+        01
+      </span>
+
       <div className="wrap">
         <div
           className="reveal-head mb-[clamp(48px,8vh,80px)] flex items-baseline justify-between gap-6"
@@ -65,10 +79,14 @@ export default function About() {
           <span className="font-mono text-[13px] tracking-[0.2em] text-accent">/ 01</span>
         </div>
 
-        <div className="reveal mb-[clamp(40px,6vh,72px)] max-w-[940px]" ref={intro}>
-          <p className="text-[clamp(20px,2.4vw,30px)] font-medium leading-[1.45] tracking-[-0.01em] text-muted">
-            {about.description}
-          </p>
+        <div
+          className="reveal mb-[clamp(40px,6vh,72px)] grid gap-[clamp(32px,5vw,72px)] lg:grid-cols-[minmax(0,0.95fr)_minmax(300px,0.45fr)] lg:items-start"
+          ref={intro}
+        >
+          <div>
+            <p className="text-[clamp(20px,2.4vw,30px)] font-medium leading-[1.45] tracking-[-0.01em] text-muted">
+              {about.description}
+            </p>
 
           <div className="mt-12 flex flex-col gap-6 border-t border-line pt-8 sm:flex-row sm:items-center sm:gap-8">
             <a
@@ -76,6 +94,9 @@ export default function About() {
               target="_blank"
               rel="noreferrer"
               className="group relative block shrink-0 overflow-hidden rounded-lg max-sm:w-full"
+              style={{
+                transform: 'translate3d(0, var(--scroll-shift-sm, 0px), 0)',
+              }}
             >
               <img
                 src={fastapiPhoto}
@@ -95,6 +116,25 @@ export default function About() {
               <p className="text-sm leading-[1.6] text-muted">{about.funFact}</p>
             </div>
           </div>
+          </div>
+
+          <figure
+            className="relative overflow-hidden rounded-2xl border border-line bg-bg-soft max-lg:max-w-[420px]"
+            style={{
+              transform: 'translate3d(0, var(--scroll-shift-sm, 0px), 0)',
+            }}
+          >
+            <img
+              src={felippePhoto}
+              alt="Retrato de Felippe Toscano Nalim"
+              loading="lazy"
+              draggable={false}
+              className="aspect-[4/5] w-full object-cover object-center [filter:contrast(1.04)_saturate(0.92)]"
+            />
+            <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/75 via-black/35 to-transparent px-5 pb-5 pt-16 font-mono text-[11px] uppercase tracking-[0.18em] text-ink/85">
+              Felippe Toscano Nalim
+            </figcaption>
+          </figure>
         </div>
 
         {/* Bento grid assimétrico: tamanhos variados quebram a monotonia */}

@@ -273,3 +273,38 @@
     filter: none;
   }
 }
+
+@media (max-width: 640px) {
+  html {
+    scroll-padding-top: 84px;
+  }
+
+  body {
+    font-size: 15px;
+  }
+
+  .wrap {
+    width: min(100% - 32px, 1760px);
+  }
+
+  .label-mono {
+    letter-spacing: 0.24em;
+  }
+
+  .icon-btn {
+    width: 42px;
+    height: 42px;
+  }
+
+  .tag {
+    font-size: 10px;
+    padding: 4px 9px;
+  }
+
+  .reveal,
+  .reveal-left,
+  .reveal-right,
+  .reveal-zoom {
+    transform: translateY(10px);
+  }
+}

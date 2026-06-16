@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import { useReveal } from '../hooks/useReveal'
 import { useHorizontalScroll } from '../hooks/useHorizontalScroll'
 import { useReducedMotion } from '../hooks/useReducedMotion'
@@ -69,12 +70,14 @@ function SkillsGrid() {
           {skills.description}
         </p>
 
-        <div
-          className="reveal-stagger grid grid-cols-[repeat(auto-fit,minmax(320px,1fr))] gap-x-10 gap-y-14"
-          ref={grid}
-        >
+        <div className="reveal-stagger grid grid-cols-[repeat(auto-fit,minmax(min(100%,320px),1fr))] gap-x-10 gap-y-12" ref={grid}>
           {skills.categories.map((category, i) => (
-            <SkillPanel category={category} index={i} key={category.title} />
+            <SkillPanel
+              category={category}
+              index={i}
+              key={category.title}
+              className="border-t border-line pt-7"
+            />
           ))}
         </div>
       </div>
@@ -147,5 +150,16 @@ function SkillsHorizontal() {
 
 export default function Skills() {
   const reduced = useReducedMotion()
-  return reduced ? <SkillsGrid /> : <SkillsHorizontal />
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const media = window.matchMedia('(max-width: 760px)')
+    const sync = () => setIsMobile(media.matches)
+
+    sync()
+    media.addEventListener('change', sync)
+    return () => media.removeEventListener('change', sync)
+  }, [])
+
+  return reduced || isMobile ? <SkillsGrid /> : <SkillsHorizontal />
 }

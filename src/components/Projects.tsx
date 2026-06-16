@@ -1,5 +1,6 @@
 import { useReveal } from '../hooks/useReveal'
 import { useScrollSkew } from '../hooks/useScrollSkew'
+import { useScrollProgress } from '../hooks/useScrollProgress'
 import { pt as content } from '../content/siteContent'
 
 const { projects } = content
@@ -11,12 +12,24 @@ const ArrowIcon = (
 )
 
 export default function Projects() {
+  const section = useScrollProgress<HTMLElement>()
   const head = useReveal<HTMLDivElement>()
   const list = useReveal<HTMLDivElement>()
   const skew = useScrollSkew<HTMLDivElement>()
 
   return (
-    <section className="relative py-[clamp(96px,14vh,160px)]" id="projetos">
+    <section className="relative overflow-hidden py-[clamp(96px,14vh,160px)]" id="projetos" ref={section}>
+      <span
+        aria-hidden="true"
+        className="pointer-events-none absolute left-1/2 top-[10%] select-none whitespace-nowrap text-[clamp(90px,18vw,280px)] font-extrabold uppercase leading-none text-transparent [-webkit-text-stroke:1px_rgba(255,255,255,0.055)] [font-stretch:118%] max-[640px]:hidden"
+        style={{
+          opacity: 'var(--scroll-opacity, 0.18)',
+          transform: 'translate3d(calc(-50% - var(--scroll-shift-sm, 0px)), var(--scroll-shift-md, 0px), 0)',
+        }}
+      >
+        Projetos
+      </span>
+
       <div className="wrap">
         <div
           className="reveal-head mb-[clamp(48px,8vh,80px)] flex items-baseline justify-between gap-6"
@@ -30,11 +43,17 @@ export default function Projects() {
           {projects.description}
         </p>
 
-        <div ref={skew} className="will-change-transform">
+        <div
+          ref={skew}
+          className="will-change-transform [transform-origin:center_top]"
+          style={{
+            opacity: 'var(--scroll-opacity, 1)',
+          }}
+        >
         <div className="reveal-stagger flex flex-col border-t border-line" ref={list}>
           {projects.items.map((project, i) => (
             <a
-              className="group relative grid grid-cols-[64px_1fr_auto] items-center gap-[clamp(16px,3vw,56px)] overflow-hidden border-b border-line py-[clamp(32px,5vh,56px)] pl-2 pr-2 transition-all duration-[450ms] ease-out-expo hover:bg-bg-soft hover:pl-6 hover:pr-6 max-[760px]:grid-cols-[1fr_auto] max-[760px]:gap-5"
+              className="group relative grid grid-cols-[64px_1fr_auto] items-center gap-[clamp(16px,3vw,56px)] overflow-hidden border-b border-line py-[clamp(32px,5vh,56px)] pl-2 pr-2 transition-all duration-[450ms] ease-out-expo before:absolute before:inset-y-0 before:left-0 before:w-px before:origin-top before:bg-accent before:opacity-0 before:transition-opacity before:duration-300 before:[transform:scaleY(var(--scroll-reveal,0))] hover:bg-bg-soft hover:pl-6 hover:pr-6 hover:before:opacity-100 max-[760px]:grid-cols-[1fr_auto] max-[760px]:gap-5 max-[640px]:py-8 max-[640px]:pl-0 max-[640px]:pr-0 max-[640px]:hover:pl-0 max-[640px]:hover:pr-0"
               key={project.title}
               href={`https://${project.url}`}
               target="_blank"
@@ -69,7 +88,7 @@ export default function Projects() {
                 </div>
               </div>
 
-              <span className="grid h-14 w-14 shrink-0 place-items-center self-start rounded-full border border-line text-muted transition-all duration-[400ms] ease-out-expo group-hover:rotate-45 group-hover:border-accent group-hover:bg-accent group-hover:text-bg">
+              <span className="grid h-14 w-14 shrink-0 place-items-center self-start rounded-full border border-line text-muted transition-all duration-[400ms] ease-out-expo group-hover:rotate-45 group-hover:border-accent group-hover:bg-accent group-hover:text-bg max-[640px]:h-11 max-[640px]:w-11">
                 {ArrowIcon}
               </span>
             </a>

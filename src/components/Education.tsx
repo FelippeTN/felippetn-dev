@@ -1,4 +1,5 @@
 import { useReveal } from '../hooks/useReveal'
+import { useScrollProgress } from '../hooks/useScrollProgress'
 import { pt as content } from '../content/siteContent'
 
 const { education } = content
@@ -15,12 +16,20 @@ type Certification = {
 const certifications = education.certifications as ReadonlyArray<Certification>
 
 export default function Education() {
+  const section = useScrollProgress<HTMLElement>()
   const head = useReveal<HTMLDivElement>()
   const grid = useReveal<HTMLDivElement>()
   const certs = useReveal<HTMLDivElement>()
 
   return (
-    <section className="relative py-[clamp(96px,14vh,160px)]" id="formacao">
+    <section className="relative overflow-hidden py-[clamp(96px,14vh,160px)]" id="formacao" ref={section}>
+      <span
+        aria-hidden="true"
+        className="pointer-events-none absolute left-[clamp(20px,5vw,96px)] top-[12%] select-none font-mono text-[clamp(80px,14vw,220px)] font-bold leading-none text-ink/[0.025] [transform:translate3d(0,var(--scroll-shift-sm,0px),0)]"
+      >
+        04
+      </span>
+
       <div className="wrap">
         <div
           className="reveal-head mb-[clamp(48px,8vh,80px)] flex items-baseline justify-between gap-6"
@@ -36,9 +45,13 @@ export default function Education() {
 
         {/* Timeline vertical: trilho com pontos, ritmo distinto das linhas da Experiência */}
         <div className="reveal-stagger relative ml-1 flex flex-col gap-[clamp(48px,7vh,72px)] border-l border-line pl-12" ref={grid}>
+          <span
+            aria-hidden="true"
+            className="absolute -left-px bottom-0 top-0 w-px origin-top bg-accent shadow-[0_0_28px_rgba(255,90,31,0.35)] [transform:scaleY(var(--scroll-reveal,0))]"
+          />
           {education.items.map((item) => (
             <article className="group relative max-w-[820px]" key={item.degree}>
-              <span className="absolute -left-[53px] top-[5px] h-[10px] w-[10px] rounded-full border-2 border-accent bg-bg transition-colors duration-300 group-hover:bg-accent" />
+              <span className="absolute -left-[53px] top-[5px] h-[10px] w-[10px] rounded-full border-2 border-accent bg-bg transition-[background-color,transform,box-shadow] duration-300 group-hover:scale-125 group-hover:bg-accent group-hover:shadow-[0_0_22px_rgba(255,90,31,0.45)]" />
               <span className="font-mono text-[12px] uppercase tracking-[0.14em] text-accent">
                 {item.period}
               </span>
