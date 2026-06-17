@@ -17,6 +17,7 @@ const certifications = education.certifications as ReadonlyArray<Certification>
 
 export default function Education() {
   const section = useScrollProgress<HTMLElement>()
+  const timeline = useScrollProgress<HTMLDivElement>()
   const head = useReveal<HTMLDivElement>()
   const grid = useReveal<HTMLDivElement>()
   const certs = useReveal<HTMLDivElement>()
@@ -44,11 +45,12 @@ export default function Education() {
         </p>
 
         {/* Timeline vertical: trilho com pontos, ritmo distinto das linhas da Experiência */}
-        <div className="reveal-stagger relative ml-1 flex flex-col gap-[clamp(48px,7vh,72px)] border-l border-line pl-12" ref={grid}>
+        <div className="relative ml-1 border-l border-line pl-12" ref={timeline}>
           <span
             aria-hidden="true"
-            className="absolute -left-px bottom-0 top-0 w-px origin-top bg-accent shadow-[0_0_28px_rgba(255,90,31,0.35)] [transform:scaleY(var(--scroll-reveal,0))]"
+            className="absolute -left-px bottom-0 top-0 w-px origin-top bg-accent shadow-[0_0_28px_rgba(255,90,31,0.35)] [transform:scaleY(var(--scroll-progress,0))]"
           />
+          <div className="reveal-stagger flex flex-col gap-[clamp(48px,7vh,72px)]" ref={grid}>
           {education.items.map((item) => (
             <article className="group relative max-w-[820px]" key={item.degree}>
               <span className="absolute -left-[53px] top-[5px] h-[10px] w-[10px] rounded-full border-2 border-accent bg-bg transition-[background-color,transform,box-shadow] duration-300 group-hover:scale-125 group-hover:bg-accent group-hover:shadow-[0_0_22px_rgba(255,90,31,0.45)]" />
@@ -72,6 +74,7 @@ export default function Education() {
               </p>
             </article>
           ))}
+          </div>
         </div>
 
         <h3 className="reveal mb-7 mt-[clamp(56px,8vh,96px)] text-[13px] font-bold uppercase tracking-[0.22em] text-muted">

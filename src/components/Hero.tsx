@@ -16,6 +16,12 @@ const LinkedInIcon = (
   </svg>
 )
 
+const YouTubeIcon = (
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+    <path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31.3 31.3 0 0 0 0 12a31.3 31.3 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31.3 31.3 0 0 0 24 12a31.3 31.3 0 0 0-.5-5.8ZM9.6 15.6V8.4l6.2 3.6-6.2 3.6Z" />
+  </svg>
+)
+
 const ArrowIcon = (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
     <path d="M7 17 17 7M9 7h8v8" strokeLinecap="round" strokeLinejoin="round" />
@@ -36,7 +42,7 @@ export default function Hero() {
       <Starfield />
 
       <span
-        className="absolute left-1/2 top-1/2 z-0 -translate-x-1/2 -translate-y-[58%] animate-watermark-in select-none whitespace-nowrap text-[clamp(120px,21vw,400px)] font-extrabold tracking-[0.01em] text-transparent [-webkit-text-stroke:1px_rgba(255,255,255,0.07)] [font-stretch:120%] max-[640px]:top-[44%] max-[640px]:text-[34vw] max-[640px]:opacity-45"
+        className="absolute left-1/2 top-1/2 z-0 -translate-x-1/2 -translate-y-[58%] animate-watermark-in select-none whitespace-nowrap text-[clamp(120px,21vw,400px)] font-extrabold tracking-[0.01em] text-transparent [-webkit-text-stroke:1px_rgba(255,255,255,0.07)] [font-stretch:120%] max-[640px]:top-1/2 max-[640px]:-translate-y-1/2 max-[640px]:text-[20vw] max-[640px]:opacity-45"
         aria-hidden="true"
       >
         <span className="block will-change-transform" ref={watermark}>
@@ -45,7 +51,7 @@ export default function Hero() {
       </span>
 
       <div
-        className="pointer-events-none absolute bottom-0 right-0 z-30 h-[min(88vh,88svh)] w-[min(60vw,1100px)] max-[860px]:w-screen max-[860px]:opacity-35 max-[640px]:hidden"
+        className="pointer-events-none absolute bottom-0 right-0 z-30 h-[min(88vh,88svh)] w-[min(60vw,1100px)] max-[860px]:w-screen max-[860px]:opacity-35 max-[640px]:bottom-[30svh] max-[640px]:z-0 max-[640px]:h-[60svh] max-[640px]:opacity-40"
         aria-hidden="true"
       >
         <img
@@ -105,6 +111,15 @@ export default function Hero() {
                 aria-label="LinkedIn"
               >
                 {LinkedInIcon}
+              </a>
+              <a
+                href="https://www.youtube.com/@felippetndev"
+                target="_blank"
+                rel="noreferrer"
+                className="icon-btn"
+                aria-label="YouTube"
+              >
+                {YouTubeIcon}
               </a>
             </div>
           </div>
