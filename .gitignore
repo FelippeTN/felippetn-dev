@@ -7,3 +7,5 @@ dist-ssr
 .idea
 .DS_Store
 *.tsbuildinfo
+.claude
+.codex
