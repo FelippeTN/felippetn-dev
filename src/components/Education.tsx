@@ -48,26 +48,26 @@ export default function Education() {
         <div className="relative ml-1 border-l border-line pl-12" ref={timeline}>
           <span
             aria-hidden="true"
-            className="absolute -left-px bottom-0 top-0 w-px origin-top bg-accent shadow-[0_0_28px_rgba(255,90,31,0.35)] [transform:scaleY(var(--scroll-progress,0))]"
+            className="absolute -left-px bottom-0 top-0 w-px origin-top bg-accent shadow-ember-rail [transform:scaleY(var(--scroll-progress,0))]"
           />
           <div className="reveal-stagger flex flex-col gap-[clamp(48px,7vh,72px)]" ref={grid}>
           {education.items.map((item) => (
             <article className="group relative max-w-[820px]" key={item.degree}>
-              <span className="absolute -left-[53px] top-[5px] h-[10px] w-[10px] rounded-full border-2 border-accent bg-bg transition-[background-color,transform,box-shadow] duration-300 group-hover:scale-125 group-hover:bg-accent group-hover:shadow-[0_0_22px_rgba(255,90,31,0.45)]" />
+              <span className="absolute -left-[53px] top-[5px] h-[10px] w-[10px] rounded-full border-2 border-accent bg-bg transition-[background-color,transform,box-shadow] duration-300 group-hover:scale-125 group-hover:bg-accent group-hover:shadow-ember-dot" />
               <span className="font-mono text-[12px] uppercase tracking-[0.14em] text-accent">
                 {item.period}
               </span>
               <h3 className="mt-3 text-[clamp(18px,2.2vw,26px)] font-bold leading-[1.2] tracking-[-0.01em] text-ink">
                 {item.degree}
               </h3>
-              <p className="mt-1.5 text-sm font-medium text-ink/70">{item.institution}</p>
+              <p className="mt-1.5 text-sm font-medium text-ink-soft">{item.institution}</p>
               <p className="mt-4 text-sm leading-[1.65] text-muted">{item.description}</p>
-              <p className="mt-4 font-mono text-[12px] leading-[2] text-muted/80">
+              <p className="mt-4 font-mono text-[12px] leading-[2] text-muted-deep">
                 {item.highlights.map((highlight, j) => (
                   <span key={highlight}>
                     {highlight}
                     {j < item.highlights.length - 1 && (
-                      <span className="mx-2.5 text-ink/15">·</span>
+                      <span className="mx-2.5 text-rule">·</span>
                     )}
                   </span>
                 ))}
@@ -98,7 +98,7 @@ export default function Education() {
               <h4 className="mt-3 text-[15px] font-bold leading-[1.3] text-ink">{cert.title}</h4>
               <p className="mt-1 text-sm text-muted">{cert.institution}</p>
               {cert.credentialId && (
-                <p className="mt-3 font-mono text-[10px] uppercase tracking-[0.08em] text-muted/60">
+                <p className="mt-3 font-mono text-[10px] uppercase tracking-[0.08em] text-faint">
                   {education.credentialIdLabel}: {cert.credentialId}
                 </p>
               )}

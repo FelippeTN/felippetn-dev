@@ -39,7 +39,7 @@ export default function Experience() {
           />
           <span
             aria-hidden="true"
-            className="absolute bottom-0 left-[5px] top-0 w-px origin-top bg-accent shadow-[0_0_28px_rgba(255,90,31,0.35)] [transform:scaleY(var(--scroll-progress,0))] lg:left-[219px]"
+            className="absolute bottom-0 left-[5px] top-0 w-px origin-top bg-accent shadow-ember-rail [transform:scaleY(var(--scroll-progress,0))] lg:left-[219px]"
           />
 
           <div className="reveal-stagger relative flex flex-col" ref={list}>
@@ -50,7 +50,7 @@ export default function Experience() {
               >
                 <span
                   aria-hidden="true"
-                  className="absolute left-0 top-[clamp(32px,5vh,56px)] h-3 w-3 rounded-full border border-accent bg-bg shadow-[0_0_22px_rgba(255,90,31,0.42)] transition-[transform,background-color] duration-300 group-hover:scale-125 group-hover:bg-accent lg:left-[214px]"
+                  className="absolute left-0 top-[clamp(32px,5vh,56px)] h-3 w-3 rounded-full border border-accent bg-bg shadow-ember-dot transition-[transform,background-color] duration-300 group-hover:scale-125 group-hover:bg-accent lg:left-[214px]"
                 />
                 <div className="flex flex-col gap-3">
                   <span className="font-mono text-[12px] uppercase tracking-[0.14em] text-accent">
@@ -63,7 +63,7 @@ export default function Experience() {
                   <h3 className="text-[clamp(20px,2.6vw,32px)] font-extrabold uppercase leading-[1.08] tracking-[-0.01em] [font-stretch:110%]">
                     {item.title}
                   </h3>
-                  <p className="mt-1.5 text-[15px] font-medium text-ink/80">{item.company}</p>
+                  <p className="mt-1.5 text-[15px] font-medium text-ink-soft">{item.company}</p>
                   <p className="mt-4 max-w-[720px] text-[15px] leading-[1.65] text-muted">
                     {item.description}
                   </p>

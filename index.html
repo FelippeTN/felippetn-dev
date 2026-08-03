@@ -50,10 +50,25 @@
     <meta name="twitter:image" content="https://felippetn.com.br/felippetn-computador.png" />
     <meta name="twitter:image:alt" content="Felippe Toscano Nalim, Engenheiro de Software" />
 
+    <!-- Elemento LCP: começa a baixar antes do CSS e do bundle terminarem.
+         imagesrcset/imagesizes espelham o <picture> do Hero para o preload
+         escolher exatamente a mesma variante que o layout vai pedir. -->
+    <link
+      rel="preload"
+      as="image"
+      type="image/avif"
+      href="/img/hero-1080.avif"
+      imagesrcset="/img/hero-640.avif 640w, /img/hero-900.avif 900w, /img/hero-1080.avif 1080w"
+      imagesizes="(max-width: 860px) 100vw, min(60vw, 1100px)"
+      fetchpriority="high"
+    />
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Archivo: só o intervalo de largura realmente usado (110%–120%).
+         O range 75..125 original carregava eixo que nenhum estilo pede. -->
     <link
-      href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,100..900&family=JetBrains+Mono:wght@400;500&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,400..800&family=JetBrains+Mono:wght@400;500&display=swap"
       rel="stylesheet"
     />
 
@@ -123,6 +138,52 @@
   </head>
   <body>
     <div id="root"></div>
+
+    <noscript>
+      <div
+        style="
+          max-width: 40rem;
+          margin: 0 auto;
+          padding: 15vh 24px;
+          font-family: system-ui, sans-serif;
+          color: #f2f0ed;
+          line-height: 1.6;
+        "
+      >
+        <h1 style="font-size: 28px; font-weight: 800; text-transform: uppercase; line-height: 1.1">
+          Felippe Toscano Nalim
+        </h1>
+        <p style="margin-top: 8px; color: #98928c">
+          Engenheiro de Software — backend, IA aplicada e arquitetura de software. Rio de Janeiro, Brasil.
+        </p>
+        <p style="margin-top: 24px; color: #98928c">
+          Este portfolio precisa de JavaScript para carregar. Ative o JavaScript no navegador ou
+          fale comigo direto pelos canais abaixo.
+        </p>
+        <ul style="margin-top: 16px; padding: 0; list-style: none">
+          <li style="margin-top: 8px">
+            <a href="mailto:felippenalim2004@gmail.com" style="color: #ff5a1f">
+              felippenalim2004@gmail.com
+            </a>
+          </li>
+          <li style="margin-top: 8px">
+            <a href="https://wa.me/5521979076630" style="color: #ff5a1f">WhatsApp (21) 97907-6630</a>
+          </li>
+          <li style="margin-top: 8px">
+            <a href="https://github.com/FelippeTN" style="color: #ff5a1f">github.com/FelippeTN</a>
+          </li>
+          <li style="margin-top: 8px">
+            <a
+              href="https://www.linkedin.com/in/felippe-toscano-nalim"
+              style="color: #ff5a1f"
+            >
+              linkedin.com/in/felippe-toscano-nalim
+            </a>
+          </li>
+        </ul>
+      </div>
+    </noscript>
+
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

@@ -53,24 +53,24 @@ export default function Projects() {
         <div className="reveal-stagger flex flex-col border-t border-line" ref={list}>
           {projects.items.map((project, i) => (
             <a
-              className="group relative grid grid-cols-[64px_1fr_auto] items-center gap-[clamp(16px,3vw,56px)] overflow-hidden border-b border-line py-[clamp(32px,5vh,56px)] pl-2 pr-2 transition-all duration-[450ms] ease-out-expo before:absolute before:inset-y-0 before:left-0 before:w-px before:origin-top before:bg-accent before:opacity-0 before:transition-opacity before:duration-300 before:[transform:scaleY(var(--scroll-reveal,0))] hover:bg-bg-soft hover:pl-6 hover:pr-6 hover:before:opacity-100 max-[760px]:grid-cols-[1fr_auto] max-[760px]:gap-5 max-[640px]:py-8 max-[640px]:pl-0 max-[640px]:pr-0 max-[640px]:hover:pl-0 max-[640px]:hover:pr-0"
+              className="group relative grid grid-cols-[64px_1fr_auto] items-center gap-[clamp(16px,3vw,56px)] overflow-hidden border-b border-line py-[clamp(32px,5vh,56px)] pl-2 pr-2 transition-all duration-[450ms] ease-out-expo before:absolute before:inset-y-0 before:left-0 before:w-px before:origin-top before:bg-accent before:opacity-0 before:transition-opacity before:duration-300 before:[transform:scaleY(var(--scroll-reveal,0))] hover:bg-bg-soft hover:pl-6 hover:pr-6 hover:before:opacity-100 focus-visible:bg-bg-soft focus-visible:pl-6 focus-visible:pr-6 focus-visible:before:opacity-100 max-[760px]:grid-cols-[1fr_auto] max-[760px]:gap-5 max-[640px]:py-8 max-[640px]:pl-0 max-[640px]:pr-0 max-[640px]:hover:pl-0 max-[640px]:hover:pr-0 max-[640px]:focus-visible:pl-0 max-[640px]:focus-visible:pr-0"
               key={project.title}
               href={`https://${project.url}`}
               target="_blank"
               rel="noreferrer"
             >
-              <span className="font-mono text-[14px] text-muted transition-colors duration-300 group-hover:text-accent max-[760px]:hidden">
+              <span className="font-mono text-[14px] text-muted transition-colors duration-300 group-hover:text-accent group-focus-visible:text-accent max-[760px]:hidden">
                 {String(i + 1).padStart(2, '0')}
               </span>
 
               <div className="min-w-0">
-                <h3 className="text-[clamp(26px,4vw,52px)] font-extrabold uppercase leading-[1.02] tracking-[-0.01em] transition-transform duration-[450ms] ease-out-expo [font-stretch:112%] group-hover:translate-x-2">
+                <h3 className="text-[clamp(26px,4vw,52px)] font-extrabold uppercase leading-[1.02] tracking-[-0.01em] transition-transform duration-[450ms] ease-out-expo [font-stretch:112%] group-hover:translate-x-2 group-focus-visible:translate-x-2">
                   {project.title}
                 </h3>
 
                 <span className="mt-3 inline-flex items-center gap-1.5 font-mono text-[13px] tracking-[0.04em] text-accent">
                   {project.url}
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true" className="transition-transform duration-300 ease-out-expo group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true" className="transition-transform duration-300 ease-out-expo group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-focus-visible:translate-x-0.5 group-focus-visible:-translate-y-0.5">
                     <path d="M7 17 17 7M9 7h8v8" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 </span>
@@ -88,7 +88,7 @@ export default function Projects() {
                 </div>
               </div>
 
-              <span className="grid h-14 w-14 shrink-0 place-items-center self-start rounded-full border border-line text-muted transition-all duration-[400ms] ease-out-expo group-hover:rotate-45 group-hover:border-accent group-hover:bg-accent group-hover:text-bg max-[640px]:h-11 max-[640px]:w-11">
+              <span className="grid h-14 w-14 shrink-0 place-items-center self-start rounded-full border border-line text-muted transition-all duration-[400ms] ease-out-expo group-hover:rotate-45 group-hover:border-accent group-hover:bg-accent group-hover:text-bg group-focus-visible:rotate-45 group-focus-visible:border-accent group-focus-visible:bg-accent group-focus-visible:text-bg max-[640px]:h-11 max-[640px]:w-11">
                 {ArrowIcon}
               </span>
             </a>

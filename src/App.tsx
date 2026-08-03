@@ -13,9 +13,12 @@ import Footer from './components/Footer'
 export default function App() {
   return (
     <>
+      <a href="#conteudo" className="skip-link">
+        Pular para o conteúdo
+      </a>
       <CursorGlow />
       <Navbar />
-      <main>
+      <main id="conteudo">
         <Hero />
         <Marquee />
         <About />

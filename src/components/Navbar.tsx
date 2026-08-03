@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { subscribeToScroll } from '../lib/scrollScheduler'
 
 const LINKS = [
   { id: 'sobre', label: 'Sobre' },
@@ -11,20 +12,28 @@ const LINKS = [
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
-  const [progress, setProgress] = useState(0)
   const [active, setActive] = useState('')
   const [menuOpen, setMenuOpen] = useState(false)
+  const menuButtonRef = useRef<HTMLButtonElement>(null)
+  const progressRef = useRef<HTMLSpanElement>(null)
 
   useEffect(() => {
-    const onScroll = () => {
-      setScrolled(window.scrollY > 24)
-      const max = document.documentElement.scrollHeight - window.innerHeight
-      setProgress(max > 0 ? window.scrollY / max : 0)
-    }
+    // `scrolled` é booleano e só muda ao cruzar o limiar, então o React
+    // descarta o set repetido. Já o progresso muda a cada pixel: mantê-lo em
+    // estado re-renderizava o header inteiro por evento de scroll. Ele agora
+    // vai direto ao DOM como transform, fora do ciclo de render.
+    let progress = 0
 
-    onScroll()
-    window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
+    return subscribeToScroll({
+      read() {
+        const max = document.documentElement.scrollHeight - window.innerHeight
+        progress = max > 0 ? window.scrollY / max : 0
+        setScrolled(window.scrollY > 24)
+      },
+      write() {
+        progressRef.current?.style.setProperty('transform', `scaleX(${progress.toFixed(4)})`)
+      },
+    })
   }, [])
 
   useEffect(() => {
@@ -49,11 +58,22 @@ export default function Navbar() {
     if (!menuOpen) return
 
     const close = () => setMenuOpen(false)
+
+    // Esc fecha e devolve o foco ao botão: sem isso o teclado ficaria preso
+    // no fim do documento depois que o menu some.
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key !== 'Escape') return
+      setMenuOpen(false)
+      menuButtonRef.current?.focus()
+    }
+
     window.addEventListener('resize', close)
     window.addEventListener('scroll', close, { passive: true })
+    window.addEventListener('keydown', onKeyDown)
     return () => {
       window.removeEventListener('resize', close)
       window.removeEventListener('scroll', close)
+      window.removeEventListener('keydown', onKeyDown)
     }
   }, [menuOpen])
 
@@ -67,10 +87,11 @@ export default function Navbar() {
         }`}
       >
         <span
-          className={`pointer-events-none absolute bottom-0 left-0 h-px w-full origin-left bg-accent transition-opacity duration-500 ${
+          ref={progressRef}
+          aria-hidden="true"
+          className={`pointer-events-none absolute bottom-0 left-0 h-px w-full origin-left scale-x-0 bg-accent transition-opacity duration-500 ${
             scrolled ? 'opacity-80' : 'opacity-0'
           }`}
-          style={{ transform: `scaleX(${progress})` }}
         />
 
       <div
@@ -107,7 +128,7 @@ export default function Navbar() {
           </span>
         </a>
 
-        <nav aria-label="Navegacao principal">
+        <nav aria-label="Navegação principal">
           <ul
             className={`flex list-none items-center gap-1 rounded-full border transition-all duration-500 ease-out-expo max-[860px]:hidden ${
               scrolled
@@ -122,10 +143,11 @@ export default function Navbar() {
                 <li key={link.id}>
                   <a
                     href={`#${link.id}`}
-                    className={`relative block rounded-full px-4 py-2 font-mono text-[11px] uppercase tracking-[0.14em] transition-all duration-[300ms] ease-out-expo ${
+                    aria-current={isActive ? 'true' : undefined}
+                    className={`relative block rounded-full px-4 py-2 font-mono text-[11px] uppercase tracking-[0.14em] transition-[background-color,color] duration-[300ms] ease-out-expo ${
                       isActive
                         ? 'bg-ink text-bg shadow-[0_10px_30px_rgba(242,240,237,0.12)]'
-                        : 'text-muted hover:bg-ink/[0.06] hover:text-ink'
+                        : 'text-muted hover:bg-ink/[0.06] hover:text-ink focus-visible:bg-ink/[0.06] focus-visible:text-ink'
                     }`}
                   >
                     {link.label}
@@ -137,22 +159,29 @@ export default function Navbar() {
         </nav>
 
         <button
+          ref={menuButtonRef}
           type="button"
-          className="rounded-full border border-line px-4 py-2 font-mono text-[11px] uppercase tracking-[0.16em] text-muted transition-colors duration-300 hover:border-line-strong hover:text-ink min-[861px]:hidden"
+          className="rounded-full border border-line px-4 py-2 font-mono text-[11px] uppercase tracking-[0.16em] text-muted transition-colors duration-300 hover:border-line-strong hover:text-ink focus-visible:border-line-strong focus-visible:text-ink min-[861px]:hidden"
           aria-expanded={menuOpen}
           aria-controls="mobile-nav"
           onClick={() => setMenuOpen((open) => !open)}
         >
-          Menu
+          {menuOpen ? 'Fechar' : 'Menu'}
         </button>
       </div>
       </header>
 
+      {/* `invisible` (visibility: hidden) tira os links da ordem de tabulação —
+          opacity-0 sozinho os mantinha focáveis, jogando o teclado para links
+          que ninguém vê. A visibilidade entra na transição para só desligar
+          depois que o fade termina. */}
       <nav
         id="mobile-nav"
-        aria-label="Navegacao mobile"
-        className={`fixed left-4 right-4 top-[88px] z-[99] rounded-2xl border border-line-strong bg-bg/95 p-3 shadow-[0_24px_80px_rgba(0,0,0,0.42)] backdrop-blur-[18px] transition-[opacity,transform] duration-300 min-[861px]:hidden ${
-          menuOpen ? 'translate-y-0 opacity-100' : 'pointer-events-none -translate-y-2 opacity-0'
+        aria-label="Navegação mobile"
+        className={`fixed left-4 right-4 top-[88px] z-[99] rounded-2xl border border-line-strong bg-bg/95 p-3 shadow-[0_24px_80px_rgba(0,0,0,0.42)] backdrop-blur-[18px] transition-[opacity,transform,visibility] duration-300 min-[861px]:hidden ${
+          menuOpen
+            ? 'visible translate-y-0 opacity-100'
+            : 'invisible pointer-events-none -translate-y-2 opacity-0'
         }`}
       >
         <ul className="grid gap-1">
@@ -160,8 +189,11 @@ export default function Navbar() {
             <li key={link.id}>
               <a
                 href={`#${link.id}`}
+                aria-current={active === link.id ? 'true' : undefined}
                 className={`block rounded-xl px-4 py-3 font-mono text-[12px] uppercase tracking-[0.14em] transition-colors duration-300 ${
-                  active === link.id ? 'bg-ink text-bg' : 'text-muted hover:bg-ink/[0.06] hover:text-ink'
+                  active === link.id
+                    ? 'bg-ink text-bg'
+                    : 'text-muted hover:bg-ink/[0.06] hover:text-ink focus-visible:bg-ink/[0.06] focus-visible:text-ink'
                 }`}
                 onClick={() => setMenuOpen(false)}
               >

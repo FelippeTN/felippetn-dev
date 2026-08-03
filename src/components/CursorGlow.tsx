@@ -8,30 +8,42 @@ export default function CursorGlow() {
     const el = ref.current
     if (!el) return
 
+    // O CSS já esconde o brilho nesses casos; sem estas guardas o loop
+    // continuava rodando a 60fps animando um elemento invisível — inclusive
+    // no celular, onde só custava bateria.
+    if (window.matchMedia('(hover: none)').matches) return
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+
     let raf = 0
     let x = window.innerWidth / 2
     let y = window.innerHeight / 2
     let tx = x
     let ty = y
 
-    const onMove = (e: MouseEvent) => {
-      tx = e.clientX
-      ty = e.clientY
-    }
-
     const tick = () => {
       x += (tx - x) * 0.08
       y += (ty - y) * 0.08
-      el.style.transform = `translate(${x}px, ${y}px)`
+      el.style.transform = `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px)`
+
+      // Assentou no alvo: encerra o loop e espera o próximo movimento.
+      if (Math.abs(tx - x) < 0.5 && Math.abs(ty - y) < 0.5) {
+        raf = 0
+        return
+      }
       raf = requestAnimationFrame(tick)
     }
 
+    const onMove = (e: MouseEvent) => {
+      tx = e.clientX
+      ty = e.clientY
+      if (!raf) raf = requestAnimationFrame(tick)
+    }
+
     window.addEventListener('mousemove', onMove, { passive: true })
-    raf = requestAnimationFrame(tick)
 
     return () => {
       window.removeEventListener('mousemove', onMove)
-      cancelAnimationFrame(raf)
+      if (raf) cancelAnimationFrame(raf)
     }
   }, [])
 

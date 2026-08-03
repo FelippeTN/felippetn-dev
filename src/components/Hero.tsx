@@ -2,7 +2,14 @@ import Starfield from './Starfield'
 import { useParallax } from '../hooks/useParallax'
 import { useMagnetic } from '../hooks/useMagnetic'
 
-const felippeImg = '/felippetn-computador.png'
+/* Variantes geradas por scripts/images.mjs. O recorte tem alpha, então o
+   fallback é PNG quantizado — JPEG apagaria a transparência sobre o starfield. */
+const HERO_SRCSET = {
+  avif: '/img/hero-640.avif 640w, /img/hero-900.avif 900w, /img/hero-1080.avif 1080w',
+  webp: '/img/hero-640.webp 640w, /img/hero-900.webp 900w, /img/hero-1080.webp 1080w',
+  png: '/img/hero-640.png 640w, /img/hero-900.png 900w, /img/hero-1080.png 1080w',
+}
+const HERO_SIZES = '(max-width: 860px) 100vw, min(60vw, 1100px)'
 
 const GitHubIcon = (
   <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -54,12 +61,23 @@ export default function Hero() {
         className="pointer-events-none absolute bottom-0 right-0 z-30 h-[min(88vh,88svh)] w-[min(60vw,1100px)] max-[860px]:w-screen max-[860px]:opacity-35 max-[640px]:bottom-[38svh] max-[640px]:z-0 max-[640px]:h-[60svh] max-[640px]:opacity-40"
         aria-hidden="true"
       >
-        <img
-          src={felippeImg}
-          alt=""
-          draggable={false}
-          className="h-full w-full animate-photo-in object-contain object-right-bottom [filter:contrast(1.06)_saturate(0.95)]"
-        />
+        <picture>
+          <source type="image/avif" srcSet={HERO_SRCSET.avif} sizes={HERO_SIZES} />
+          <source type="image/webp" srcSet={HERO_SRCSET.webp} sizes={HERO_SIZES} />
+          <img
+            src="/img/hero-1080.png"
+            srcSet={HERO_SRCSET.png}
+            sizes={HERO_SIZES}
+            width={1080}
+            height={810}
+            /* Elemento de maior área no primeiro viewport: nunca lazy, sempre prioritário */
+            fetchPriority="high"
+            decoding="async"
+            alt=""
+            draggable={false}
+            className="h-full w-full animate-photo-in object-contain object-right-bottom [filter:contrast(1.06)_saturate(0.95)]"
+          />
+        </picture>
       </div>
 
       <div className="relative z-20 w-full px-[clamp(20px,3vw,56px)] min-[981px]:pl-[clamp(88px,8vw,140px)]">
@@ -86,10 +104,10 @@ export default function Hero() {
             <a
               ref={cta}
               href="#projetos"
-              className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full bg-ink px-7 py-4 text-sm font-bold tracking-[0.02em] text-bg transition-[box-shadow,background-color] duration-300 ease-out-expo will-change-transform before:absolute before:inset-0 before:-translate-x-full before:bg-accent before:transition-transform before:duration-400 before:ease-out-expo hover:shadow-[0_12px_40px_rgba(255,90,31,0.35)] hover:before:translate-x-0 max-[420px]:w-full max-[420px]:justify-center"
+              className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full bg-ink px-7 py-4 text-sm font-bold tracking-[0.02em] text-bg transition-[box-shadow,background-color] duration-300 ease-out-expo will-change-transform before:absolute before:inset-0 before:-translate-x-full before:bg-accent before:transition-transform before:duration-400 before:ease-out-expo hover:shadow-ember-cta hover:before:translate-x-0 focus-visible:shadow-ember-cta focus-visible:before:translate-x-0 max-[420px]:w-full max-[420px]:justify-center"
             >
               <span className="relative">Ver projetos</span>
-              <span className="relative transition-transform duration-300 ease-out-expo group-hover:-translate-y-0.5 group-hover:translate-x-0.5">
+              <span className="relative transition-transform duration-300 ease-out-expo group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-focus-visible:-translate-y-0.5 group-focus-visible:translate-x-0.5">
                 {ArrowIcon}
               </span>
             </a>

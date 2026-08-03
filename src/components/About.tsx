@@ -2,10 +2,28 @@ import { useReveal } from '../hooks/useReveal'
 import { useTilt } from '../hooks/useTilt'
 import { useScrollProgress } from '../hooks/useScrollProgress'
 import { pt as content } from '../content/siteContent'
-import fastapiPhoto from '../assets/fastapi.jpeg'
-import felippePhoto from '../assets/Felippe.jpg'
 
 const { about } = content
+
+/* Variantes geradas por scripts/images.mjs (ver public/img/).
+   O retrato é recorte com alpha: fallback PNG. A foto com o Tiangolo é
+   retangular e opaca, então cai para JPEG. */
+const FASTAPI_SRCSET = {
+  avif: '/img/fastapi-320.avif 320w, /img/fastapi-440.avif 440w, /img/fastapi-640.avif 640w',
+  webp: '/img/fastapi-320.webp 320w, /img/fastapi-440.webp 440w, /img/fastapi-640.webp 640w',
+  jpg: '/img/fastapi-320.jpg 320w, /img/fastapi-440.jpg 440w, /img/fastapi-640.jpg 640w',
+}
+const FASTAPI_SIZES = '(max-width: 640px) 92vw, 220px'
+
+const RETRATO_SRCSET = {
+  avif: '/img/retrato-400.avif 400w, /img/retrato-600.avif 600w, /img/retrato-785.avif 785w',
+  webp: '/img/retrato-400.webp 400w, /img/retrato-600.webp 600w, /img/retrato-785.webp 785w',
+  png: '/img/retrato-400.png 400w, /img/retrato-600.png 600w, /img/retrato-785.png 785w',
+}
+const RETRATO_SIZES = '(max-width: 1024px) min(420px, 92vw), 32vw'
+
+/* Master em tamanho cheio, aberto ao clicar na miniatura */
+const fastapiFull = '/img/fastapi-640.jpg'
 
 type Feature = (typeof about.features)[number]
 
@@ -90,21 +108,31 @@ export default function About() {
 
           <div className="mt-12 flex flex-col gap-6 border-t border-line pt-8 sm:flex-row sm:items-center sm:gap-8">
             <a
-              href={fastapiPhoto}
+              href={fastapiFull}
               target="_blank"
               rel="noreferrer"
+              aria-label="Abrir foto em tamanho real, em nova aba: Felippe ao lado de Sebastián Ramírez (Tiangolo), criador do FastAPI"
               className="group relative block shrink-0 overflow-hidden rounded-lg max-sm:w-full"
               style={{
                 transform: 'translate3d(0, var(--scroll-shift-sm, 0px), 0)',
               }}
             >
-              <img
-                src={fastapiPhoto}
-                alt="Felippe ao lado de Sebastián Ramírez (Tiangolo), criador do FastAPI"
-                loading="lazy"
-                draggable={false}
-                className="h-full max-h-[220px] w-full object-cover transition-transform duration-500 ease-out-expo group-hover:scale-[1.04] sm:h-[160px] sm:w-[220px]"
-              />
+              <picture>
+                <source type="image/avif" srcSet={FASTAPI_SRCSET.avif} sizes={FASTAPI_SIZES} />
+                <source type="image/webp" srcSet={FASTAPI_SRCSET.webp} sizes={FASTAPI_SIZES} />
+                <img
+                  src="/img/fastapi-440.jpg"
+                  srcSet={FASTAPI_SRCSET.jpg}
+                  sizes={FASTAPI_SIZES}
+                  width={440}
+                  height={330}
+                  alt="Felippe ao lado de Sebastián Ramírez (Tiangolo), criador do FastAPI"
+                  loading="lazy"
+                  decoding="async"
+                  draggable={false}
+                  className="h-full max-h-[220px] w-full object-cover transition-transform duration-500 ease-out-expo group-hover:scale-[1.04] group-focus-visible:scale-[1.04] sm:h-[160px] sm:w-[220px]"
+                />
+              </picture>
               <span className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/60 to-transparent px-3 py-2 font-mono text-[10px] uppercase tracking-[0.16em] text-ink/90">
                 eu &amp; Tiangolo · FastAPI
               </span>
@@ -124,13 +152,22 @@ export default function About() {
               transform: 'translate3d(0, var(--scroll-shift-sm, 0px), 0)',
             }}
           >
-            <img
-              src={felippePhoto}
-              alt="Retrato de Felippe Toscano Nalim"
-              loading="lazy"
-              draggable={false}
-              className="aspect-[4/5] w-full object-cover object-center [filter:contrast(1.04)_saturate(0.92)]"
-            />
+            <picture>
+              <source type="image/avif" srcSet={RETRATO_SRCSET.avif} sizes={RETRATO_SIZES} />
+              <source type="image/webp" srcSet={RETRATO_SRCSET.webp} sizes={RETRATO_SIZES} />
+              <img
+                src="/img/retrato-600.png"
+                srcSet={RETRATO_SRCSET.png}
+                sizes={RETRATO_SIZES}
+                width={785}
+                height={861}
+                alt="Retrato de Felippe Toscano Nalim"
+                loading="lazy"
+                decoding="async"
+                draggable={false}
+                className="aspect-[4/5] w-full object-cover object-center [filter:contrast(1.04)_saturate(0.92)]"
+              />
+            </picture>
             <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/75 via-black/35 to-transparent px-5 pb-5 pt-16 font-mono text-[11px] uppercase tracking-[0.18em] text-ink/85">
               Felippe Toscano Nalim
             </figcaption>

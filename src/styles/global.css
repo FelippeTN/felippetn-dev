@@ -7,15 +7,50 @@
 @import 'tailwindcss';
 
 @theme {
-  --color-bg: #060606;
-  --color-bg-soft: #0b0b0b;
-  --color-surface: #101010;
-  --color-line: rgba(255, 255, 255, 0.08);
-  --color-line-strong: rgba(255, 255, 255, 0.16);
-  --color-ink: #f2f0ed;
-  --color-muted: #98928c;
-  --color-accent: #ff5a1f;
-  --color-accent-soft: rgba(255, 90, 31, 0.14);
+  /* ============================================================
+     SISTEMA DE COR — brasa em um quarto escuro
+
+     Um único hue quente atravessa tudo: as âncoras vivem entre 38° e 78°
+     em OKLCH. O accent é raro de propósito; é da raridade que ele tira força.
+
+     Regra da casa: tom de texto e de estrutura são valores explícitos, nunca
+     `cor/alpha`. Derivar por alpha zerava a croma (todo cinza saía em 0.000,
+     neutro morto) e fazia o contraste depender do que estivesse atrás.
+     Cada valor abaixo traz o OKLCH de origem e o contraste medido sobre --color-bg.
+     ============================================================ */
+
+  /* ---- Âncoras de marca: fixadas também no manifest e no theme-color ---- */
+  --color-bg: #060606; /* oklch(12.2% 0     90) */
+  --color-bg-soft: #0b0b0b; /* oklch(15.0% 0     90) */
+  --color-surface: #101010; /* oklch(17.3% 0     90) */
+  --color-ink: #f2f0ed; /* oklch(95.6% 0.005 78)  17.81:1 */
+  --color-muted: #98928c; /* oklch(66.3% 0.011 68)   6.59:1 */
+  --color-accent: #ff5a1f; /* oklch(68.2% 0.211 38)   6.50:1 */
+
+  /* ---- Escala de texto: degraus explícitos, todos acima de 4.5:1 ---- */
+  --color-ink-soft: #b0a9a1; /* oklch(73.8% 0.014 72)   8.70:1 */
+  --color-muted-deep: #898078; /* oklch(60.6% 0.016 68)   5.25:1 */
+  --color-faint: #7e7770; /* oklch(57.4% 0.014 66)   4.60:1 */
+
+  /* ---- Estrutura: mesma luminância de antes, hue recuperado ---- */
+  --color-line: #1d1916; /* oklch(21.8% 0.008 68)   1.16:1 */
+  --color-line-strong: #322d29; /* oklch(30.1% 0.010 68)   1.49:1 */
+  --color-rule: #2c2824; /* oklch(28.1% 0.010 68)   1.39:1 — separadores */
+  --color-stroke: #7d7771; /* oklch(57.4% 0.012 70)   4.60:1 — texto vazado */
+
+  /* ---- Brasa: o accent em papéis de luz, não de tinta ---- */
+  --color-accent-soft: rgba(255, 90, 31, 0.14); /* preenchimento de hover */
+  --color-accent-glow: rgba(255, 90, 31, 0.35); /* emissão das trilhas e CTAs */
+  --color-accent-bloom: rgba(255, 90, 31, 0.1); /* atmosfera de seção (teto: muted fica em 6.06:1) */
+  --color-ember-hot: #ff8c50; /* oklch(75.5% 0.158 47) */
+  --color-ember-warm: #ff6e32; /* oklch(70.8% 0.191 41) */
+  --color-star: #f0eeea; /* alinhado ao hue do ink; antes era 286°, azulado */
+
+  /* Halos emissivos (sem offset de propósito: é luz, não elevação) */
+  --shadow-ember-dot: 0 0 22px var(--color-accent-glow);
+  --shadow-ember-rail: 0 0 28px var(--color-accent-glow);
+  --shadow-ember-cta: 0 12px 40px var(--color-accent-glow);
+  --shadow-ember-cta-lg: 0 16px 60px var(--color-accent-glow);
 
   --font-sans: 'Archivo', system-ui, -apple-system, sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, monospace;
@@ -72,16 +107,36 @@
   html {
     scroll-behavior: smooth;
     scroll-padding-top: 72px;
+    /* Informa ao navegador que a UI nativa (scrollbar, controles, autofill)
+       deve usar o esquema escuro — sem isso o Firefox desenha scrollbar clara. */
+    color-scheme: dark;
   }
 
   body {
     @apply overflow-x-hidden bg-bg font-sans text-ink antialiased;
     font-size: 16px;
     line-height: 1.6;
+    /* Nomes, URLs e termos técnicos longos quebram em vez de estourar o container */
+    overflow-wrap: break-word;
   }
 
   ::selection {
     @apply bg-accent text-bg;
+  }
+
+  /* ---- Foco visível: um único anel em toda a superfície ----
+     Só aparece na navegação por teclado (:focus-visible), nunca no clique.
+     Laranja da marca sobre o fundo quase preto = 6,5:1, bem acima do mínimo. */
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+  }
+
+  /* Alvos escuros sobre fundo claro (pill ativo da nav, CTA em bg-ink):
+     o anel ganha um respiro extra para não encostar na borda clara. */
+  .bg-ink:focus-visible,
+  .bg-accent:focus-visible {
+    outline-offset: 4px;
   }
 
   ::-webkit-scrollbar {
@@ -91,11 +146,12 @@
     background: var(--color-bg);
   }
   ::-webkit-scrollbar-thumb {
-    background: #2a2a2a;
+    /* oklch(28.5% 0.010 68) — mesma luminância do cinza anterior, agora quente */
+    background: #2e2925;
     border-radius: 5px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: #3a3a3a;
+    background: #3e3934; /* oklch(34.8% 0.012 68) */
   }
 
   /* Grão de filme sobre tudo */
@@ -108,6 +164,17 @@
     opacity: 0.05;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
     animation: grain 8s steps(10) infinite;
+  }
+
+  /* A camada cobre 200%×200% da viewport. Animá-la obriga o compositor a
+     redesenhar essa área inteira sem parar — caro em GPU integrada de celular
+     para um efeito a 5% de opacidade. No mobile fica a textura, sem o
+     movimento; ninguém sente falta e o frame budget agradece. */
+  @media (max-width: 768px) {
+    body::after {
+      inset: 0;
+      animation: none;
+    }
   }
 
   @keyframes grain {
@@ -158,9 +225,16 @@
   height: 48px;
   border-radius: 50%;
   color: var(--color-muted);
-  transition: all 0.3s var(--ease-out-expo);
+  /* Propriedades explícitas: `all` arrastaria o outline do foco na transição */
+  transition:
+    color 0.3s var(--ease-out-expo),
+    background-color 0.3s var(--ease-out-expo),
+    border-color 0.3s var(--ease-out-expo),
+    transform 0.3s var(--ease-out-expo);
 
-  &:hover {
+  /* Teclado recebe exatamente o mesmo retorno visual do mouse */
+  &:hover,
+  &:focus-visible {
     color: var(--color-ink);
     background: var(--color-accent-soft);
     transform: translateY(-2px);
@@ -182,7 +256,34 @@
   border: 1px solid var(--color-line);
   background: rgba(255, 255, 255, 0.02);
   color: var(--color-muted);
-  transition: all 0.25s ease;
+  transition:
+    color 0.25s ease,
+    background-color 0.25s ease,
+    border-color 0.25s ease;
+}
+
+/* Pular para o conteúdo: fora da tela até receber foco pelo teclado */
+@utility skip-link {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  z-index: 200;
+  border-radius: 999px;
+  border: 1px solid var(--color-accent);
+  background: var(--color-bg);
+  padding: 12px 22px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-ink);
+  /* Sai da tela por transform: continua focável, ao contrário de display:none */
+  transform: translateY(-150%);
+  transition: transform 0.25s var(--ease-out-expo);
+
+  &:focus-visible {
+    transform: none;
+  }
 }
 
 /* ============ Reveal on scroll (classe aplicada pelo hook useReveal) ============ */
@@ -252,15 +353,33 @@
 .reveal-stagger.in > *:nth-child(7) { animation-delay: 0.48s; }
 .reveal-stagger.in > *:nth-child(8) { animation-delay: 0.56s; }
 
+/* ============ Redes de segurança ============
+
+   `.reveal*` nasce em opacity:0 e só aparece quando useReveal adiciona `.in`.
+   A proteção contra falha do IntersectionObserver mora no próprio hook — aqui
+   o CSS não alcança, porque sem JS o app CSR nem chega a montar (ver <noscript>
+   no index.html). */
+
+/* Sem `-webkit-text-stroke` os títulos vazados (`text-transparent` + contorno)
+   ficariam invisíveis: devolve o preenchimento sólido. */
+@supports not (-webkit-text-stroke-width: 1px) {
+  .text-transparent {
+    color: var(--color-ink);
+  }
+}
+
 /* ============ Acessibilidade ============ */
 
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
   *::after {
+    /* Animações de entrada, marquee e grão: eliminadas */
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
+    /* Transições: encurtadas, não zeradas. Um corte total apagaria também o
+       retorno de hover/foco, deixando o usuário sem saber o que mudou. */
+    transition-duration: 0.15s !important;
   }
   html {
     scroll-behavior: auto;
@@ -271,6 +390,35 @@
     opacity: 1;
     transform: none;
     filter: none;
+  }
+}
+
+/* ---- Modo de alto contraste do Windows (forced-colors) ----
+   O SO substitui todas as cores. Dois estragos previsíveis: marcas d'água
+   decorativas viram texto opaco por cima do conteúdo, e o anel de foco perde
+   a cor da marca. `[aria-hidden].select-none` acerta exatamente os numerais
+   fantasma e watermarks — nenhum deles carrega informação. */
+
+@media (forced-colors: active) {
+  [aria-hidden='true'].select-none {
+    display: none;
+  }
+
+  :focus-visible {
+    outline: 3px solid CanvasText;
+    outline-offset: 3px;
+  }
+
+  /* Texto vazado depende de uma cor de contorno que o modo não preserva */
+  .text-transparent {
+    color: CanvasText;
+    -webkit-text-stroke-width: 0;
+  }
+
+  /* Bordas translúcidas somem quando o SO força as cores */
+  .icon-btn,
+  .tag {
+    border: 1px solid CanvasText;
   }
 }
 

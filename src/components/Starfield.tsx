@@ -22,6 +22,31 @@ export default function Starfield() {
 
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
+    // Cores vindas do @theme: o canvas passa a obedecer o mesmo sistema que o
+    // resto da página. As estrelas eram #f0f0f5 — hue 286°, azulado — a única
+    // nota fria num design inteiramente quente.
+    const theme = getComputedStyle(document.documentElement)
+    const token = (name: string, fallback: string) =>
+      theme.getPropertyValue(name).trim() || fallback
+    const STAR = token('--color-star', '#f0eeea')
+    const EMBER_HOT = token('--color-ember-hot', '#ff8c50')
+    const EMBER_WARM = token('--color-ember-warm', '#ff6e32')
+
+    /** Aplica alpha a um hex do tema, no formato que o canvas espera. */
+    const withAlpha = (hex: string, alpha: number) => {
+      const h = hex.replace('#', '')
+      const n = parseInt(
+        h.length === 3
+          ? h
+              .split('')
+              .map((c) => c + c)
+              .join('')
+          : h,
+        16,
+      )
+      return `rgba(${(n >> 16) & 255}, ${(n >> 8) & 255}, ${n & 255}, ${alpha})`
+    }
+
     let w = 0
     let h = 0
     let particles: Particle[] = []
@@ -80,16 +105,16 @@ export default function Starfield() {
         if (p.ember) {
           // halo quente atrás da brasa
           ctx.beginPath()
-          ctx.fillStyle = `rgba(255, 110, 50, ${alpha * 0.18})`
+          ctx.fillStyle = withAlpha(EMBER_WARM, alpha * 0.18)
           ctx.arc(sx, sy, size * 3.4, 0, Math.PI * 2)
           ctx.fill()
           ctx.beginPath()
-          ctx.fillStyle = `rgba(255, 140, 80, ${alpha})`
+          ctx.fillStyle = withAlpha(EMBER_HOT, alpha)
           ctx.arc(sx, sy, size, 0, Math.PI * 2)
           ctx.fill()
         } else {
           ctx.beginPath()
-          ctx.fillStyle = `rgba(240, 240, 245, ${alpha})`
+          ctx.fillStyle = withAlpha(STAR, alpha)
           ctx.arc(sx, sy, size, 0, Math.PI * 2)
           ctx.fill()
         }
@@ -100,8 +125,23 @@ export default function Starfield() {
       const time = t / 1000
       const dt = Math.min(time - last, 0.05) // clamp evita salto ao voltar de aba inativa
       last = time
-      if (visible) draw(time, dt)
+
+      // Fora de tela o loop para de verdade, em vez de agendar frames vazios.
+      if (!visible) {
+        raf = 0
+        return
+      }
+
+      draw(time, dt)
       raf = requestAnimationFrame(tick)
+    }
+
+    const start = () => {
+      if (raf) return
+      raf = requestAnimationFrame((t) => {
+        last = t / 1000
+        tick(t)
+      })
     }
 
     const onMouse = (e: MouseEvent) => {
@@ -118,18 +158,16 @@ export default function Starfield() {
       return () => window.removeEventListener('resize', resize)
     }
 
-    // pausa quando o hero sai da tela
+    // pausa quando o hero sai da tela, retoma quando volta
     const observer = new IntersectionObserver(([entry]) => {
       visible = entry.isIntersecting
+      if (visible) start()
     })
     observer.observe(canvas)
 
     window.addEventListener('resize', resize)
     window.addEventListener('mousemove', onMouse, { passive: true })
-    raf = requestAnimationFrame((t) => {
-      last = t / 1000
-      tick(t)
-    })
+    start()
 
     return () => {
       cancelAnimationFrame(raf)

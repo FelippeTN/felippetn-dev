@@ -30,19 +30,34 @@ export function useHorizontalScroll<
 
     // Coverflow 3D: cada painel marcado com [data-tilt] gira em profundidade
     // conforme se afasta do centro da viewport.
+    // Mede todos os painéis primeiro, escreve depois: intercalar
+    // getBoundingClientRect com escrita de transform dentro do laço forçava
+    // um recálculo de layout por painel, a cada frame.
+    const panels: HTMLElement[] = []
+    const depths: number[] = []
+
     const applyPanels = () => {
       if (!tilt3d) return
       const half = window.innerWidth / 2
       const children = track.children
+
+      panels.length = 0
+      depths.length = 0
+
       for (let i = 0; i < children.length; i++) {
         const child = children[i] as HTMLElement
         if (!child.hasAttribute('data-tilt')) continue
         const r = child.getBoundingClientRect()
-        const d = Math.max(-1, Math.min(1, (r.left + r.width / 2 - half) / half))
+        panels.push(child)
+        depths.push(Math.max(-1, Math.min(1, (r.left + r.width / 2 - half) / half)))
+      }
+
+      for (let i = 0; i < panels.length; i++) {
+        const d = depths[i]
         const ry = (-d * 16).toFixed(2)
         const tz = (-Math.abs(d) * 140).toFixed(1)
-        child.style.transform = `perspective(1400px) translateZ(${tz}px) rotateY(${ry}deg)`
-        child.style.opacity = (1 - Math.abs(d) * 0.45).toFixed(3)
+        panels[i].style.transform = `perspective(1400px) translateZ(${tz}px) rotateY(${ry}deg)`
+        panels[i].style.opacity = (1 - Math.abs(d) * 0.45).toFixed(3)
       }
     }
 

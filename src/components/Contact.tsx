@@ -1,6 +1,7 @@
 import { useReveal } from '../hooks/useReveal'
 import { useParallax } from '../hooks/useParallax'
 import { useMagnetic } from '../hooks/useMagnetic'
+import { useScrollProgress } from '../hooks/useScrollProgress'
 import { pt as siteContent } from '../content/siteContent'
 
 const EMAIL = 'felippenalim2004@gmail.com'
@@ -8,6 +9,7 @@ const WHATSAPP = '5521979076630'
 const { contact } = siteContent
 
 export default function Contact() {
+  const section = useScrollProgress<HTMLElement>()
   const content = useReveal<HTMLDivElement>()
   // As duas linhas do título deslizam em direções opostas durante o scroll
   const lineA = useParallax<HTMLSpanElement>(-0.07)
@@ -16,8 +18,21 @@ export default function Contact() {
   const whatsappBtn = useMagnetic<HTMLAnchorElement>(0.35)
 
   return (
-    <section className="relative overflow-hidden py-[clamp(96px,14vh,160px)] text-center" id="contato">
-      <div className="wrap reveal reveal-zoom" ref={content}>
+    <section
+      className="relative overflow-hidden py-[clamp(96px,14vh,160px)] text-center"
+      id="contato"
+      ref={section}
+    >
+      {/* Arco térmico da página: sete seções atravessam o mesmo quase-preto e o
+          fim, onde está a conversão, acende. A brasa nasce da borda inferior e
+          cresce com --scroll-reveal, o mesmo mecanismo que as outras seções já
+          usam. Pico em 0.10 — medido: mantém o parágrafo em muted a 6.06:1. */}
+      <span
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-[78%] bg-[radial-gradient(125%_100%_at_50%_100%,var(--color-accent-bloom),transparent_68%)] opacity-[var(--scroll-reveal,0)]"
+      />
+
+      <div className="wrap reveal reveal-zoom relative" ref={content}>
         <span className="label-mono mb-6 block text-accent">/ 06 — Contato</span>
         <h2 className="display-type mb-8 text-[clamp(38px,9vw,140px)]">
           <span className="inline-block will-change-transform" ref={lineA}>
@@ -40,7 +55,7 @@ export default function Contact() {
           <a
             ref={mailBtn}
             href={`mailto:${EMAIL}`}
-            className="inline-flex min-w-0 items-center justify-center gap-4 rounded-full border border-line-strong px-10 py-5 font-mono text-[clamp(14px,2vw,18px)] tracking-[0.02em] transition-[border-color,background-color,color,box-shadow] duration-[350ms] ease-out-expo will-change-transform hover:border-accent hover:bg-accent hover:text-bg hover:shadow-[0_16px_60px_rgba(255,90,31,0.35)] max-[560px]:w-full max-[560px]:px-5 max-[560px]:py-4"
+            className="inline-flex min-w-0 items-center justify-center gap-4 rounded-full border border-line-strong px-10 py-5 font-mono text-[clamp(14px,2vw,18px)] tracking-[0.02em] transition-[border-color,background-color,color,box-shadow] duration-[350ms] ease-out-expo will-change-transform hover:border-accent hover:bg-accent hover:text-bg hover:shadow-ember-cta-lg focus-visible:border-accent focus-visible:bg-accent focus-visible:text-bg focus-visible:shadow-ember-cta-lg max-[560px]:w-full max-[560px]:px-5 max-[560px]:py-4"
           >
             <span className="min-w-0 break-all">{EMAIL}</span>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
@@ -53,7 +68,7 @@ export default function Contact() {
             href={`https://wa.me/${WHATSAPP}`}
             target="_blank"
             rel="noreferrer"
-            className="inline-flex items-center justify-center gap-4 rounded-full border border-line-strong px-10 py-5 font-mono text-[clamp(14px,2vw,18px)] tracking-[0.02em] text-muted transition-[border-color,background-color,color,box-shadow] duration-[350ms] ease-out-expo will-change-transform hover:border-accent hover:bg-accent hover:text-bg hover:shadow-[0_16px_60px_rgba(255,90,31,0.35)] max-[560px]:w-full max-[560px]:px-5 max-[560px]:py-4"
+            className="inline-flex items-center justify-center gap-4 rounded-full border border-line-strong px-10 py-5 font-mono text-[clamp(14px,2vw,18px)] tracking-[0.02em] text-muted transition-[border-color,background-color,color,box-shadow] duration-[350ms] ease-out-expo will-change-transform hover:border-accent hover:bg-accent hover:text-bg hover:shadow-ember-cta-lg focus-visible:border-accent focus-visible:bg-accent focus-visible:text-bg focus-visible:shadow-ember-cta-lg max-[560px]:w-full max-[560px]:px-5 max-[560px]:py-4"
           >
             WhatsApp
             <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
