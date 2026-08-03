@@ -5,13 +5,15 @@
 
 export const pt = {
   navbar: {
+    /* Os href precisam bater com os id reais das seções em App/componentes.
+       Estavam em inglês (#about, #experience…) e não existiam em lugar nenhum. */
     items: [
-      { label: 'Sobre', href: '#about' },
+      { label: 'Sobre', href: '#sobre' },
       { label: 'Habilidades', href: '#skills' },
-      { label: 'Experiência', href: '#experience' },
-      { label: 'Formação', href: '#education' },
-      { label: 'Projetos', href: '#projects' },
-      { label: 'Contato', href: '#contact' },
+      { label: 'Experiência', href: '#experiencia' },
+      { label: 'Formação', href: '#formacao' },
+      { label: 'Projetos', href: '#projetos' },
+      { label: 'Contato', href: '#contato' },
     ],
     langToggle: 'EN',
   },
@@ -44,9 +46,10 @@ export const pt = {
     title: 'Sobre Mim',
     description:
       'Engenheiro de Software com perfil de liderança técnica, focado em backend de alta performance e produtos com IA. Na PGE-RJ, lidero iniciativas do desenho da arquitetura ao go-live, alinhando stakeholders, acelerando entregas e garantindo qualidade, escalabilidade e impacto real no negócio.',
+    /* O rótulo já diz "Curiosidade"; o texto não precisa repetir a palavra. */
     funFact:
-      'Curiosidade: já conheci pessoalmente o Tiangolo — o criador do FastAPI. Sim, aquele cara que fez a biblioteca que provavelmente está rodando em produção agora mesmo em algum lugar do planeta.',
-    funFactLabel: 'Fun fact',
+      'Já conheci pessoalmente o Tiangolo — o criador do FastAPI. Sim, aquele cara que fez a biblioteca que provavelmente está rodando em produção agora mesmo em algum lugar do planeta.',
+    funFactLabel: 'Curiosidade',
     features: [
       {
         title: 'Backend & Engenharia de Software',

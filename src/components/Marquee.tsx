@@ -1,20 +1,28 @@
-import { useReveal } from '../hooks/useReveal'
+import { usePauseOffscreen } from '../hooks/usePauseOffscreen'
 
+/* A faixa é a primeira leitura de stack depois do hero, então ela precisa dizer
+   a mesma coisa que o resto da página: backend e IA aplicada primeiro. A lista
+   anterior abria com React/Next.js/Git e deixava Go, FastAPI e toda a stack de
+   IA de fora — tudo verdade, mas lido como full-stack genérico.
+   Todos os itens saem de skills.categories em siteContent. */
 const TECHS = [
-  'React',
-  'TypeScript',
-  'Node.js',
+  'Go',
   'Python',
+  'FastAPI',
+  'RAG',
+  'LangChain',
   'PostgreSQL',
   'Docker',
+  'Kubernetes',
   'AWS',
-  'Next.js',
-  'Git',
-  'CI/CD',
+  'TypeScript',
 ]
 
 export default function Marquee() {
-  const strip = useReveal<HTMLDivElement>()
+  /* Sem reveal de entrada: a faixa já chega em movimento, um fade-up por cima
+     disso seria animação sobre animação. O slot de ref serve melhor para
+     pausá-la quando sai da tela. */
+  const strip = usePauseOffscreen<HTMLDivElement>()
 
   // Duas trilhas idênticas = loop infinito sem emenda visível
   const track = (key: string, hidden: boolean) => (
@@ -39,7 +47,7 @@ export default function Marquee() {
 
   return (
     <div
-      className="reveal group flex select-none overflow-hidden border-y border-line bg-bg-soft py-[22px] max-[640px]:py-4"
+      className="group flex select-none overflow-hidden border-y border-line bg-bg-soft py-[22px] max-[640px]:py-4"
       ref={strip}
     >
       {track('a', false)}

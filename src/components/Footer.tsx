@@ -5,10 +5,14 @@ const EMAIL = 'felippenalim2004@gmail.com'
 const WHATSAPP = '5521979076630'
 const WHATSAPP_LABEL = '(21) 97907-6630'
 
+/* Mesmos rótulos e mesma ordem do menu principal: um destino, um nome.
+   Antes o rodapé dizia "Skills" onde a nav dizia "Habilidades", escrevia
+   "Experiencia" sem acento e omitia Formação. */
 const navLinks = [
   { label: 'Sobre', href: '#sobre' },
-  { label: 'Skills', href: '#skills' },
-  { label: 'Experiencia', href: '#experiencia' },
+  { label: 'Habilidades', href: '#skills' },
+  { label: 'Experiência', href: '#experiencia' },
+  { label: 'Formação', href: '#formacao' },
   { label: 'Projetos', href: '#projetos' },
   { label: 'Contato', href: '#contato' },
 ]
@@ -64,7 +68,11 @@ export default function Footer() {
       <div className="wrap reveal py-[clamp(48px,8vw,88px)]" ref={content}>
         <div className="grid gap-12 max-[640px]:gap-10 lg:grid-cols-[minmax(0,1.3fr)_minmax(240px,0.7fr)_minmax(220px,0.55fr)]">
           <div>
-            <a href="#top" className="group inline-flex items-center gap-4" aria-label="Voltar ao topo">
+            <a
+              href="#top"
+              className="group inline-flex items-center gap-4"
+              aria-label="Felippe Toscano Nalim — voltar ao topo"
+            >
               <span className="grid h-12 w-12 place-items-center rounded-full border border-line-strong transition-colors duration-300 group-hover:border-accent group-hover:bg-accent-soft group-focus-visible:border-accent group-focus-visible:bg-accent-soft">
                 <img src="/code.svg" alt="" className="h-6 w-6 invert" draggable={false} />
               </span>
@@ -89,14 +97,14 @@ export default function Footer() {
             </div>
           </div>
 
-          <nav aria-label="Links do rodape">
-            <h2 className="label-mono mb-5 text-accent">Navegacao</h2>
+          <nav aria-label="Navegação do rodapé">
+            <h2 className="label-mono mb-5 text-accent">Navegação</h2>
             <ul className="grid gap-3">
               {navLinks.map((link) => (
                 <li key={link.href}>
                   <a
                     href={link.href}
-                    className="group inline-flex items-center gap-3 text-sm text-muted transition-colors duration-300 hover:text-ink focus-visible:text-ink"
+                    className="touch-target group inline-flex items-center gap-3 text-sm text-muted transition-colors duration-300 hover:text-ink focus-visible:text-ink"
                   >
                     <span className="h-px w-5 bg-line-strong transition-all duration-300 group-hover:w-8 group-hover:bg-accent group-focus-visible:w-8 group-focus-visible:bg-accent" />
                     {link.label}
@@ -110,7 +118,7 @@ export default function Footer() {
             <h2 className="label-mono mb-5 text-accent">Contato</h2>
             <a
               href={`mailto:${EMAIL}`}
-              className="break-all text-sm text-muted transition-colors duration-300 hover:text-ink focus-visible:text-ink"
+              className="touch-target inline-block break-all text-sm text-muted transition-colors duration-300 hover:text-ink focus-visible:text-ink"
             >
               {EMAIL}
             </a>
@@ -119,7 +127,7 @@ export default function Footer() {
               href={`https://wa.me/${WHATSAPP}`}
               target="_blank"
               rel="noreferrer"
-              className="mt-3 inline-flex items-center gap-2 text-sm text-muted transition-colors duration-300 hover:text-ink focus-visible:text-ink"
+              className="touch-target mt-3 inline-flex items-center gap-2 text-sm text-muted transition-colors duration-300 hover:text-ink focus-visible:text-ink"
             >
               <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                 <path d="M12.04 2A9.94 9.94 0 0 0 2.1 11.94c0 1.75.46 3.45 1.34 4.96L2 22l5.24-1.38a9.9 9.9 0 0 0 4.8 1.22h.01A9.94 9.94 0 0 0 12.04 2Zm5.85 14.22c-.25.7-1.45 1.34-2.03 1.43-.52.08-1.18.12-1.91-.12-.44-.14-1-.33-1.72-.64-3.03-1.31-5-4.36-5.15-4.56-.15-.2-1.23-1.64-1.23-3.13s.78-2.22 1.06-2.52c.28-.3.61-.38.81-.38h.58c.18.01.44-.07.69.53.25.6.85 2.08.93 2.23.08.15.13.33.03.53-.1.2-.15.33-.3.51-.15.18-.32.4-.46.54-.15.15-.31.31-.13.61.18.3.79 1.31 1.7 2.12 1.17 1.04 2.16 1.36 2.46 1.51.3.15.48.13.66-.08.18-.2.76-.89.96-1.19.2-.3.41-.25.69-.15.28.1 1.78.84 2.09.99.31.15.51.23.59.36.08.13.08.76-.17 1.46Z" />
@@ -147,7 +155,7 @@ export default function Footer() {
 
         <div className="mt-14 flex flex-wrap items-center justify-between gap-4 border-t border-line pt-6 font-mono text-[11px] uppercase tracking-[0.14em] text-muted max-[640px]:mt-10 max-[640px]:items-start max-[640px]:tracking-[0.08em]">
           <span className="max-w-full leading-relaxed">&copy; {new Date().getFullYear()} Felippe Toscano Nalim. Todos os direitos reservados.</span>
-          <a href="#top" className="group inline-flex items-center gap-2 transition-colors duration-300 hover:text-accent focus-visible:text-accent">
+          <a href="#top" className="touch-target group inline-flex items-center gap-2 transition-colors duration-300 hover:text-accent focus-visible:text-accent">
             Voltar ao topo
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
               <path d="M12 19V5M5 12l7-7 7 7" strokeLinecap="round" strokeLinejoin="round" />

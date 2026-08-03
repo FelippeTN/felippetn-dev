@@ -54,19 +54,23 @@ const panelWidth = (category: Category) =>
 function SkillsGrid() {
   const head = useReveal<HTMLDivElement>()
   const grid = useReveal<HTMLDivElement>()
+  const intro = useReveal<HTMLParagraphElement>()
 
   return (
     <section className="relative py-[clamp(96px,14vh,160px)]" id="skills">
       <div className="wrap">
         <div
-          className="reveal-head mb-[clamp(48px,8vh,80px)] flex items-baseline justify-between gap-6"
+          className="reveal-head mb-[clamp(48px,8vh,80px)] flex items-baseline justify-between gap-6 max-[640px]:flex-col-reverse max-[640px]:items-start max-[640px]:gap-2"
           ref={head}
         >
-          <h2 className="display-type -ml-[0.03em] text-[clamp(32px,6vw,88px)]">{skills.title}</h2>
+          <h2 className="display-type -ml-[0.03em] text-[clamp(28px,6vw,88px)]">{skills.title}</h2>
           <span className="font-mono text-[13px] tracking-[0.2em] text-accent">/ 02</span>
         </div>
 
-        <p className="reveal mb-[clamp(40px,6vh,64px)] max-w-[680px] text-[clamp(16px,1.8vw,20px)] leading-[1.55] text-muted">
+        <p
+          className="reveal mb-[clamp(40px,6vh,64px)] max-w-[680px] text-[clamp(16px,1.8vw,20px)] leading-[1.55] text-muted"
+          ref={intro}
+        >
           {skills.description}
         </p>
 
@@ -148,18 +152,25 @@ function SkillsHorizontal() {
   )
 }
 
+/* O sequestro de scroll só faz sentido com mouse ou trackpad. Antes a decisão
+   era só por largura, então um iPad de 820px em retrato recebia a versão
+   horizontal: o dedo desliza na vertical e o conteúdo anda para o lado, sem
+   affordance nenhuma. `pointer: coarse` cobre tablets grandes e notebooks com
+   tela sensível ao toque, que a largura sozinha não distingue. */
+const GRID_QUERY = '(max-width: 760px), (pointer: coarse)'
+
 export default function Skills() {
   const reduced = useReducedMotion()
-  const [isMobile, setIsMobile] = useState(false)
+  const [useGrid, setUseGrid] = useState(false)
 
   useEffect(() => {
-    const media = window.matchMedia('(max-width: 760px)')
-    const sync = () => setIsMobile(media.matches)
+    const media = window.matchMedia(GRID_QUERY)
+    const sync = () => setUseGrid(media.matches)
 
     sync()
     media.addEventListener('change', sync)
     return () => media.removeEventListener('change', sync)
   }, [])
 
-  return reduced || isMobile ? <SkillsGrid /> : <SkillsHorizontal />
+  return reduced || useGrid ? <SkillsGrid /> : <SkillsHorizontal />
 }

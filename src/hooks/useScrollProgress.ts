@@ -5,11 +5,15 @@ import { subscribeToScroll } from '../lib/scrollScheduler'
  * Writes section progress CSS vars while an element crosses the viewport.
  * --scroll-progress goes from 0 to 1.
  * --scroll-reveal grows in the first half.
- * --scroll-exit grows in the second half.
  *
- * Leitura e escrita passam pelo agendador compartilhado: sete seções usam
+ * Leitura e escrita passam pelo agendador compartilhado: oito seções usam
  * este hook, e separar as fases evita recalcular o layout uma vez por seção
  * a cada frame.
+ *
+ * Cada escrita de custom property invalida o estilo da subárvore, então a
+ * lista abaixo é só o que algum seletor realmente consome. `--scroll-exit` e
+ * `--scroll-shift-lg` foram removidos: nenhum componente os lia, e mesmo assim
+ * custavam 16 escritas por frame.
  */
 export function useScrollProgress<T extends HTMLElement = HTMLElement>() {
   const ref = useRef<T>(null)
@@ -20,7 +24,6 @@ export function useScrollProgress<T extends HTMLElement = HTMLElement>() {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       el.style.setProperty('--scroll-progress', '1')
       el.style.setProperty('--scroll-reveal', '1')
-      el.style.setProperty('--scroll-exit', '0')
       return
     }
 
@@ -42,12 +45,10 @@ export function useScrollProgress<T extends HTMLElement = HTMLElement>() {
       write() {
         el.style.setProperty('--scroll-progress', progress.toFixed(4))
         el.style.setProperty('--scroll-reveal', reveal.toFixed(4))
-        el.style.setProperty('--scroll-exit', clamp((progress - 0.5) * 2).toFixed(4))
         el.style.setProperty('--scroll-opacity', (0.82 + reveal * 0.18).toFixed(4))
         el.style.setProperty('--scroll-shift-sm', `${(center * 80).toFixed(2)}px`)
         el.style.setProperty('--scroll-shift-md', `${(center * 140).toFixed(2)}px`)
         el.style.setProperty('--scroll-shift-md-neg', `${(center * -140).toFixed(2)}px`)
-        el.style.setProperty('--scroll-shift-lg', `${(center * 220).toFixed(2)}px`)
       },
     })
   }, [])

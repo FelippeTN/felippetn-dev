@@ -13,7 +13,7 @@ const FASTAPI_SRCSET = {
   webp: '/img/fastapi-320.webp 320w, /img/fastapi-440.webp 440w, /img/fastapi-640.webp 640w',
   jpg: '/img/fastapi-320.jpg 320w, /img/fastapi-440.jpg 440w, /img/fastapi-640.jpg 640w',
 }
-const FASTAPI_SIZES = '(max-width: 640px) 92vw, 220px'
+const FASTAPI_SIZES = '(max-width: 640px) 92vw, 280px'
 
 const RETRATO_SRCSET = {
   avif: '/img/retrato-400.avif 400w, /img/retrato-600.avif 600w, /img/retrato-785.avif 785w',
@@ -90,10 +90,10 @@ export default function About() {
 
       <div className="wrap">
         <div
-          className="reveal-head mb-[clamp(48px,8vh,80px)] flex items-baseline justify-between gap-6"
+          className="reveal-head mb-[clamp(48px,8vh,80px)] flex items-baseline justify-between gap-6 max-[640px]:flex-col-reverse max-[640px]:items-start max-[640px]:gap-2"
           ref={head}
         >
-          <h2 className="display-type -ml-[0.03em] text-[clamp(32px,6vw,88px)]">{about.title}</h2>
+          <h2 className="display-type -ml-[0.03em] text-[clamp(28px,6vw,88px)]">{about.title}</h2>
           <span className="font-mono text-[13px] tracking-[0.2em] text-accent">/ 01</span>
         </div>
 
@@ -130,18 +130,18 @@ export default function About() {
                   loading="lazy"
                   decoding="async"
                   draggable={false}
-                  className="h-full max-h-[220px] w-full object-cover transition-transform duration-500 ease-out-expo group-hover:scale-[1.04] group-focus-visible:scale-[1.04] sm:h-[160px] sm:w-[220px]"
+                  className="h-full max-h-[220px] w-full object-cover transition-transform duration-500 ease-out-expo group-hover:scale-[1.04] group-focus-visible:scale-[1.04] sm:h-[205px] sm:w-[280px]"
                 />
               </picture>
-              <span className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/60 to-transparent px-3 py-2 font-mono text-[10px] uppercase tracking-[0.16em] text-ink/90">
+              <span className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/60 to-transparent px-3 py-2 font-mono text-[11px] uppercase tracking-[0.16em] text-ink/90">
                 eu &amp; Tiangolo · FastAPI
               </span>
             </a>
             <div>
-              <span className="mb-2 block font-mono text-[11px] uppercase tracking-[0.2em] text-accent">
+              <span className="mb-2 block font-mono text-[12px] uppercase tracking-[0.2em] text-accent">
                 {about.funFactLabel}
               </span>
-              <p className="text-sm leading-[1.6] text-muted">{about.funFact}</p>
+              <p className="text-base leading-[1.6] text-muted">{about.funFact}</p>
             </div>
           </div>
           </div>

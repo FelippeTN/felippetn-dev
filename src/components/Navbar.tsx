@@ -82,8 +82,8 @@ export default function Navbar() {
       <header
         className={`fixed left-1/2 z-[100] flex -translate-x-1/2 items-center overflow-hidden border transition-[top,width,height,border-radius,background-color,border-color,box-shadow,backdrop-filter] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] ${
           scrolled || menuOpen
-            ? 'top-4 h-[60px] w-[min(1120px,calc(100%-32px))] rounded-full border-line-strong bg-bg/80 shadow-[0_24px_80px_rgba(0,0,0,0.38)] backdrop-blur-[18px]'
-            : 'top-0 h-[76px] w-full rounded-none border-transparent bg-transparent shadow-none backdrop-blur-0'
+            ? 'top-[calc(1rem+env(safe-area-inset-top))] h-[60px] w-[min(1120px,calc(100%-32px))] rounded-full border-line-strong bg-bg/80 shadow-[0_24px_80px_rgba(0,0,0,0.38)] backdrop-blur-[18px]'
+            : 'top-[env(safe-area-inset-top)] h-[76px] w-full rounded-none border-transparent bg-transparent shadow-none backdrop-blur-0'
         }`}
       >
         <span
@@ -101,8 +101,11 @@ export default function Navbar() {
       >
         <a
           href="#top"
-          className="group flex items-center gap-3 text-ink"
-          aria-label="Voltar ao topo"
+          className="group flex min-h-11 min-w-11 items-center gap-3 text-ink"
+          /* O aria-label substitui o texto visível, então precisa conter o nome
+             que está na tela — e distinguir este link dos outros dois que
+             também levam ao topo. */
+          aria-label="Felippe TN — voltar ao topo"
         >
           <span
             className={`grid place-items-center rounded-full border transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] ${
@@ -161,7 +164,7 @@ export default function Navbar() {
         <button
           ref={menuButtonRef}
           type="button"
-          className="rounded-full border border-line px-4 py-2 font-mono text-[11px] uppercase tracking-[0.16em] text-muted transition-colors duration-300 hover:border-line-strong hover:text-ink focus-visible:border-line-strong focus-visible:text-ink min-[861px]:hidden"
+          className="grid min-h-11 min-w-11 place-items-center rounded-full border border-line px-4 font-mono text-[11px] uppercase tracking-[0.16em] text-muted transition-colors duration-300 hover:border-line-strong hover:text-ink focus-visible:border-line-strong focus-visible:text-ink min-[861px]:hidden"
           aria-expanded={menuOpen}
           aria-controls="mobile-nav"
           onClick={() => setMenuOpen((open) => !open)}
@@ -178,7 +181,7 @@ export default function Navbar() {
       <nav
         id="mobile-nav"
         aria-label="Navegação mobile"
-        className={`fixed left-4 right-4 top-[88px] z-[99] rounded-2xl border border-line-strong bg-bg/95 p-3 shadow-[0_24px_80px_rgba(0,0,0,0.42)] backdrop-blur-[18px] transition-[opacity,transform,visibility] duration-300 min-[861px]:hidden ${
+        className={`fixed left-4 right-4 top-[calc(88px+env(safe-area-inset-top))] z-[99] rounded-2xl border border-line-strong bg-bg/95 p-3 shadow-[0_24px_80px_rgba(0,0,0,0.42)] backdrop-blur-[18px] transition-[opacity,transform,visibility] duration-300 min-[861px]:hidden ${
           menuOpen
             ? 'visible translate-y-0 opacity-100'
             : 'invisible pointer-events-none -translate-y-2 opacity-0'

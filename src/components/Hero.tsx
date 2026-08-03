@@ -71,7 +71,7 @@ export default function Hero() {
             width={1080}
             height={810}
             /* Elemento de maior área no primeiro viewport: nunca lazy, sempre prioritário */
-            fetchPriority="high"
+            {...({ fetchpriority: 'high' } as Record<string, string>)}
             decoding="async"
             alt=""
             draggable={false}
@@ -86,7 +86,11 @@ export default function Hero() {
             Felippe Toscano Nalim
           </p>
 
-          <h1 className="display-type group -ml-[0.045em] whitespace-nowrap text-[clamp(44px,10.6vw,215px)] max-[640px]:text-[clamp(32px,13vw,64px)]">
+          {/* "ENGENHEIRO" mede 8.0x o font-size. Em 13vw isso dava 408px numa
+              caixa de 352px no iPhone 14: o wrapper de overflow-hidden da
+              animação cortava o O final, em todo tamanho de celular. 10.5vw
+              mantém a palavra dentro do container de 320px a 640px. */}
+          <h1 className="display-type group -ml-[0.045em] whitespace-nowrap text-[clamp(44px,10.6vw,215px)] max-[640px]:text-[clamp(28px,10.5vw,64px)]">
             <span className="block overflow-hidden">
               <span className="block animate-line-up [animation-delay:0.6s]">Engenheiro</span>
             </span>
@@ -150,7 +154,7 @@ export default function Hero() {
       <span
         className={`${sideLabelClass} right-[clamp(20px,3vw,56px)] after:h-14 after:w-px after:animate-scroll-hint after:bg-linear-to-b after:from-muted after:to-transparent after:content-['']`}
       >
-        Scroll
+        Role
       </span>
     </section>
   )

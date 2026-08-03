@@ -1,25 +1,28 @@
-import { useEffect, useRef } from 'react'
+import { useLayoutEffect, useRef } from 'react'
 
 /**
  * Adiciona a classe "in" quando o elemento entra na viewport.
  * Uso: <div ref={useReveal()} className="reveal">...</div>
  *
- * O conteúdo nasce em `opacity: 0` no CSS, então qualquer falha aqui deixaria
- * a seção invisível para sempre. Por isso as duas saídas de emergência abaixo:
- * sem IntersectionObserver, revela na hora; e o gatilho se adapta a elementos
- * mais altos que a viewport, que nunca atingiriam 15% de visibilidade.
+ * O ocultamento é *armado por este hook*, não pelo CSS sozinho: só
+ * `.reveal.reveal-armed` fica invisível. Um elemento que tenha a classe
+ * `reveal` mas esqueça o `ref` nunca é armado e portanto continua legível —
+ * foi exatamente esse esquecimento que deixou cinco parágrafos invisíveis no
+ * site publicado. O CSS não consegue detectar um ref faltando; o hook sim.
+ *
+ * `useLayoutEffect` porque a classe precisa entrar antes do primeiro paint,
+ * senão o conteúdo pisca visível e some.
  */
 export function useReveal<T extends HTMLElement = HTMLDivElement>() {
   const ref = useRef<T>(null)
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const el = ref.current
     if (!el) return
 
-    if (typeof IntersectionObserver === 'undefined') {
-      el.classList.add('in')
-      return
-    }
+    if (typeof IntersectionObserver === 'undefined') return
+
+    el.classList.add('reveal-armed')
 
     // Uma lista longa pode ocupar várias telas: nesse caso a fração visível
     // nunca chega a 0.15 e o reveal jamais dispararia.

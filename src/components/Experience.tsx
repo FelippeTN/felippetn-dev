@@ -9,6 +9,7 @@ export default function Experience() {
   const timeline = useScrollProgress<HTMLDivElement>()
   const head = useReveal<HTMLDivElement>()
   const list = useReveal<HTMLDivElement>()
+  const intro = useReveal<HTMLParagraphElement>()
 
   return (
     <section className="relative overflow-hidden py-[clamp(96px,14vh,160px)]" id="experiencia" ref={section}>
@@ -21,14 +22,17 @@ export default function Experience() {
 
       <div className="wrap">
         <div
-          className="reveal-head mb-[clamp(48px,8vh,80px)] flex items-baseline justify-between gap-6"
+          className="reveal-head mb-[clamp(48px,8vh,80px)] flex items-baseline justify-between gap-6 max-[640px]:flex-col-reverse max-[640px]:items-start max-[640px]:gap-2"
           ref={head}
         >
-          <h2 className="display-type -ml-[0.03em] text-[clamp(32px,6vw,88px)]">{experience.title}</h2>
+          <h2 className="display-type -ml-[0.03em] text-[clamp(28px,6vw,88px)]">{experience.title}</h2>
           <span className="font-mono text-[13px] tracking-[0.2em] text-accent">/ 03</span>
         </div>
 
-        <p className="reveal mb-[clamp(40px,6vh,64px)] max-w-[680px] text-[clamp(16px,1.8vw,20px)] leading-[1.55] text-muted">
+        <p
+          className="reveal mb-[clamp(40px,6vh,64px)] max-w-[680px] text-[clamp(16px,1.8vw,20px)] leading-[1.55] text-muted"
+          ref={intro}
+        >
           {experience.description}
         </p>
 
