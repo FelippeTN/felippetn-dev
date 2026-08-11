@@ -5,12 +5,12 @@ type Particle = {
   y: number
   depth: number // 0 = longe, 1 = perto — controla tamanho, velocidade e parallax
   phase: number
-  ember: boolean // brasas laranja no meio das estrelas brancas
+  ember: boolean // pontos mais luminosos entre as estrelas
 }
 
 /**
- * Campo de partículas 3D em canvas: deriva lenta pra cima (estilo
- * cinzas do Nether), profundidade com parallax de mouse e twinkle.
+ * Campo de partículas 3D em canvas: deriva lenta pra cima, profundidade com
+ * parallax de mouse e twinkle.
  */
 export default function Starfield() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -22,15 +22,14 @@ export default function Starfield() {
 
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
-    // Cores vindas do @theme: o canvas passa a obedecer o mesmo sistema que o
-    // resto da página. As estrelas eram #f0f0f5 — hue 286°, azulado — a única
-    // nota fria num design inteiramente quente.
+    // Cores vindas do @theme: o canvas segue a mesma escala monocromática do
+    // restante da página.
     const theme = getComputedStyle(document.documentElement)
     const token = (name: string, fallback: string) =>
       theme.getPropertyValue(name).trim() || fallback
     const STAR = token('--color-star', '#f0eeea')
-    const EMBER_HOT = token('--color-ember-hot', '#ff8c50')
-    const EMBER_WARM = token('--color-ember-warm', '#ff6e32')
+    const EMBER_HOT = token('--color-ember-hot', '#ffffff')
+    const EMBER_WARM = token('--color-ember-warm', '#d8d8d8')
 
     /** Aplica alpha a um hex do tema, no formato que o canvas espera. */
     const withAlpha = (hex: string, alpha: number) => {
@@ -103,7 +102,7 @@ export default function Starfield() {
         const size = 0.4 + d * 1.5
 
         if (p.ember) {
-          // halo quente atrás da brasa
+          // halo sutil atrás do ponto mais luminoso
           ctx.beginPath()
           ctx.fillStyle = withAlpha(EMBER_WARM, alpha * 0.18)
           ctx.arc(sx, sy, size * 3.4, 0, Math.PI * 2)

@@ -8,10 +8,10 @@
 
 @theme {
   /* ============================================================
-     SISTEMA DE COR — brasa em um quarto escuro
+     SISTEMA DE COR — preto, branco e cinzas neutros
 
-     Um único hue quente atravessa tudo: as âncoras vivem entre 38° e 78°
-     em OKLCH. O accent é raro de propósito; é da raridade que ele tira força.
+     O contraste vem da escala de luminosidade: preto profundo para a base,
+     branco para as ações e cinzas neutros para criar hierarquia.
 
      Regra da casa: tom de texto e de estrutura são valores explícitos, nunca
      `cor/alpha`. Derivar por alpha zerava a croma (todo cinza saía em 0.000,
@@ -20,31 +20,31 @@
      ============================================================ */
 
   /* ---- Âncoras de marca: fixadas também no manifest e no theme-color ---- */
-  --color-bg: #060606; /* oklch(12.2% 0     90) */
-  --color-bg-soft: #0b0b0b; /* oklch(15.0% 0     90) */
-  --color-surface: #101010; /* oklch(17.3% 0     90) */
-  --color-ink: #f2f0ed; /* oklch(95.6% 0.005 78)  17.81:1 */
-  --color-muted: #98928c; /* oklch(66.3% 0.011 68)   6.59:1 */
-  --color-accent: #ff5a1f; /* oklch(68.2% 0.211 38)   6.50:1 */
+  --color-bg: #050505;
+  --color-bg-soft: #0b0b0b;
+  --color-surface: #111111;
+  --color-ink: #f5f5f5;
+  --color-muted: #a3a3a3;
+  --color-accent: #ffffff;
 
   /* ---- Escala de texto: degraus explícitos, todos acima de 4.5:1 ---- */
-  --color-ink-soft: #b0a9a1; /* oklch(73.8% 0.014 72)   8.70:1 */
-  --color-muted-deep: #898078; /* oklch(60.6% 0.016 68)   5.25:1 */
-  --color-faint: #7e7770; /* oklch(57.4% 0.014 66)   4.60:1 */
+  --color-ink-soft: #d4d4d4;
+  --color-muted-deep: #8f8f8f;
+  --color-faint: #737373;
 
   /* ---- Estrutura: mesma luminância de antes, hue recuperado ---- */
-  --color-line: #1d1916; /* oklch(21.8% 0.008 68)   1.16:1 */
-  --color-line-strong: #322d29; /* oklch(30.1% 0.010 68)   1.49:1 */
-  --color-rule: #2c2824; /* oklch(28.1% 0.010 68)   1.39:1 — separadores */
-  --color-stroke: #7d7771; /* oklch(57.4% 0.012 70)   4.60:1 — texto vazado */
+  --color-line: #1f1f1f;
+  --color-line-strong: #363636;
+  --color-rule: #2b2b2b;
+  --color-stroke: #858585;
 
-  /* ---- Brasa: o accent em papéis de luz, não de tinta ---- */
-  --color-accent-soft: rgba(255, 90, 31, 0.14); /* preenchimento de hover */
-  --color-accent-glow: rgba(255, 90, 31, 0.35); /* emissão das trilhas e CTAs */
-  --color-accent-bloom: rgba(255, 90, 31, 0.1); /* atmosfera de seção (teto: muted fica em 6.06:1) */
-  --color-ember-hot: #ff8c50; /* oklch(75.5% 0.158 47) */
-  --color-ember-warm: #ff6e32; /* oklch(70.8% 0.191 41) */
-  --color-star: #f0eeea; /* alinhado ao hue do ink; antes era 286°, azulado */
+  /* ---- Destaque branco em papéis de luz, não de tinta ---- */
+  --color-accent-soft: rgba(255, 255, 255, 0.08);
+  --color-accent-glow: rgba(255, 255, 255, 0.24);
+  --color-accent-bloom: rgba(255, 255, 255, 0.06);
+  --color-ember-hot: #ffffff;
+  --color-ember-warm: #d8d8d8;
+  --color-star: #f5f5f5;
 
   /* Halos emissivos (sem offset de propósito: é luz, não elevação) */
   --shadow-ember-dot: 0 0 22px var(--color-accent-glow);
@@ -146,12 +146,11 @@
     background: var(--color-bg);
   }
   ::-webkit-scrollbar-thumb {
-    /* oklch(28.5% 0.010 68) — mesma luminância do cinza anterior, agora quente */
-    background: #2e2925;
+    background: #2e2e2e;
     border-radius: 5px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: #3e3934; /* oklch(34.8% 0.012 68) */
+    background: #404040;
   }
 
   /* Grão de filme sobre tudo */

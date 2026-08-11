@@ -6,8 +6,7 @@ import { pt as content } from '../content/siteContent'
 const { about } = content
 
 /* Variantes geradas por scripts/images.mjs (ver public/img/).
-   O retrato é recorte com alpha: fallback PNG. A foto com o Tiangolo é
-   retangular e opaca, então cai para JPEG. */
+   O retrato usa Felippe.jpg; o hero usa a nova versão sem fundo. */
 const FASTAPI_SRCSET = {
   avif: '/img/fastapi-320.avif 320w, /img/fastapi-440.avif 440w, /img/fastapi-640.avif 640w',
   webp: '/img/fastapi-320.webp 320w, /img/fastapi-440.webp 440w, /img/fastapi-640.webp 640w',
@@ -165,7 +164,7 @@ export default function About() {
                 loading="lazy"
                 decoding="async"
                 draggable={false}
-                className="aspect-[4/5] w-full object-cover object-center [filter:contrast(1.04)_saturate(0.92)]"
+                className="aspect-[4/5] w-full object-cover object-[68%_center] [filter:contrast(1.04)_saturate(0.92)]"
               />
             </picture>
             <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/75 via-black/35 to-transparent px-5 pb-5 pt-16 font-mono text-[11px] uppercase tracking-[0.18em] text-ink/85">
