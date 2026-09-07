@@ -1,4 +1,3 @@
-import CursorGlow from './components/CursorGlow'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import Marquee from './components/Marquee'
@@ -16,7 +15,6 @@ export default function App() {
       <a href="#conteudo" className="skip-link">
         Pular para o conteúdo
       </a>
-      <CursorGlow />
       <Navbar />
       <main id="conteudo">
         <Hero />
