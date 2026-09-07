@@ -33,7 +33,7 @@ export default function Contact() {
       />
 
       <div className="wrap reveal reveal-zoom relative" ref={content}>
-        <span className="label-mono mb-6 block text-accent">/ 06 — Contato</span>
+        <span className="label-mono mb-6 block text-accent">/ 07 — Contato</span>
         <h2 className="display-type mb-8 text-[clamp(38px,9vw,140px)]">
           <span className="inline-block will-change-transform" ref={lineA}>
             Vamos

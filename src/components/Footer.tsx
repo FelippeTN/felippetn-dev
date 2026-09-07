@@ -9,12 +9,13 @@ const WHATSAPP_LABEL = '(21) 97907-6630'
    Antes o rodapé dizia "Skills" onde a nav dizia "Habilidades", escrevia
    "Experiencia" sem acento e omitia Formação. */
 const navLinks = [
-  { label: 'Sobre', href: '#sobre' },
-  { label: 'Habilidades', href: '#skills' },
-  { label: 'Experiência', href: '#experiencia' },
-  { label: 'Formação', href: '#formacao' },
-  { label: 'Projetos', href: '#projetos' },
-  { label: 'Contato', href: '#contato' },
+  { label: 'Sobre', href: '/#sobre' },
+  { label: 'Habilidades', href: '/#skills' },
+  { label: 'Experiência', href: '/#experiencia' },
+  { label: 'Formação', href: '/#formacao' },
+  { label: 'Projetos', href: '/#projetos' },
+  { label: 'TCC', href: '/tcc/' },
+  { label: 'Contato', href: '/#contato' },
 ]
 
 const socialLinks = [

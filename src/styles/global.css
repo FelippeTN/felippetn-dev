@@ -153,40 +153,18 @@
     background: #404040;
   }
 
-  /* Grão de filme sobre tudo */
+  /* Grão de filme sobre tudo.
+     Sem animação: as keyframes antigas transladavam até 35% de uma camada de
+     200%x200% (=70vh) com só 50vh de sobra, então a borda entrava na tela como
+     uma faixa escura descendo a cada step. A textura sozinha já entrega o efeito. */
   body::after {
     content: '';
     position: fixed;
-    inset: -50%;
+    inset: 0;
     z-index: 9998;
     pointer-events: none;
     opacity: 0.05;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-    animation: grain 8s steps(10) infinite;
-  }
-
-  /* A camada cobre 200%×200% da viewport. Animá-la obriga o compositor a
-     redesenhar essa área inteira sem parar — caro em GPU integrada de celular
-     para um efeito a 5% de opacidade. No mobile fica a textura, sem o
-     movimento; ninguém sente falta e o frame budget agradece. */
-  @media (max-width: 768px) {
-    body::after {
-      inset: 0;
-      animation: none;
-    }
-  }
-
-  @keyframes grain {
-    0%, 100% { transform: translate(0, 0); }
-    10% { transform: translate(-5%, -10%); }
-    20% { transform: translate(-15%, 5%); }
-    30% { transform: translate(7%, -25%); }
-    40% { transform: translate(-5%, 25%); }
-    50% { transform: translate(-15%, 10%); }
-    60% { transform: translate(15%, 0%); }
-    70% { transform: translate(0%, 15%); }
-    80% { transform: translate(3%, 35%); }
-    90% { transform: translate(-10%, 10%); }
   }
 }
 

@@ -1,12 +1,15 @@
 import { useEffect, useRef, useState } from 'react'
 import { subscribeToScroll } from '../lib/scrollScheduler'
 
-const LINKS = [
+type Link = { id: string; label: string; href?: string }
+
+const LINKS: Link[] = [
   { id: 'sobre', label: 'Sobre' },
   { id: 'skills', label: 'Habilidades' },
   { id: 'experiencia', label: 'Experiência' },
   { id: 'formacao', label: 'Formação' },
   { id: 'projetos', label: 'Projetos' },
+  { id: 'tcc', label: 'TCC', href: '/tcc/' },
   { id: 'contato', label: 'Contato' },
 ]
 
@@ -145,7 +148,7 @@ export default function Navbar() {
               return (
                 <li key={link.id}>
                   <a
-                    href={`#${link.id}`}
+                    href={link.href ?? `#${link.id}`}
                     aria-current={isActive ? 'true' : undefined}
                     className={`relative block rounded-full px-4 py-2 font-mono text-[11px] uppercase tracking-[0.14em] transition-[background-color,color] duration-[300ms] ease-out-expo ${
                       isActive
@@ -191,7 +194,7 @@ export default function Navbar() {
           {LINKS.map((link) => (
             <li key={link.id}>
               <a
-                href={`#${link.id}`}
+                href={link.href ?? `#${link.id}`}
                 aria-current={active === link.id ? 'true' : undefined}
                 className={`block rounded-xl px-4 py-3 font-mono text-[12px] uppercase tracking-[0.14em] transition-colors duration-300 ${
                   active === link.id
