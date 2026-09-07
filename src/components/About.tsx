@@ -7,12 +7,26 @@ const { about } = content
 
 /* Variantes geradas por scripts/images.mjs (ver public/img/).
    O retrato usa Felippe.jpg; o hero usa a nova versão sem fundo. */
-const FASTAPI_SRCSET = {
-  avif: '/img/fastapi-320.avif 320w, /img/fastapi-440.avif 440w, /img/fastapi-640.avif 640w',
-  webp: '/img/fastapi-320.webp 320w, /img/fastapi-440.webp 440w, /img/fastapi-640.webp 640w',
-  jpg: '/img/fastapi-320.jpg 320w, /img/fastapi-440.jpg 440w, /img/fastapi-640.jpg 640w',
-}
-const FASTAPI_SIZES = '(max-width: 640px) 92vw, 280px'
+const PHOTO_SIZES = '(max-width: 640px) 92vw, 280px'
+
+/* Fotos de eventos e palestras. Todas geradas em 320/440/640. */
+const PHOTOS = [
+  {
+    name: 'fastapi',
+    alt: 'Felippe ao lado de Sebastián Ramírez (Tiangolo), criador do FastAPI',
+    caption: 'eu & Tiangolo · FastAPI',
+  },
+  {
+    name: 'evento-rf',
+    alt: 'Felippe palestrando na Receita Federal sobre a assessoria de inteligência artificial em que atua',
+    caption: 'Receita Federal · Assessoria de IA',
+  },
+  {
+    name: 'evento-pge',
+    alt: 'Felippe apresentando internamente na PGE-RJ os produtos desenvolvidos pela assessoria de IA',
+    caption: 'PGE-RJ · Produtos da assessoria',
+  },
+] as const
 
 const RETRATO_SRCSET = {
   avif: '/img/retrato-400.avif 400w, /img/retrato-600.avif 600w, /img/retrato-785.avif 785w',
@@ -21,8 +35,44 @@ const RETRATO_SRCSET = {
 }
 const RETRATO_SIZES = '(max-width: 1024px) min(420px, 92vw), 32vw'
 
-/* Master em tamanho cheio, aberto ao clicar na miniatura */
-const fastapiFull = '/img/fastapi-640.jpg'
+type Photo = (typeof PHOTOS)[number]
+
+/* Miniatura clicável: abre o master em tamanho cheio numa nova aba. */
+function PhotoCard({ photo }: { photo: Photo }) {
+  const { name, alt, caption } = photo
+  const srcSet = (ext: string) =>
+    `/img/${name}-320.${ext} 320w, /img/${name}-440.${ext} 440w, /img/${name}-640.${ext} 640w`
+
+  return (
+    <a
+      href={`/img/${name}-640.jpg`}
+      target="_blank"
+      rel="noreferrer"
+      aria-label={`Abrir foto em tamanho real, em nova aba: ${alt}`}
+      className="group relative block overflow-hidden rounded-lg"
+    >
+      <picture>
+        <source type="image/avif" srcSet={srcSet('avif')} sizes={PHOTO_SIZES} />
+        <source type="image/webp" srcSet={srcSet('webp')} sizes={PHOTO_SIZES} />
+        <img
+          src={`/img/${name}-440.jpg`}
+          srcSet={srcSet('jpg')}
+          sizes={PHOTO_SIZES}
+          width={440}
+          height={330}
+          alt={alt}
+          loading="lazy"
+          decoding="async"
+          draggable={false}
+          className="h-[205px] w-full object-cover transition-transform duration-500 ease-out-expo group-hover:scale-[1.04] group-focus-visible:scale-[1.04]"
+        />
+      </picture>
+      <span className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/60 to-transparent px-3 py-2 font-mono text-[11px] uppercase tracking-[0.16em] text-ink/90">
+        {caption}
+      </span>
+    </a>
+  )
+}
 
 type Feature = (typeof about.features)[number]
 
@@ -105,42 +155,19 @@ export default function About() {
               {about.description}
             </p>
 
-          <div className="mt-12 flex flex-col gap-6 border-t border-line pt-8 sm:flex-row sm:items-center sm:gap-8">
-            <a
-              href={fastapiFull}
-              target="_blank"
-              rel="noreferrer"
-              aria-label="Abrir foto em tamanho real, em nova aba: Felippe ao lado de Sebastián Ramírez (Tiangolo), criador do FastAPI"
-              className="group relative block shrink-0 overflow-hidden rounded-lg max-sm:w-full"
-              style={{
-                transform: 'translate3d(0, var(--scroll-shift-sm, 0px), 0)',
-              }}
-            >
-              <picture>
-                <source type="image/avif" srcSet={FASTAPI_SRCSET.avif} sizes={FASTAPI_SIZES} />
-                <source type="image/webp" srcSet={FASTAPI_SRCSET.webp} sizes={FASTAPI_SIZES} />
-                <img
-                  src="/img/fastapi-440.jpg"
-                  srcSet={FASTAPI_SRCSET.jpg}
-                  sizes={FASTAPI_SIZES}
-                  width={440}
-                  height={330}
-                  alt="Felippe ao lado de Sebastián Ramírez (Tiangolo), criador do FastAPI"
-                  loading="lazy"
-                  decoding="async"
-                  draggable={false}
-                  className="h-full max-h-[220px] w-full object-cover transition-transform duration-500 ease-out-expo group-hover:scale-[1.04] group-focus-visible:scale-[1.04] sm:h-[205px] sm:w-[280px]"
-                />
-              </picture>
-              <span className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/60 to-transparent px-3 py-2 font-mono text-[11px] uppercase tracking-[0.16em] text-ink/90">
-                eu &amp; Tiangolo · FastAPI
-              </span>
-            </a>
-            <div>
-              <span className="mb-2 block font-mono text-[12px] uppercase tracking-[0.2em] text-accent">
-                {about.funFactLabel}
-              </span>
-              <p className="text-base leading-[1.6] text-muted">{about.funFact}</p>
+          <div
+            className="mt-12 border-t border-line pt-8"
+            style={{ transform: 'translate3d(0, var(--scroll-shift-sm, 0px), 0)' }}
+          >
+            <span className="mb-2 block font-mono text-[12px] uppercase tracking-[0.2em] text-accent">
+              {about.funFactLabel}
+            </span>
+            <p className="max-w-[640px] text-base leading-[1.6] text-muted">{about.funFact}</p>
+
+            <div className="mt-8 grid gap-4 sm:grid-cols-3">
+              {PHOTOS.map((photo) => (
+                <PhotoCard key={photo.name} photo={photo} />
+              ))}
             </div>
           </div>
           </div>

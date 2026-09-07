@@ -45,6 +45,18 @@ const SOURCES = [
     widths: [320, 440, 640],
     alpha: false,
   },
+  {
+    name: 'evento-rf',
+    from: 'src/assets/evento_rf.jpg',
+    widths: [320, 440, 640],
+    alpha: false,
+  },
+  {
+    name: 'evento-pge',
+    from: 'src/assets/evento_pge.jpeg',
+    widths: [320, 440, 640],
+    alpha: false,
+  },
 ]
 
 const isStale = (target, master) =>

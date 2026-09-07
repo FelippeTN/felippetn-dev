@@ -283,23 +283,9 @@ export const pt = {
     viewCredentialLabel: 'Exibir credencial',
     items: [
       {
-        degree: 'Engenharia de Software',
-        institution: 'Universidade de São Paulo (USP)',
-        period: '2024 — Em andamento',
-        description:
-          'Graduação com ênfase em arquitetura de sistemas, engenharia de software avançada, inteligência artificial e metodologias de desenvolvimento de software em larga escala.',
-        highlights: [
-          'Arquitetura e Design de Sistemas',
-          'Engenharia de Software Avançada',
-          'Inteligência Artificial & Aprendizado de Máquina',
-          'Banco de Dados e Modelagem',
-          'Metodologias Ágeis (Scrum, Kanban)',
-        ],
-      },
-      {
         degree: 'Pós-graduação Lato Sensu - MBA em Engenharia de Software',
         institution: 'MBA USP/Esalq',
-        period: 'out de 2025 — abr de 2027',
+        period: 'out de 2025 — Em andamento',
         description:
           'MBA com foco em engenharia de software aplicada a escala, arquitetura corporativa, liderança técnica e gestão estratégica de produtos e times de tecnologia.',
         highlights: [
@@ -723,23 +709,9 @@ export const en: SiteContent = {
     viewCredentialLabel: 'View credential',
     items: [
       {
-        degree: 'Software Engineering',
-        institution: 'University of São Paulo (USP)',
-        period: '2024 — In progress',
-        description:
-          'Undergraduate program with emphasis on systems architecture, advanced software engineering, artificial intelligence, and large-scale software development methodologies.',
-        highlights: [
-          'Systems Architecture & Design',
-          'Advanced Software Engineering',
-          'Artificial Intelligence & Machine Learning',
-          'Databases & Modeling',
-          'Agile Methodologies (Scrum, Kanban)',
-        ],
-      },
-      {
         degree: 'Lato Sensu Graduate Program - MBA in Software Engineering',
         institution: 'MBA USP/Esalq',
-        period: 'Oct 2025 — Apr 2027',
+        period: 'Oct 2025 — In progress',
         description:
           'MBA focused on software engineering at scale, enterprise architecture, technical leadership, and strategic management of products and technology teams.',
         highlights: [
