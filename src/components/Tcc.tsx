@@ -41,8 +41,7 @@ export default function Tcc() {
                 verificação de robustez.
               </p>
               <p className="mt-4 max-w-[560px] text-[13.5px] leading-[1.6] text-muted">
-                Resultados medidos, gráficos em preto e branco, o que os dados não sustentam e as
-                pendências ainda abertas.
+                Resultados medidos, gráficos em preto e branco e o que os dados não sustentam.
               </p>
 
               <span className="mt-7 inline-flex items-center gap-3 font-mono text-[12px] uppercase tracking-[0.16em] text-ink">

@@ -7,15 +7,12 @@ import FiguraCusto from '../components/tcc/FiguraCusto'
 import FiguraSensibilidade from '../components/tcc/FiguraSensibilidade'
 import {
   tccAchados,
-  tccCondicoes,
   tccDesenho,
   tccLimites,
   tccMeta,
   tccModelos,
   tccNaoSustenta,
   tccNumeros,
-  tccValidacao,
-  type ValidacaoStatus,
 } from '../content/tccContent'
 
 /* ============================================================
@@ -29,24 +26,6 @@ import {
    Entrada própria no Vite (tcc/index.html), sem router e sem dependência
    nova: uma URL real, indexável, que funciona em qualquer host estático.
    ============================================================ */
-
-const GRUPOS_VALIDACAO: Array<{ chave: ValidacaoStatus; titulo: string; descricao: string }> = [
-  {
-    chave: 'orientador',
-    titulo: 'Depende do orientador',
-    descricao: 'Decisões de escopo e de definição operacional que não são minhas para fechar sozinho.',
-  },
-  {
-    chave: 'metodo',
-    titulo: 'Método e instrumento',
-    descricao: 'O que ainda falta para o instrumento sustentar o peso que os resultados pedem.',
-  },
-  {
-    chave: 'redacao',
-    titulo: 'Redação e norma',
-    descricao: 'Pendências de texto, formatação e honestidade de afirmação.',
-  },
-]
 
 /** Coluna de leitura: estreita de propósito. */
 const COLUNA = 'mx-auto w-full max-w-[960px]'
@@ -258,62 +237,6 @@ export default function TccPage() {
                 </li>
               ))}
             </ul>
-          </Secao>
-
-          {/* ---- Em validação ---- */}
-          <Secao
-            rotulo="05 — Em aberto"
-            titulo="O que ainda precisa ser validado"
-            descricao="A coleta terminou; o trabalho não. Estas são as pendências abertas hoje — deliberadamente visíveis, porque um resultado publicado antes de passar por elas vale menos do que parece."
-          >
-            <div className="flex flex-col gap-8">
-              {GRUPOS_VALIDACAO.map((grupo) => {
-                const itens = tccValidacao.filter((item) => item.status === grupo.chave)
-                return (
-                  <div
-                    className="grid grid-cols-[minmax(0,0.5fr)_minmax(0,1.5fr)] gap-[clamp(20px,3vw,48px)] border-t border-line pt-5 max-[820px]:grid-cols-1 max-[820px]:gap-3"
-                    key={grupo.chave}
-                  >
-                    <div>
-                      <h3 className="text-[14px] font-extrabold uppercase leading-[1.15] tracking-[0.02em]">
-                        {grupo.titulo}
-                      </h3>
-                      <p className="mt-2 max-w-[280px] text-[11.5px] leading-[1.6] text-faint">
-                        {grupo.descricao}
-                      </p>
-                      <span className="mt-3 inline-block font-mono text-[10px] tracking-[0.2em] text-faint">
-                        {String(itens.length).padStart(2, '0')} pendências
-                      </span>
-                    </div>
-
-                    <ul className="flex flex-col gap-4">
-                      {itens.map((item) => (
-                        <li className="flex gap-3" key={item.titulo}>
-                          <span
-                            aria-hidden="true"
-                            className="mt-[6px] h-[11px] w-[11px] shrink-0 rounded-sm border border-line-strong"
-                          />
-                          <div className="min-w-0">
-                            <h4 className="text-[12.5px] font-bold leading-[1.35]">{item.titulo}</h4>
-                            <p className="mt-1 max-w-[600px] text-[11.5px] leading-[1.65] text-muted">
-                              {item.texto}
-                            </p>
-                          </div>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )
-              })}
-            </div>
-
-            <p className="mt-9 max-w-[780px] border-l border-line pl-4 text-[12px] leading-[1.7] text-faint">
-              Estado atual: as {tccCondicoes.length * 2} condições foram executadas de ponta a ponta e a
-              análise reroda do zero a partir do dado primário versionado. O que falta é revisão
-              independente, intervalo de confiança e o aval do orientador sobre duas decisões de escopo —
-              nenhuma delas altera os números acima, todas alteram o quanto se pode afirmar a partir
-              deles.
-            </p>
           </Secao>
         </div>
       </main>
