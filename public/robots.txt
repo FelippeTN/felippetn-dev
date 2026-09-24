@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://felippetn.com.br/sitemap.xml
+Sitemap: https://www.felippetn.com.br/sitemap.xml
