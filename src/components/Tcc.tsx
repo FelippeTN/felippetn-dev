@@ -37,7 +37,8 @@ export default function Tcc() {
               <p className="max-w-[560px] text-[clamp(15px,1.7vw,19px)] leading-[1.45] text-ink-soft">
                 Experimento controlado sobre agentes LLM: como o tamanho do toolset exposto, a
                 estratégia de recuperação e o mecanismo de invocação afetam acurácia, alucinação e
-                custo — em 18 condições e dois modelos self-hosted.
+                custo — em 18 condições, com um modelo principal e um segundo modelo como
+                verificação de robustez.
               </p>
               <p className="mt-4 max-w-[560px] text-[13.5px] leading-[1.6] text-muted">
                 Resultados medidos, gráficos em preto e branco, o que os dados não sustentam e as

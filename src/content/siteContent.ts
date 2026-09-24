@@ -246,7 +246,7 @@ export const pt = {
       {
         title: 'Estagiário de Suporte de TI',
         company: 'PGE-RJ — Procuradoria-Geral do Estado do Rio de Janeiro · Estágio · Presencial',
-        period: 'jun de 2023 - jul de 2024 · 1 ano 2 meses',
+        period: 'jun de 2023 - jan de 2024 · 8 meses',
         description:
           'Atuação de suporte em sistemas legados e rotinas de evolução de software, com participação em testes, documentação, relatórios e atividades de front-end e back-end.',
         achievements: [

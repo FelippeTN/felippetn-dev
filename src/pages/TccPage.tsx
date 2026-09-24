@@ -184,7 +184,9 @@ export default function TccPage() {
               ))}
             </div>
             <p className="mt-4 max-w-[820px] font-mono text-[10.5px] leading-[1.75] text-faint">
-              Modelos: {tccModelos.deepseek.detalhe} e {tccModelos.gemma.detalhe}, ambos self-hosted em
+              Modelos: {tccModelos.deepseek.detalhe} ({tccModelos.deepseek.parametros};{' '}
+              {tccModelos.deepseek.papel}) e {tccModelos.gemma.detalhe} ({tccModelos.gemma.parametros};{' '}
+              {tccModelos.gemma.papel}), ambos self-hosted em
               endpoints OpenAI-compatíveis. Embeddings: qwen3-embedding-8B, 4096 dimensões. Corpus de 52
               ferramentas sintéticas em 4 domínios, com 8 pares confusáveis declarados; os toolsets são
               aninhados (10 ⊂ 30 ⊂ 50) e determinísticos, o que torna a comparação de fato pareada.

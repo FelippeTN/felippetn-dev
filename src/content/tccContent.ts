@@ -48,8 +48,18 @@ export type Contraste = {
 }
 
 export const tccModelos = {
-  deepseek: { label: 'DeepSeek-V4-Flash', detalhe: 'DeepSeek-V4-Flash-0731' },
-  gemma: { label: 'Gemma-4-E4B', detalhe: 'gemma-4-E4B-it' },
+  deepseek: {
+    label: 'DeepSeek-V4-Flash',
+    detalhe: 'DeepSeek-V4-Flash-0731',
+    papel: 'modelo principal',
+    parametros: '284B parâmetros',
+  },
+  gemma: {
+    label: 'Gemma-4-E4B',
+    detalhe: 'gemma-4-E4B-it',
+    papel: 'verificação de robustez',
+    parametros: '4,5B parâmetros, 8B com embeddings',
+  },
 } as const
 
 export const tccMeta = {
@@ -62,7 +72,7 @@ export const tccMeta = {
   pergunta:
     'Como o tamanho do toolset exposto, a estratégia de recuperação de ferramentas e o mecanismo de invocação afetam a acurácia de seleção, a taxa de alucinação e o custo de operação de agentes baseados em LLM?',
   resumo:
-    'Experimento controlado sobre agentes LLM: 18 condições em dois modelos self-hosted, com corpus de 52 ferramentas sintéticas e 64 consultas em português com gabarito. O desenho é OFAT em torno de um baseline, a unidade de análise é a consulta e cada comparação passa por teste de permutação pareada com correção de Holm-Bonferroni. O que segue são os resultados medidos, não a expectativa do autor.',
+    'Experimento controlado sobre agentes LLM: 18 condições em dois modelos self-hosted — o DeepSeek como modelo principal e o Gemma como verificação de robustez —, com corpus de 52 ferramentas sintéticas e 64 consultas em português com gabarito. O desenho é OFAT em torno de um baseline, a unidade de análise é a consulta e cada comparação passa por teste de permutação pareada com correção de Holm-Bonferroni. O que segue são os resultados medidos, não a expectativa do autor.',
   fonte: 'Elaboração própria com base nos dados do experimento (2026).',
 }
 
@@ -70,7 +80,7 @@ export const tccNumeros = [
   { valor: '5.760', label: 'execuções válidas', nota: '0 erros, 0 duplicatas' },
   { valor: '18', label: 'condições', nota: '9 por modelo' },
   { valor: '64', label: 'consultas pt-BR', nota: '5 repetições cada' },
-  { valor: '2', label: 'modelos self-hosted', nota: 'endpoints OpenAI-compatíveis' },
+  { valor: '2', label: 'modelos self-hosted', nota: '1 principal + 1 de robustez' },
 ]
 
 export const tccDesenho = [
@@ -81,6 +91,10 @@ export const tccDesenho = [
   {
     titulo: 'Três eixos, um fator por vez',
     texto: 'Exposição (10 / 30 / 50), recuperação (full, random, embedding, hybrid, two_stage, k=5) e invocação (native, json_prompt, code_action).',
+  },
+  {
+    titulo: 'Modelo principal e verificação de robustez',
+    texto: 'O DeepSeek sustenta as conclusões centrais; o Gemma testa se elas se mantêm em outro modelo e sob outro critério de acerto. Os dois passaram pelo mesmo plano. A hierarquia foi definida depois da coleta e nenhum dado ou teste mudou por causa dela.',
   },
   {
     titulo: 'Unidade de análise',
@@ -322,9 +336,9 @@ export const tccAchados = [
       'No DeepSeek, trocar a invocação nativa por json_prompt rende +17,5 p.p. e por code_action +20,9 p.p. sobre o baseline — significativos após Holm e acima do limiar de 5 p.p. Nenhuma variação de tamanho de toolset chegou perto disso.',
   },
   {
-    titulo: 'O ganho não é universal entre modelos',
+    titulo: 'A verificação de robustez delimita o achado principal',
     texto:
-      'O mesmo code_action rende +10,6 p.p. no Gemma pela métrica original, mas o ganho desaparece quando o acerto passa a exigir também uma resposta sem falha de parsing. Avaliação de agente precisa declarar como trata falha de formato.',
+      'No Gemma, o mesmo code_action rende +10,6 p.p. pela métrica original, mas o ganho desaparece quando o acerto passa a exigir também uma resposta sem falha de parsing. O segundo modelo não enfraquece o resultado do DeepSeek: mostra em que condições ele se sustenta. Avaliação de agente precisa declarar como trata falha de formato.',
   },
   {
     titulo: 'Recuperação relevante não provou ganho de acurácia — provou economia',
@@ -364,6 +378,11 @@ export const tccNaoSustenta = [
     correcao: 'O ganho robusto apareceu no DeepSeek. No Gemma, depende do critério de acerto.',
   },
   {
+    afirmacao: '"A invocação supera a recuperação"',
+    correcao:
+      'O desenho OFAT mede cada eixo contra o baseline. Invocação e recuperação nunca foram testadas uma contra a outra.',
+  },
+  {
     afirmacao: '"A recuperação não faz diferença"',
     correcao:
       'Não houve ganho significativo de acurácia contra a exposição integral; houve queda de tokens e vantagem clara sobre o piso aleatório.',
@@ -387,9 +406,9 @@ export const tccValidacao: Array<{
 }> = [
   {
     status: 'orientador',
-    titulo: 'Inclusão dos dois modelos como dimensão comparativa',
+    titulo: 'Enquadramento: modelo principal e verificação de robustez',
     texto:
-      'O escopo original previa um modelo só. A comparação entre modelos entrou depois que o custo marginal de rodar localmente se mostrou desprezível — falta o aval formal do orientador.',
+      'O escopo original previa um modelo só. Remover o Gemma depois de ver os resultados seria seleção post hoc, então a proposta é mantê-lo como verificação de robustez, com a família de 16 testes intacta e a hierarquia declarada no texto — falta o aval formal do orientador.',
   },
   {
     status: 'orientador',
@@ -425,7 +444,7 @@ export const tccValidacao: Array<{
     status: 'redacao',
     titulo: 'Título definitivo',
     texto:
-      'Há um título neutro e um alternativo que compromete com o achado de invocação. A escolha só se fecha depois da leitura final dos resultados.',
+      'O título neutro segue como provisório. O alternativo, que afirmava que a invocação supera a recuperação, foi descartado: os dois eixos não foram comparados diretamente e o ganho de invocação não se reproduziu no Gemma.',
   },
   {
     status: 'redacao',
@@ -444,7 +463,8 @@ export const tccValidacao: Array<{
 export const tccLimites = [
   'Corpus sintético: 52 ferramentas e 64 consultas não representam APIs de produção.',
   'OFAT não estima interações — o efeito de cada fator é conhecido apenas em torno do baseline.',
-  'Dois modelos self-hosted de porte semelhante; nada aqui se estende a modelos de fronteira.',
+  'Dois modelos self-hosted de porte semelhante; nada aqui se estende a modelos de fronteira. A verificação de robustez usa um único modelo.',
+  'A divisão entre modelo principal e verificação de robustez foi definida depois da coleta — declarada, sem alteração de dados ou testes.',
   'Mede-se a seleção da ferramenta, não o preenchimento dos argumentos nem a execução.',
   'k fixo em 5 e busca léxica do hybrid por sobreposição de tokens, não BM25.',
 ]
